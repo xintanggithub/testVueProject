@@ -32,3 +32,5 @@ service.interceptors.response.use(response => {
         console.log("response error", error);
         return Promise.reject(error)
     });
+
+export default service
