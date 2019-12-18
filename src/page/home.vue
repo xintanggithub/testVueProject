@@ -17,9 +17,7 @@
                 <div class="logo">
                     <img src="../res/img/logo_icon.png" class="logoIcon"/>
                 </div>
-                <div class="user">
-                    <img src="../res/img/header.png" class="userImg"/>
-                </div>
+                <my-user></my-user>
             </div>
         </div>
         <!--content-->
@@ -31,9 +29,10 @@
 </template>
 <script>
     import myFooter from './common_component/foot/footer'
+    import myUser from './common_component/user/myUser'
 
     export default {
-        components: {myFooter},
+        components: {myFooter, myUser},
         name: 'home',
         data() {
             return {
@@ -70,20 +69,6 @@
         min-height: 90vh;
         width: 100vw;
         margin-top: 7vh;
-    }
-
-    .userImg {
-        max-height: 4.5vh;
-        border-radius: 50%;
-    }
-
-    .user {
-        width: 18vw;
-        height: auto;
-        position: absolute;
-        z-index: 99;
-        background-color: aqua;
-        margin-left: 72vw;
     }
 
     .logoIcon {
