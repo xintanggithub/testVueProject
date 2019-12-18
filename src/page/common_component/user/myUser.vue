@@ -1,6 +1,6 @@
 <template>
     <div class="user">
-        <img src="../../../res/img/header.png" class="userImg"/>
+        <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3190441126,995644236&fm=26&gp=0.jpg" class="userImg"/>
         <div style="display: flex;flex-direction: column;">
             <div class="nameStyle">好像最多显示十二个字符吧</div>
             <div style="margin-left: 1vw;">
@@ -28,8 +28,10 @@
     }
 
     .userImg {
-        max-height: 4.5vh;
+        height: 4.5vh;
+        width: 4.5vh;
         border-radius: 50%;
+        justify-content: center;
     }
 
     .nameStyle {
