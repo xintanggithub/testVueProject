@@ -2,6 +2,10 @@
     <div>
         <div class="rootDivLogin">
             <div class="childrenLogin">
+                <div style="display: flex;flex-direction: row-reverse;width: 24vw">
+                    <img @click="close" src="../../res/img/close.png"
+                         style="width: 5vh;box-shadow: 0 0 10px 3px rgba(0,0,0,0.07);background-color: transparent;border-radius: 50%;">
+                </div>
                 <el-card v-loading="loading" class="box-card"
                          style="width: 22vw;height: 45vh;background-color: #c2e8f5;">
                     <div class="loginBox">
@@ -73,7 +77,7 @@
 </template>
 <script>
     import myFooter from '../common_component/foot/footer'
-    import {addLoginList, getLoginListCache} from '../../utils/loginStatus'
+    import {addLoginList, getLoginListCache,loginIn} from '../../utils/loginStatus'
 
     export default {
         components: {myFooter},
@@ -142,12 +146,18 @@
                         addLoginList(this.loginForm.userCode, this.loginForm.password);
                         this.notifyData();
                         this.loading = true;
+
                         //todo login api
+                        loginIn("970827351","我看看名字可以有多长","https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4238142487,3274484296&fm=26&gp=0.jpg");
+
                         this.$refs.loginForm.resetFields();
                     } else {
                         return false;
                     }
                 });
+            },
+            close() {
+                this.$router.go(-1);
             }
         }
     }
