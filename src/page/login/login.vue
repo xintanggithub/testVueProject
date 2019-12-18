@@ -2,7 +2,8 @@
     <div>
         <div class="rootDivLogin">
             <div class="childrenLogin">
-                <el-card class="box-card" style="width: 21vw;height: 45vh;background-color: #c2e8f5;">
+                <el-card v-loading="loading" class="box-card"
+                         style="width: 22vw;height: 45vh;background-color: #c2e8f5;">
                     <div class="loginBox">
                         <span class="loginTitle">
                             <img src="../../res/img/logo_icon.png" style="height: 5.5vh;">
@@ -51,17 +52,18 @@
                                     </div>
                                 </el-form-item>
                             </div>
+                            <div style="display: flex;flex-direction: column;">
+                                <div style="width: 100%;display: flex;flex-direction: row;align-items: center;margin-left: 3.3vw;margin-top: 1vh;">
+                                    <span><u style="color: #909399;cursor:pointer;">注册</u></span>
+                                    <span><u style="color: #909399;margin-left: 2vw;cursor:pointer;">忘记密码</u></span>
+                                </div>
+                                <div @click="loginMt"
+                                     style="display: flex;flex-direction: row-reverse;width: 100%;align-items: center;margin-top: 2vh;cursor: pointer;">
+                                    <img src="../../res/img/log-in.png" style="height: 3.2vh;width: 3.8vh;">
+                                    <span style="cursor: pointer;color: #606266">登录</span>
+                                </div>
+                            </div>
                         </el-form>
-                        <div style="display: flex;flex-direction: column;">
-                            <div style="width: 100%;display: flex;flex-direction: row;align-items: center;margin-left: 3.3vw;margin-top: 1vh;">
-                                <span><u style="color: #909399;cursor:pointer;">注册</u></span>
-                                <span><u style="color: #909399;margin-left: 2vw;cursor:pointer;">忘记密码</u></span>
-                            </div>
-                            <div style="display: flex;flex-direction: row-reverse;width: 100%;align-items: center;margin-top: 2vh;">
-                                <img src="../../res/img/log-in.png" style="height: 3.5vh;width: 4vh;">
-                                <span style="cursor: pointer;">登录</span>
-                            </div>
-                        </div>
                     </div>
                 </el-card>
             </div>
@@ -71,12 +73,14 @@
 </template>
 <script>
     import myFooter from '../common_component/foot/footer'
+    import {addLoginList, getLoginListCache} from '../../utils/loginStatus'
 
     export default {
         components: {myFooter},
         name: 'login',
         data() {
             return {
+                loading: false,
                 //联想数据
                 restaurants: [
                     {value: "970827351@qq.com", password: "22222222"}
@@ -98,7 +102,21 @@
                 }
             }
         },
+        created() {
+            this.notifyData();
+        },
         methods: {
+            notifyData() {
+                let cache = getLoginListCache();
+                let i;
+                this.restaurants = [];
+                for (i = 0; i < cache.length; i++) {
+                    const pp = {};
+                    pp['value'] = cache[i].userCode;
+                    pp['password'] = cache[i].password;
+                    this.restaurants.push(pp);
+                }
+            },
             handleSelect(item) {
                 this.loginForm.password = item.password;
                 this.$refs.inputUserCode.focus();
@@ -116,6 +134,20 @@
             },
             showOrHide() {
                 this.showPassword = !this.showPassword;
+            },
+            loginMt() {
+                this.$refs.loginForm.validate(valid => {
+                    console.log("valid===>", valid);
+                    if (valid) {
+                        addLoginList(this.loginForm.userCode, this.loginForm.password);
+                        this.notifyData();
+                        this.loading = true;
+                        //todo login api
+                        this.$refs.loginForm.resetFields();
+                    } else {
+                        return false;
+                    }
+                });
             }
         }
     }
