@@ -2,7 +2,6 @@
     <div id="app" style="position: relative;width: 100vw;height: 100vh;">
         <div style="position: absolute;z-index: 1;width: 100vw;height: 100vh;">
             <vue-particles
-
                     color="#909399"
                     linesColor="#909399"
                     clickMode="push"
