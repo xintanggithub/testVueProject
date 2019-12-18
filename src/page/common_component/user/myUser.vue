@@ -25,7 +25,7 @@
             return {
                 loginStatusValue: false,
                 loginInfo: {
-                    userName: '111',
+                    userName: '',
                     id: '',
                     img: ''
                 },
