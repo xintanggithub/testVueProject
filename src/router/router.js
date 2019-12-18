@@ -27,7 +27,7 @@ export const commonRouterMap = [{
         component: book
     }]
 }, {
-    path: 'login',
+    path: '/login',
     name: 'login',
     component: login
 }];

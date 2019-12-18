@@ -3,11 +3,13 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from './router/router'
+import VueParticles from 'vue-particles'
 
-Vue.use(ElementUI)
+Vue.use(VueParticles);
+Vue.use(ElementUI);
 
 new Vue({
     el: '#app',
     render: h => h(App),
     router
-})
+});

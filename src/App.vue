@@ -1,6 +1,19 @@
 <template>
-    <div id="app">
-        <router-view></router-view>
+    <div id="app" style="position: relative;width: 100vw;height: 100vh;">
+        <div style="position: absolute;z-index: 1;width: 100vw;height: 100vh;">
+            <vue-particles
+
+                    color="#909399"
+                    linesColor="#909399"
+                    clickMode="push"
+                    :moveSpeed=2
+                    :particlesNumber=70
+                    :particleSize=3>
+            </vue-particles>
+        </div>
+        <div style="position: absolute;z-index: 2;">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
