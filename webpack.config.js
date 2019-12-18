@@ -17,20 +17,20 @@ module.exports = (options = {}) => ({
   },
   module: {
     rules: [{
-        test: /\.vue$/,
+        login: /\.vue$/,
         use: ['vue-loader']
       },
       {
-        test: /\.js$/,
+        login: /\.js$/,
         use: ['babel-loader'],
         exclude: /node_modules/
       },
       {
-        test: /\.css$/,
+        login: /\.css$/,
         use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
-        test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
+        login: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
         use: [{
           loader: 'url-loader',
           options: {

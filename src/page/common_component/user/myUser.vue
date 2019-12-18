@@ -1,24 +1,62 @@
 <template>
     <div class="user">
-        <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3190441126,995644236&fm=26&gp=0.jpg" class="userImg"/>
-        <div style="display: flex;flex-direction: column;">
-            <div class="nameStyle">好像最多显示十二个字符吧</div>
+        <img v-show="loginStatusValue"
+             :src="loginInfo.img"
+             class="userImg"/>
+        <div v-show="loginStatusValue" style="display: flex;flex-direction: column;">
+            <div class="nameStyle">{{loginInfo.userName}}</div>
             <div style="margin-left: 1vw;">
                 <el-button type="text" size="mini">个人中心</el-button>
-                <el-button type="text" size="mini">退出</el-button>
+                <el-button @click="loginOutMt" type="text" size="mini">退出</el-button>
             </div>
+        </div>
+        <div v-show="loginStatusValue===false"
+             style=" width: 18vw;height: auto;display: flex;flex-direction: row-reverse;">
+            <el-button @click="login" type="text" size="mini">登录</el-button>
         </div>
     </div>
 </template>
 <script>
+    import {getLoginInfo, loginOut, loginStatus} from '../../../utils/loginStatus'
+
     export default {
-        name: 'myUser'
+        name: 'myUser',
+        data() {
+            return {
+                loginStatusValue: false,
+                loginInfo: {
+                    userName: '111',
+                    id: '',
+                    img: ''
+                },
+            }
+        },
+        methods: {
+            loginOutMt() {
+                loginOut();
+                this.loginStatusValue = loginStatus();
+            },
+            login() {
+                this.$router.push({name: 'login'});
+            }
+        },
+        created() {
+            let loginStatusValue = loginStatus();
+            if (loginStatusValue) {
+                let response = getLoginInfo();
+                this.loginInfo.userName = response['name'];
+                this.loginInfo.id = response['id'];
+                this.loginInfo.img = response['img'];
+            }
+            console.log("response --->", this.loginInfo);
+            this.loginStatusValue = loginStatusValue
+        }
     }
 
 </script>
 <style>
     .user {
-        width: 18vw;
+        width: 12vw;
         height: auto;
         position: absolute;
         z-index: 99;
@@ -39,5 +77,4 @@
         font-size: 13px;
         margin-left: 1vw;
     }
-
 </style>

@@ -40,23 +40,16 @@
             }
         },
         methods: {
-            goLogin: function () {
-                this.$router.push({name: 'login'})
-            },
-            goGame: function () {
-                this.$router.push({name: 'game'})
-            },
-            goBook: function () {
-                this.$router.push({name: 'book'})
-            },
             handleSelect(key, keyPath) {
-                switch (keyPath) {
+                switch (keyPath[0]) {
                     case "1":
                         this.$router.push({name: 'homeContent'});
                         break;
                     case "2":
+                        this.$router.push({name: 'game'});
                         break;
                     case "3":
+                        this.$router.push({name: 'book'});
                         break;
                 }
                 console.log(key, keyPath);
