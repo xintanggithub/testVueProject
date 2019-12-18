@@ -1,11 +1,16 @@
 <template>
-    <div>content---></div>
+    <div style="display: flex;flex-direction: column;">
+        tab content--->
+    </div>
 </template>
 <script>
     export default {
-        name: 'homeContent'
+        name: 'homeContent',
+        data() {
+            return {}
+        },
+        methods: {}
     }
 </script>
 <style>
-
 </style>
