@@ -2,14 +2,12 @@
     <div>
         <div class="rootDivRegister">
             <transition name="el-zoom-in-top">
-                <div v-show="cardShow"  class="childrenRegister">
+                <div v-show="cardShow" class="childrenRegister">
                     <div class="closeRegister">
                         <img @click="close" src="../../res/img/close.png" class="closeRegisterImg">
                     </div>
 
-                    <el-card v-show="true" v-loading="loading" class="box-card"
-                             style="width: 22vw;height: 45vh;background-color: #c2e8f5;">
-
+                    <el-card v-loading="loading" class="box-card cardStyle" style="">
 
                     </el-card>
                 </div>
@@ -27,6 +25,7 @@
         data() {
             return {
                 cardShow: false,
+                loading: false
             }
         },
         created() {
@@ -35,10 +34,20 @@
                 v.cardShow = true
             }, 200);
         },
-        methods: {}
+        methods: {
+            close() {
+                this.$router.go(-1);
+            }
+        }
     }
 </script>
 <style>
+    .cardStyle {
+        width: 22vw;
+        height: 45vh;
+        background-color: #c2e8f5;
+    }
+
     .rootDivRegister {
         width: 100vw;
         height: 97vh;
