@@ -77,7 +77,7 @@
 </template>
 <script>
     import myFooter from '../common_component/foot/footer'
-    import {addLoginList, getLoginListCache, loginIn} from '../../utils/loginStatus'
+    import {addLoginList, getLoginListCache} from '../../utils/loginStatus'
     import {login} from '../../api/login'
 
     export default {
@@ -150,7 +150,7 @@
                         const params = {};
                         params['password'] = this.loginForm.password;
                         params['userCode'] = this.loginForm.userCode;
-                        const res = await options(params).catch(() => {
+                        const res = await login(params).catch(() => {
                         });
                         console.log("login ===>", res);
                         // this.$refs.loginForm.resetFields();
