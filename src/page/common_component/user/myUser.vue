@@ -1,8 +1,10 @@
 <template>
     <div class="user">
         <img v-show="loginStatusValue"
-             :src="loginInfo.img"
+             :src="imgSrc"
+             :onload="loadImg(loginInfo.img)"
              class="userImg"/>
+        <!--loginInfo.img-->
         <div v-show="loginStatusValue" style="display: flex;flex-direction: column;">
             <div class="nameStyle">{{loginInfo.userName}}</div>
             <div style="margin-left: 1vw;">
@@ -24,6 +26,7 @@
         data() {
             return {
                 loginStatusValue: false,
+                imgSrc: require('../../../res/img/user_center.png'),
                 loginInfo: {
                     userName: '',
                     id: '',
@@ -32,6 +35,9 @@
             }
         },
         methods: {
+            loadImg($img) {
+                return 'this.οnlοad=null;this.src=' + '"' + $img + '";';
+            },
             loginOutMt() {
                 loginOut();
                 this.loginStatusValue = loginStatus();
@@ -70,6 +76,7 @@
         width: 4.5vh;
         border-radius: 50%;
         justify-content: center;
+        cursor: pointer;
     }
 
     .nameStyle {

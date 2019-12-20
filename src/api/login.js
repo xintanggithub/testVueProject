@@ -23,3 +23,16 @@ export function queryUserInfo(params) {
         params
     })
 }
+
+/**
+ * 发送验证码
+ * @param params 验证码
+ */
+export function sendVerificationCode(params) {
+    return request({
+        url: `api/v1/login/sendVerificationCode`,
+        method: 'get',
+        params
+    })
+}
+
