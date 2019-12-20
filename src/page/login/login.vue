@@ -77,7 +77,7 @@
 </template>
 <script>
     import myFooter from '../common_component/foot/footer'
-    import {addLoginList, getLoginListCache} from '../../utils/loginStatus'
+    import {addLoginList, getLoginListCache, loginIn} from '../../utils/loginStatus'
     import {login, queryUserInfo} from '../../api/login'
 
     export default {
@@ -151,7 +151,9 @@
                         const res = await login(params).then(async data => {
                             console.log("login success ===>", data.data.data.userId);
                             const userInfo = await queryUserInfo({'userId': data.data.data.userId}).then(info => {
-                                console.log("queryUserInfo success ===>", info);
+                                console.log("queryUserInfo success ===>", info.data.data);
+                                loginIn(info.data.data.userId, info.data.data.userName, info.data.data.img);
+                                this.close();
                             });
                             addLoginList(this.loginForm.userCode, this.loginForm.password);
                             this.notifyData();

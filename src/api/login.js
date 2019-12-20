@@ -20,6 +20,6 @@ export function queryUserInfo(params) {
     return request({
         url: `api/v1/user/queryUserById`,
         method: 'get',
-        data: params
+        params
     })
 }
