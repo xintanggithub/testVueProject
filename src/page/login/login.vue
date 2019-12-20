@@ -78,7 +78,7 @@
 <script>
     import myFooter from '../common_component/foot/footer'
     import {addLoginList, getLoginListCache} from '../../utils/loginStatus'
-    import {login} from '../../api/login'
+    import {login, queryUserInfo} from '../../api/login'
 
     export default {
         components: {myFooter},
@@ -144,16 +144,19 @@
                 this.$refs.loginForm.validate(async valid => {
                     console.log("valid===>", valid);
                     if (valid) {
-                        addLoginList(this.loginForm.userCode, this.loginForm.password);
-                        this.notifyData();
                         this.loading = true;
                         const params = {};
                         params['password'] = this.loginForm.password;
                         params['userCode'] = this.loginForm.userCode;
-                        const res = await login(params).catch(() => {
-                        });
-                        console.log("login ===>", res);
-                        // this.$refs.loginForm.resetFields();
+                        const res = await login(params).then(async data => {
+                            console.log("login success ===>", data.data.data.userId);
+                            const userInfo = await queryUserInfo({'userId': data.data.data.userId}).then(info => {
+                                console.log("queryUserInfo success ===>", info);
+                            });
+                            addLoginList(this.loginForm.userCode, this.loginForm.password);
+                            this.notifyData();
+                            this.$refs.loginForm.resetFields();
+                        })
                     } else {
                         return false;
                     }

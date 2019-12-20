@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {Message} from 'element-ui'
 
 const baseUrl = 'https://tsondy.club/';
 
@@ -9,6 +10,12 @@ const service = axios.create({
 
 service.interceptors.request.use(config => {
     //可以处理配置信息（请求头、参数加密等）
+    if (config.method === 'post') {
+        console.log("config.method ", 'post');
+        config.headers['Content-Type'] = 'application/json';
+    } else {
+        console.log("config.method ", 'get');
+    }
     return config
 }, error => {
     console.log("request error", error);
@@ -18,13 +25,15 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
         const res = response.data;
         if (res.resultCode !== 200) {
-            this.$notify({
-                title: 'error',
-                type: 'error',
-                message: res.resultMessage || res.msg,
-                duration: 2000
-            })
+            console.log("response --->", res);
+            Message({
+                showClose: true,
+                message: getErrorMessage(res.resultCode, res.resultMessage),
+                type: 'error'
+            });
+            Promise.reject(error)
         } else {
+            console.log("response 11--->", "success");
             return response
         }
     },
@@ -34,3 +43,13 @@ service.interceptors.response.use(response => {
     });
 
 export default service
+
+function getErrorMessage(code, resultMessage) {
+    let message = resultMessage;
+    switch (code) {
+        case 7777:
+            message = '用户不存在';
+            break;
+    }
+    return message;
+}
