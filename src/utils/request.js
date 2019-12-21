@@ -33,7 +33,7 @@ service.interceptors.response.use(response => {
             });
             Promise.reject(error)
         } else {
-            console.log("response 11--->", "success");
+            console.log("response success--->", res);
             return response
         }
     },

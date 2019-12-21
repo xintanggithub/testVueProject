@@ -54,3 +54,14 @@ export function register(params) {
         data: params
     })
 }
+
+/**
+ * 校验验证码是否正确
+ */
+export function checkVerificationCode(params) {
+    return request({
+        url: `api/v1/login/checkVerificationCode`,
+        method: 'get',
+        params
+    })
+}
