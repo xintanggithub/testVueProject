@@ -50,6 +50,18 @@ function getErrorMessage(code, resultMessage) {
         case 7777:
             message = '用户不存在';
             break;
+        case 7778:
+            message = '用户已存在';
+            break;
+        case 7779 || 7781:
+            message = '密码错误';
+            break;
+        case 3307:
+            message = '验证码错误';
+            break;
+        case 1001:
+            message = '暂无数据';
+            break;
     }
     return message;
 }

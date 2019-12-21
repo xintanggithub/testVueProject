@@ -2,7 +2,6 @@ import request from '../utils/request'
 
 /**
  * 登录
- * @param params 参数
  */
 export function login(params) {
     return request({
@@ -14,7 +13,6 @@ export function login(params) {
 
 /**
  * 获取用户信息
- * @param params 参数
  */
 export function queryUserInfo(params) {
     return request({
@@ -25,8 +23,18 @@ export function queryUserInfo(params) {
 }
 
 /**
+ * 校验是否已注册
+ */
+export function checkRegister(params) {
+    return request({
+        url: `api/v1/login/checkRegister`,
+        method: 'get',
+        params
+    })
+}
+
+/**
  * 发送验证码
- * @param params 验证码
  */
 export function sendVerificationCode(params) {
     return request({
@@ -36,3 +44,13 @@ export function sendVerificationCode(params) {
     })
 }
 
+/**
+ * 注册
+ */
+export function register(params) {
+    return request({
+        url: `api/v1/login/register`,
+        method: 'post',
+        data: params
+    })
+}
