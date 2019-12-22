@@ -7,6 +7,7 @@ import book from '~/page/children/book/book'
 import homeContent from '~/page/homeContent'
 import register from '~/page/login/register'
 import forget from '~/page/login/forget'
+import mine from '~/page/personalCenter/mine'
 
 Vue.use(Router);
 
@@ -41,7 +42,12 @@ export const commonRouterMap = [
         path: '/forget',
         name: 'forget',
         component: forget
-    }];
+    }, {
+        path: '/mine',
+        name: 'mine',
+        component: mine
+    }
+];
 
 const createRouter = () => new Router({
     scrollBehavior: () => ({y: 0}),

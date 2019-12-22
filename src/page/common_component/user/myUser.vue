@@ -2,13 +2,13 @@
     <div class="user">
         <img v-show="loginStatusValue"
              :src="imgSrc"
+             @click="goMine"
              :onload="loadImg(loginInfo.img)"
              class="userImg"/>
-        <!--loginInfo.img-->
         <div v-show="loginStatusValue" style="display: flex;flex-direction: column;">
             <div class="nameStyle">{{loginInfo.userName}}</div>
             <div style="margin-left: 1vw;">
-                <el-button type="text" size="mini">个人中心</el-button>
+                <el-button @click="goMine" type="text" size="mini">个人中心</el-button>
                 <el-button @click="loginOutMt" type="text" size="mini">退出</el-button>
             </div>
         </div>
@@ -35,6 +35,9 @@
             }
         },
         methods: {
+            goMine(){
+                this.$router.push("/mine")
+            },
             loadImg($img) {
                 return 'this.οnlοad=null;this.src=' + '"' + $img + '";';
             },
