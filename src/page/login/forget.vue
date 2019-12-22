@@ -110,7 +110,7 @@
                                                 <el-button slot="append" @click="showCheckPassword=!showCheckPassword"
                                                            :icon="showCheckPassword?'el-icon-open-export':'el-icon-close-export'"></el-button>
                                             </el-input>
-                                            <el-button @click="resetPassword">
+                                            <el-button :loading="resetLoading" @click="resetPassword">
                                                 重置密码
                                             </el-button>
                                         </div>
@@ -129,7 +129,7 @@
                                 <el-button type="success" style="margin-top: 5vh;" @click="close" round>完　　成</el-button>
                             </div>
                         </div>
-                        <el-button @click="next">next</el-button>
+                        <!--<el-button @click="next">next</el-button>-->
                     </el-card>
                 </div>
 
@@ -140,7 +140,7 @@
 </template>
 <script>
     import myFooter from '../common_component/foot/footer'
-    import {checkRegister, checkVerificationCode, sendVerificationCode} from '../../api/login'
+    import {checkRegister, checkVerificationCode, sendVerificationCode, updatePassword} from '../../api/login'
 
     export default {
         components: {myFooter},
@@ -174,6 +174,7 @@
                 }
             };
             return {
+                resetLoading: false,
                 showPassword: false,
                 showCheckPassword: false,
                 cardShow: false,
@@ -224,7 +225,23 @@
         },
         methods: {
             resetPassword() {
-                //todo 重置密码
+                let v = this;
+                this.$refs.changeFrom.validate(async valid => {
+                    if (valid) {
+                        this.resetLoading = true;
+                        const params = {};
+                        params['userCode'] = this.userCodeFrom.userCode;
+                        params['password'] = this.changePasswordFrom.password;
+                        await updatePassword(params).then(response => {
+                            this.resetLoading = false;
+                            v.next()
+                        }).catch(() => {
+                            this.resetLoading = false;
+                        })
+                    } else {
+                        return false;
+                    }
+                })
             },
             close() {
                 this.$router.go(-1)

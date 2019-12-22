@@ -53,8 +53,11 @@ function getErrorMessage(code, resultMessage) {
         case 7778:
             message = '用户已存在';
             break;
-        case 7779 || 7781:
+        case 7779:
             message = '密码错误';
+            break;
+        case 7781:
+            message = '新密码不能和旧密码相同';
             break;
         case 3307:
             message = '验证码错误';

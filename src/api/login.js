@@ -65,3 +65,14 @@ export function checkVerificationCode(params) {
         params
     })
 }
+
+/**
+ * 修改密码
+ */
+export function updatePassword(params) {
+    return request({
+        url: `api/v1/login/updateLogin`,
+        method: 'post',
+        data: params
+    })
+}
