@@ -8,6 +8,8 @@ import homeContent from '~/page/homeContent'
 import register from '~/page/login/register'
 import forget from '~/page/login/forget'
 import mine from '~/page/personalCenter/mine'
+import minContent from '~/page/personalCenter/minContent'
+import setting from '~/page/personalCenter/setting'
 
 Vue.use(Router);
 
@@ -45,7 +47,17 @@ export const commonRouterMap = [
     }, {
         path: '/mine',
         name: 'mine',
-        component: mine
+        component: mine,
+        redirect: '/mine/minContent',
+        children: [{
+            path: 'minContent',
+            name: 'minContent',
+            component: minContent
+        }, {
+            path: 'setting',
+            name: 'setting',
+            component: setting
+        }]
     }
 ];
 

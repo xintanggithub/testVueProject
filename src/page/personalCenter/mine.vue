@@ -3,12 +3,14 @@
         <div class="tabDivStyle">
             <div class="tabMasterStyle">
                 <div style="position: absolute;z-index: 98;">
-                    <el-menu class="elMenuStyle" :default-active="activeIndex" mode="horizontal"
+                    <el-menu class="elMenuStyle" :default-active="defaultIndex" mode="horizontal"
                              @select="handleSelectPC"
                              background-color="#fff"
                              text-color="#000"
                              active-text-color="#E6A23C">
-                        <el-menu-item index="1">首页</el-menu-item>
+                        <el-menu-item index="11">首页</el-menu-item>
+                        <el-menu-item index="22">个人中心</el-menu-item>
+                        <el-menu-item index="33">设置</el-menu-item>
                     </el-menu>
                 </div>
                 <div class="logo">
@@ -17,7 +19,7 @@
             </div>
         </div>
         <div class="contentDivPC">
-
+            <router-view></router-view>
         </div>
         <my-footer></my-footer>
     </div>
@@ -29,15 +31,28 @@
         components: {myFooter},
         name: 'mine',
         data() {
-            return {}
+            return {
+                currentIndex: '22',
+                defaultIndex: '22',
+            }
         },
         created() {
         },
         methods: {
             handleSelectPC(key, keyPath) {
+                if (keyPath[0] === this.currentIndex) {
+                    return
+                }
+                this.currentIndex = keyPath[0];
                 switch (keyPath[0]) {
-                    case "1":
+                    case "11":
                         this.goHome();
+                        break;
+                    case "22":
+                        this.$router.push('/mine/minContent');
+                        break;
+                    case "33":
+                        this.$router.push('/mine/setting');
                         break;
                 }
             },
