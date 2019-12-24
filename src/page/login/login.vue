@@ -166,7 +166,7 @@
                             console.log("login success ===>", data.data.data.userId);
                             const userInfo = await queryUserInfo({'userId': data.data.data.userId}).then(info => {
                                 console.log("queryUserInfo success ===>", info.data.data);
-                                loginIn(info.data.data.userId, info.data.data.userName, info.data.data.img);
+                                loginIn(info.data.data.userId, info.data.data.userName, info.data.data.img, v.loginForm.userCode);
                                 v.$router.go(-1);
                             }).catch(() => {
                                 this.loading = false;

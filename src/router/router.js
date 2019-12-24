@@ -10,6 +10,7 @@ import forget from '~/page/login/forget'
 import mine from '~/page/personalCenter/mine'
 import minContent from '~/page/personalCenter/minContent'
 import setting from '~/page/personalCenter/setting'
+import mobile from '~/mobile/mobileHome'
 
 Vue.use(Router);
 
@@ -58,6 +59,11 @@ export const commonRouterMap = [
             name: 'setting',
             component: setting
         }]
+    },
+    {
+        path: '/m',
+        name: 'mobile',
+        component: mobile
     }
 ];
 

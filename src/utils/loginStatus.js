@@ -1,5 +1,6 @@
 let LOGIN_STATUS_KEY = 'login_status_key';
 let USER_NAME_KEY = 'user_name_key';
+let USER_COED_KEY = 'user_code_key';
 let USER_ID_KEY = 'user_id_key';
 let USER_IMG_KEY = 'user_img_key';
 let ONLINE_VALUE = '_online';
@@ -10,11 +11,12 @@ let LOGIN_LIST_CACHE_LIST_KEY = "login_list_cache_list_key";
 /**
  * 登录
  */
-export function loginIn(userId, userName, img) {
+export function loginIn(userId, userName, img, userCode) {
     window.localStorage.setItem(LOGIN_STATUS_KEY, ONLINE_VALUE);
     window.localStorage.setItem(USER_ID_KEY, userId);
     window.localStorage.setItem(USER_NAME_KEY, userName);
     window.localStorage.setItem(USER_IMG_KEY, img);
+    window.localStorage.setItem(USER_COED_KEY, userCode);
     console.log("更新登录状态为在线")
 }
 
@@ -38,6 +40,7 @@ export function getLoginInfo() {
     response['name'] = window.localStorage.getItem(USER_NAME_KEY);
     response['id'] = window.localStorage.getItem(USER_ID_KEY);
     response['img'] = window.localStorage.getItem(USER_IMG_KEY);
+    response['userCode'] = window.localStorage.getItem(USER_COED_KEY);
     return response
 }
 

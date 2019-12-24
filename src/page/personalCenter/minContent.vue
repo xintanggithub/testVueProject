@@ -1,14 +1,45 @@
 <template>
     <div v-loading="loading">
-        <div style="width: 84vw;height:20vh;margin-left: 8vw;">
-            <img :src="userInfo.img" style="width: 18vh;height: 18vh;border-radius: 50%;margin-top: 2vh;">
+        <div style="width: 84vw;margin-left: 8vw;padding-top: 4vh;">
+            <div style="width: 100%;height: 81vh;box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.07);background-color: white;border-radius: 5px;">
+                <!--head-->
+                <div style="margin-left: 6vh;padding-top:6vh;display: flex;flex-direction: row;">
+                    <img :src="userInfo.img" style="width: 23vh;height: 23vh;border-radius: 50%;"/>
+                    <div style="height: 23vh;display: flex;flex-direction: column;justify-content: center;">
+                        <div>
+                            {{userInfo.name}}
+                        </div>
+                        <div>
+                            {{userInfo.userCode}}
+                        </div>
+                        <div>
+                            {{userInfo.id}}
+                        </div>
+                        <div>
+                            {{userData.createTime}}
+                        </div>
+                    </div>
+                </div>
+                <!--content-->
+                <div style="margin-left: 6vh;display: flex;flex-direction: column;">
+                    <div>
+                        11111
+                    </div>
+                    <div>
+                        22222
+                    </div>
+                    <div>
+                        33333
+                    </div>
+                    <div>
+                        44444
+                    </div>
+                    <div>
+                        框框
+                    </div>
+                </div>
+            </div>
         </div>
-        <el-card shadow="hover" class="contentCard account">
-            基本信息
-        </el-card>
-        <el-card shadow="hover" class="contentCard userInfo">
-            个人信息
-        </el-card>
     </div>
 </template>
 <script>
@@ -45,20 +76,5 @@
 
 </script>
 <style>
-    .contentCard {
-        width: 84vw;
-        margin-left: 8vw;
-        background-color: white;
-        border-radius: 10px;
-    }
 
-    .account {
-        margin-top: 3vh;
-        height: 10vh;
-    }
-
-    .userInfo {
-        margin-top: 5vh;
-        height: 40vh;
-    }
 </style>

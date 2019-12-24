@@ -1,6 +1,6 @@
 <template>
     <div id="app" style="position: relative;width: 100vw;height: 100vh;">
-        <div style="position: absolute;z-index: 1;width: 100vw;height: 100vh;">
+        <div v-show="isPc" style="position: absolute;z-index: 1;width: 100vw;height: 100vh;">
             <vue-particles
                     color="#909399"
                     linesColor="#909399"
@@ -18,7 +18,25 @@
 
 <script>
     export default {
-        methods: {}
+        data() {
+            return {
+                isPc: true
+            }
+        },
+        mounted() {
+            if (this._isMobile()) {
+                this.isPc = false;
+                this.$router.replace('/m');
+            } else {
+                this.isPc = true;
+                this.$router.replace('/');
+            }
+        },
+        methods: {
+            _isMobile() {
+                return navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+            }
+        }
     }
 </script>
 
