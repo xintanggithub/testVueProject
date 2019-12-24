@@ -36,11 +36,16 @@
         name: 'home',
         data() {
             return {
+                defaultIndexValue: "1",
                 activeIndex: '1',
             }
         },
         methods: {
             handleSelect(key, keyPath) {
+                if (keyPath[0] === this.defaultIndexValue) {
+                    return
+                }
+                this.defaultIndexValue = keyPath[0];
                 switch (keyPath[0]) {
                     case "1":
                         this.$router.push({name: 'homeContent'});
