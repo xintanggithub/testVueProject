@@ -20,6 +20,10 @@ export function loginIn(userId, userName, img, userCode) {
     console.log("更新登录状态为在线")
 }
 
+export function setUserName(userName) {
+    window.localStorage.setItem(USER_NAME_KEY, userName);
+}
+
 /**
  * 退出
  */
