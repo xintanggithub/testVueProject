@@ -81,7 +81,7 @@
 </template>
 <script>
     import myFooter from '../common_component/foot/footer'
-    import {addLoginList, getLoginListCache, loginIn} from '../../utils/loginStatus'
+    import {addLoginList, getLoginListCache, loginIn, setToken} from '../../utils/loginStatus'
     import {login, queryUserInfo} from '../../api/login'
 
     export default {
@@ -163,7 +163,9 @@
                         params['password'] = this.loginForm.password;
                         params['userCode'] = this.loginForm.userCode;
                         const res = await login(params).then(async data => {
-                            console.log("login success ===>", data.data.data.userId);
+                            console.log("login success userId===>", data.data.data.userId);
+                            console.log("login success token===>", data.data.data.accessToken);
+                            setToken(data.data.data.accessToken);
                             const userInfo = await queryUserInfo({'userId': data.data.data.userId}).then(info => {
                                 console.log("queryUserInfo success ===>", info.data.data);
                                 loginIn(info.data.data.userId, info.data.data.userName, info.data.data.img, v.loginForm.userCode);

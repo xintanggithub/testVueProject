@@ -5,6 +5,7 @@ let USER_ID_KEY = 'user_id_key';
 let USER_IMG_KEY = 'user_img_key';
 let ONLINE_VALUE = '_online';
 let OFFLINE_VALUE = "_offline";
+let BY_ACCESS_TOKEN_KEY = "by_access_token_key";
 
 let LOGIN_LIST_CACHE_LIST_KEY = "login_list_cache_list_key";
 
@@ -20,6 +21,22 @@ export function loginIn(userId, userName, img, userCode) {
     console.log("更新登录状态为在线")
 }
 
+export function setToken(token) {
+    window.localStorage.setItem(BY_ACCESS_TOKEN_KEY, token);
+}
+
+/**
+ * 获取token
+ * @returns string
+ */
+export function getAccessToken() {
+    return window.localStorage.getItem(BY_ACCESS_TOKEN_KEY);
+}
+
+/**
+ * 设置用户名
+ * @param userName 用户名
+ */
 export function setUserName(userName) {
     window.localStorage.setItem(USER_NAME_KEY, userName);
 }

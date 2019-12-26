@@ -1,7 +1,9 @@
 import axios from 'axios'
 import {Message} from 'element-ui'
+import {getAccessToken} from './loginStatus'
 
-const baseUrl = 'https://tsondy.club/';
+// const baseUrl = 'https://tsondy.club/';
+const baseUrl = 'http://localhost:8080/';
 
 const service = axios.create({
     baseURL: baseUrl,
@@ -16,6 +18,11 @@ service.interceptors.request.use(config => {
     } else {
         console.log("config.method ", 'get');
     }
+
+    let accessToken = getAccessToken();
+    console.log("accessToken ===> ", accessToken);
+    config.headers['AccessToken'] = accessToken;
+
     return config
 }, error => {
     console.log("request error", error);
