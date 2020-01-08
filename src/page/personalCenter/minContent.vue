@@ -5,23 +5,23 @@
                 <!--head-->
                 <div class="topDiv">
                     <div style="height: auto;">
-                        <div style="display: flex;flex-direction: row;height: 20vh;">
-                            <div class="headD1">
+                        <el-card shadow="hover" style="margin-left: 4.5vw;width:22vw;">
+                            <div style="display: flex;flex-direction: row;height: 20vh;">
                                 <img :src="userInfo.img" class="headD"/>
+                                <div style="height: 20vh;display: flex;flex-direction: column;padding-left: 2vw;">
+                                    <el-button>编辑头像</el-button>
+                                    <el-button>被赞：999</el-button>
+                                </div>
                             </div>
-                            <div style="height: 22vh;display: flex;flex-direction: column;padding-left: 2vw;background-color: antiquewhite;">
-                                <el-button>编辑头像</el-button>
-                                <el-button>被赞：999</el-button>
-                            </div>
-                        </div>
+                        </el-card>
                         <!--content-->
-                        <div style="height:40vh;width:25vw;margin-left: 6vh;display: flex;flex-direction: column;margin-top: 6vh;">
+                        <div style="height:40vh;width:25vw;margin-left: 6vh;display: flex;flex-direction: column;margin-top: 3vh;">
                             <span style="margin-left: 1.5vw;">历史记录：</span>
-                            <el-timeline style="margin-top: 3vh;margin-left:-1vw;width: 21vw;" reverse="false">
+                            <el-timeline style="margin-top: 1vh;margin-left:-1vw;width: 21vw;" reverse="false">
                                 <el-timeline-item
                                         v-for="(history, index) in historyList"
                                         :key="index">
-                                    <el-card>
+                                    <el-card shadow="hover">
                                         <el-tag effect="plain" size="mini">{{history.type}}</el-tag>
                                         <el-link type="info">{{history.name}}</el-link>
                                         <br/>
@@ -35,50 +35,58 @@
                             </div>
                         </div>
                     </div>
-                    <div class="titleD">
-                        <div class="titleStyle">
-                            <span class="rTitle">昵称：</span>
-                            <span class="names">{{userData.userName}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop">
-                            <span class="rTitle">性别：</span>
-                            <span class="LStyle">{{userData.sex===1?'男':'女'}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop3">
-                            <span class="rTitle">账号：</span>
-                            <span class="LStyle">{{userInfo.userCode}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop">
-                            <span class="rTitle">用户ID：</span>
-                            <span class="LStyle">{{userInfo.id}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop">
-                            <span class="rTitle">电话：</span>
-                            <span class="LStyle">{{userData.tel}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop">
-                            <span class="rTitle">注册时间：</span>
-                            <span class="LStyle">{{userData.createTime}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop3">
-                            <span class="rTitle">省：</span>
-                            <span class="LStyle">{{userData.province}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop">
-                            <span class="rTitle">城市：</span>
-                            <span class="LStyle">{{userData.city}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop">
-                            <span class="rTitle">区域：</span>
-                            <span class="LStyle">{{userData.area}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop">
-                            <span class="rTitle">详细地址：</span>
-                            <span class="LStyle">{{userData.address}}</span>
-                        </div>
-                        <div class="titleStyle titleMarginTop3">
-                            <span class="rTitle">个人简介：</span>
-                        </div>
+                    <div class="titleD" style="width: 63%;">
+                        <el-card shadow="hover">
+                            <div class="titleStyle" style="width: 100%;">
+                                <span class="rTitle">昵称：</span>
+                                <span class="names">{{userData.userName}}</span>
+                            </div>
+                            <div class="titleStyle titleMarginTop">
+                                <span class="rTitle">性别：</span>
+                                <span class="LStyle">{{userData.sex===1?'男':'女'}}</span>
+                            </div>
+                        </el-card>
+                        <el-card shadow="hover" class="titleMarginTop3">
+                            <div class="titleStyle titleMarginTop">
+                                <span class="rTitle">账号：</span>
+                                <span class="LStyle">{{userInfo.userCode}}</span>
+                            </div>
+                            <div class="titleStyle titleMarginTop">
+                                <span class="rTitle">用户ID：</span>
+                                <span class="LStyle">{{userInfo.id}}</span>
+                            </div>
+                            <div class="titleStyle titleMarginTop">
+                                <span class="rTitle">电话：</span>
+                                <span class="LStyle">{{userData.tel}}</span>
+                            </div>
+                            <div class="titleStyle titleMarginTop">
+                                <span class="rTitle">注册时间：</span>
+                                <span class="LStyle">{{userData.createTime}}</span>
+                            </div>
+                        </el-card>
+                        <el-card shadow="hover" class="titleMarginTop3">
+                            <div class="titleStyle titleMarginTop">
+                                <span class="rTitle">省：</span>
+                                <span class="LStyle">{{userData.province}}</span>
+                            </div>
+                            <div class="titleStyle titleMarginTop">
+                                <span class="rTitle">城市：</span>
+                                <span class="LStyle">{{userData.city}}</span>
+                            </div>
+                            <div class="titleStyle titleMarginTop">
+                                <span class="rTitle">区域：</span>
+                                <span class="LStyle">{{userData.area}}</span>
+                            </div>
+                            <div class="titleStyle titleMarginTop">
+                                <span class="rTitle">详细地址：</span>
+                                <span class="LStyle">{{userData.address}}</span>
+                            </div>
+                        </el-card>
+                        <el-card shadow="hover" class="titleMarginTop3" style="height: 15vh;">
+                            <div class="titleStyle">
+                                <span class="rTitle">个人简介：</span>
+                            </div>
+                        </el-card>
                         <div style="padding-right: 3vh;padding-bottom: 1vh;padding-top: 1vh;">
                             <span class="LStyle">{{userData.description}}</span>
                         </div>
@@ -144,6 +152,7 @@
         display: flex;
         flex-direction: row;
     }
+
     .headD1 {
         width: 22.1vh;
         height: 22.1vh;
@@ -151,11 +160,10 @@
         border-radius: 50%;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
     }
+
     .headD {
-        width: 22vh;
-        height: 22vh;
-        margin-top: 0.05vh;
-        margin-left: 0.05vh;
+        width: 20vh;
+        height: 20vh;
         border-radius: 50%;
     }
 
@@ -192,7 +200,7 @@
     }
 
     .titleMarginTop3 {
-        margin-top: 4vh;
+        margin-top: 3vh;
     }
 
     .titleStyle {
