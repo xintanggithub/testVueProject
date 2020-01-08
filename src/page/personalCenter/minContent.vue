@@ -9,8 +9,19 @@
                             <div style="display: flex;flex-direction: row;height: 20vh;">
                                 <img :src="userInfo.img" class="headD"/>
                                 <div style="height: 20vh;display: flex;flex-direction: column;padding-left: 2vw;">
-                                    <el-button>编辑头像</el-button>
-                                    <el-button>被赞：999</el-button>
+                                    <div style="width: 6.8vw;display: flex;flex-direction: row-reverse;">
+                                        <el-button icon="el-icon-edit" circle></el-button>
+                                    </div>
+                                    <div style="height: 16vh;display: flex;flex-direction: column-reverse;font-size: 13px;"
+                                         class="textColor">
+                                        <div style="margin-top: 1vh;">
+                                            点赞：9999
+                                        </div>
+                                        <div>
+                                            笔记：9999
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </el-card>
