@@ -91,7 +91,7 @@
 
     .tabDivStyle {
         width: 100vw;
-        height: 7vh;
+        height: 9vh;
         display: flex;
         flex-direction: row;
         position: fixed;

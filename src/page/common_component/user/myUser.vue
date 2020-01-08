@@ -9,7 +9,7 @@
             <div class="nameStyle">{{loginInfo.userName}}</div>
             <div style="margin-left: 1vw;">
                 <el-button @click="goMine" type="text" size="mini">个人中心</el-button>
-                <el-button @click="loginOutMt" type="text" size="mini">退出</el-button>
+                <el-button v-show="hideLoginOut===false" @click="loginOutMt" type="text" size="mini">退出</el-button>
             </div>
         </div>
         <div v-show="loginStatusValue===false"
@@ -35,7 +35,7 @@
             }
         },
         methods: {
-            goMine(){
+            goMine() {
                 this.$router.push("/mine")
             },
             loadImg($img) {
@@ -59,6 +59,12 @@
             }
             console.log("response --->", this.loginInfo);
             this.loginStatusValue = loginStatusValue
+        },
+        props: {
+            hideLoginOut: {
+                type: Boolean,
+                default: false
+            }
         }
     }
 

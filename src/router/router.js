@@ -11,6 +11,8 @@ import mine from '~/page/personalCenter/mine'
 import minContent from '~/page/personalCenter/minContent'
 import setting from '~/page/personalCenter/setting'
 import mobile from '~/mobile/mobileHome'
+import edit from '~/page/book/edit'
+import detail from '~/page/book/detail'
 
 Vue.use(Router);
 
@@ -64,6 +66,16 @@ export const commonRouterMap = [
         path: '/m',
         name: 'mobile',
         component: mobile
+    },
+    {
+        path: "/edit",
+        name: "edit",
+        component: edit
+    },
+    {
+        path: "/detail",
+        name: "detail",
+        component: detail
     }
 ];
 
