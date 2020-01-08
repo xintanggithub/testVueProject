@@ -154,9 +154,10 @@
     }
 
     .openBtn {
+        height: 40px;
+        width: 40px;
         box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.3);
         border-radius: 50%;
-        padding: 2px;
     }
 
     .helpContent {
