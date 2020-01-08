@@ -5,16 +5,34 @@
                 <!--head-->
                 <div class="topDiv">
                     <div style="height: auto;">
-                        <div style="display: flex;flex-direction: row;height: 22vh;">
-                            <img :src="userInfo.img" class="headD"/>
+                        <div style="display: flex;flex-direction: row;height: 20vh;">
+                            <div class="headD1">
+                                <img :src="userInfo.img" class="headD"/>
+                            </div>
                             <div style="height: 22vh;display: flex;flex-direction: column;padding-left: 2vw;background-color: antiquewhite;">
                                 <el-button>编辑头像</el-button>
                                 <el-button>被赞：999</el-button>
                             </div>
                         </div>
                         <!--content-->
-                        <div style="height:40vh;width:25vw;margin-left: 6vh;display: flex;flex-direction: column;margin-top: 6vh;background-color: antiquewhite;">
-                            123123
+                        <div style="height:40vh;width:25vw;margin-left: 6vh;display: flex;flex-direction: column;margin-top: 6vh;">
+                            <span style="margin-left: 1.5vw;">历史记录：</span>
+                            <el-timeline style="margin-top: 3vh;margin-left:-1vw;width: 21vw;" reverse="false">
+                                <el-timeline-item
+                                        v-for="(history, index) in historyList"
+                                        :key="index">
+                                    <el-card>
+                                        <el-tag effect="plain" size="mini">{{history.type}}</el-tag>
+                                        <el-link type="info">{{history.name}}</el-link>
+                                        <br/>
+                                        <span class="textColor margin1">{{formatTime(history.updateTime)}}</span>
+                                    </el-card>
+                                </el-timeline-item>
+                            </el-timeline>
+                            <div v-show="historyList.length>=3" class="textColor"
+                                 style="justify-content: center;display: flex;flex-direction: row;">
+                                <el-link type="info">更多历史 <i class="el-icon-arrow-down"></i></el-link>
+                            </div>
                         </div>
                     </div>
                     <div class="titleD">
@@ -73,6 +91,7 @@
 <script>
     import {getLoginInfo, setUserName} from '../../utils/loginStatus'
     import {queryUserInfo} from '../../api/login'
+    import {formatTime} from '../../utils/formatUtils'
 
     export default {
         name: 'minContent',
@@ -80,7 +99,20 @@
             return {
                 loading: false,
                 userInfo: {},
-                userData: {}
+                userData: {},
+                historyList: [{
+                    type: "类型1",
+                    updateTime: 1578466191000,
+                    name: "记录1"
+                }, {
+                    type: "类型2",
+                    updateTime: 1578466191000,
+                    name: "记录2"
+                }, {
+                    type: "类型3",
+                    updateTime: 1578466191000,
+                    name: "记录3"
+                },]
             }
         },
         created() {
@@ -89,6 +121,7 @@
             this.queryUserInfoMt();
         },
         methods: {
+            formatTime,
             async queryUserInfoMt() {
                 this.loading = true;
                 await queryUserInfo({'userId': this.userInfo.id}).then(info => {
@@ -111,11 +144,18 @@
         display: flex;
         flex-direction: row;
     }
-
+    .headD1 {
+        width: 22.1vh;
+        height: 22.1vh;
+        margin-left: 4.5vw;
+        border-radius: 50%;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+    }
     .headD {
         width: 22vh;
         height: 22vh;
-        margin-left: 5vw;
+        margin-top: 0.05vh;
+        margin-left: 0.05vh;
         border-radius: 50%;
     }
 
@@ -136,6 +176,15 @@
     .LStyle {
         font-size: 1rem;
         color: #909399;
+    }
+
+    .textColor {
+        color: #909399;
+    }
+
+    .margin1 {
+        margin-top: 0.5vh;
+        margin-left: 2px;
     }
 
     .titleMarginTop {
