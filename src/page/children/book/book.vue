@@ -1,9 +1,8 @@
 <template>
-    <div>
-        <div v-for="(itemData,index) in listData" :key="index">
-            <div style="width: 18vw;height: 20vh;">
-                {{itemData.title}}
-            </div>
+    <div style="width: 100vw;height: 90vh;background-color: antiquewhite;">
+        <div class="detail_content_a_style">
+
+
         </div>
     </div>
 </template>
@@ -11,18 +10,20 @@
     export default {
         name: 'book',
         data() {
-            return {
-                listData: [
-                    {title: "1"},
-                    {title: "2"},
-                    {title: "3"},
-                    {title: "4"},
-                ]
-            }
-        }
+            return {}
+        },
+        methods: {}
     }
 
 </script>
 <style>
-
+    .detail_content_a_style {
+        width: 100vw;
+        height: 90vh;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 10px 0 10px 10px;
+        padding: 2vh;
+        overflow: auto;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19), 0 8px 17px 0 rgba(0, 0, 0, .2);
+    }
 </style>
