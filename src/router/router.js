@@ -11,8 +11,8 @@ import mine from '~/page/personalCenter/mine'
 import minContent from '~/page/personalCenter/minContent'
 import setting from '~/page/personalCenter/setting'
 import mobile from '~/mobile/mobileHome'
-import edit from '~/page/book/edit'
-import detail from '~/page/book/detail'
+import edit from '~/page/children/book/edit'
+import detail from '~/page/children/book/detail'
 
 Vue.use(Router);
 

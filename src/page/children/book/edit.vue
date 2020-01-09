@@ -2,7 +2,7 @@
     <div class="editRoot">
         <div class="editTop">
             <div class="editLog" @click="goHome">
-                <img src="../../res/img/logo_icon.png" class="logoIcon"/>
+                <img src="../../../res/img/logo_icon.png" class="logoIcon"/>
             </div>
             <el-input
                     type="text"
@@ -73,8 +73,8 @@
     </div>
 </template>
 <script>
-    import myFooter from '../common_component/foot/footer'
-    import myUser from '../common_component/user/myUser'
+    import myFooter from '../../common_component/foot/footer'
+    import myUser from '../../common_component/user/myUser'
 
     export default {
         components: {myFooter, myUser},
