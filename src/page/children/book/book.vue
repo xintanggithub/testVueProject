@@ -1,8 +1,17 @@
 <template>
-    <div style="width: 100vw;height: 90vh;background-color: antiquewhite;">
-        <div class="detail_content_a_style">
-
-
+    <div element-loading-spinner="el-icon-loading"
+         style="width: 100vw;height: 81vh;">
+        <div style="width: 100vw;height: 8vh;background-color: antiquewhite;"></div>
+        <div class="detail_content_a_style list_root_style" style="padding-left: 6vw;" @scroll="orderScroll" ref="Box">
+            <div v-for="(itemData,index) in listData" :key="index">
+                <el-card shadow="hover" style="width: 42vw;height: 20vh;margin: 10px;">
+                    123
+                </el-card>
+            </div>
+        </div>
+        <div v-show="showBootLoading"
+             style="width: 100%;height: auto;display: flex;flex-direction: row;justify-content: center;">
+            <i v-show="loading" class="el-icon-loading"></i><span style="font-size: 11px;">{{noMore?"正在加载更多...":"没有更多了"}}</span>
         </div>
     </div>
 </template>
@@ -10,20 +19,86 @@
     export default {
         name: 'book',
         data() {
-            return {}
+            return {
+                noMore: true,
+                loading: false,
+                showBootLoading: false,
+                listData: [
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                    {title: "11"},
+                ]
+            }
         },
-        methods: {}
+        methods: {
+            orderScroll(e) {
+                let a = this.$refs.Box.scrollHeight;
+                let b = this.$refs.Box.clientHeight;
+                let c = this.$refs.Box.scrollTop;
+                console.log("====> a", a);
+                console.log("====> b+c", b + c);
+                this.showBootLoading = (b + c >= a - 3);
+                if (this.showBootLoading) {
+                    if (!this.noMore) {
+                        this.loading = false;
+                        this.showBootLoading = true;
+                    } else {
+                        if (!this.loading) {
+                            this.loading = true;
+                            this.loadListData();
+                        }
+                    }
+                }
+            },
+            loadListData() {
+                let v = this;
+                setTimeout(() => {
+                    if (v.listData.length < 40) {
+                        v.loading = false;
+                        v.showBootLoading = false;
+                        v.noMore = true;
+                        v.listData.push(
+                            {title: "22"}, {title: "22"}, {title: "22"}, {title: "22"},
+                            {title: "22"}, {title: "22"}, {title: "22"}, {title: "22"},
+                            {title: "22"}, {title: "22"}, {title: "22"}, {title: "22"},
+                            {title: "22"}, {title: "22"}, {title: "22"}, {title: "22"})
+                    } else {
+                        v.loading = false;
+                        v.showBootLoading = true;
+                        v.noMore = false;
+                    }
+                }, 1500);
+            }
+        }
     }
 
 </script>
 <style>
     .detail_content_a_style {
-        width: 100vw;
-        height: 90vh;
+        width: 94vw;
+        height: 80vh;
         background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 10px 0 10px 10px;
-        padding: 2vh;
-        overflow: auto;
-        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19), 0 8px 17px 0 rgba(0, 0, 0, .2);
+        overflow-y: scroll;
+    }
+
+    .list_root_style {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap
     }
 </style>
