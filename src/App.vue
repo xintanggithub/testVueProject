@@ -17,6 +17,9 @@
 </template>
 
 <script>
+    import Vue from 'vue'
+    Event = new Vue();
+
     export default {
         data() {
             return {
