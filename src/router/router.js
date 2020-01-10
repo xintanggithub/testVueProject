@@ -13,6 +13,8 @@ import setting from '~/page/personalCenter/setting'
 import mobile from '~/mobile/mobileHome'
 import edit from '~/page/children/book/edit'
 import detail from '~/page/children/book/detail'
+import bookAll from '~/page/children/book/children/all'
+import bookMyBook from '~/page/children/book/children/myboot'
 
 Vue.use(Router);
 
@@ -33,7 +35,17 @@ export const commonRouterMap = [
         }, {
             path: 'book',
             name: 'book',
-            component: book
+            component: book,
+            redirect: '/book/bookAll',
+            children: [{
+                path: 'bookAll',
+                name: 'bookAll',
+                component: bookAll
+            }, {
+                path: 'bookMyBook',
+                name: 'bookMyBook',
+                component: bookMyBook
+            }]
         }]
     }, {
         path: '/login',
