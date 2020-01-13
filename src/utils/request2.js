@@ -34,11 +34,13 @@ service.interceptors.response.use(response => {
         const res = response.data;
         if (res.resultCode !== 200) {
             console.log("response --->", res);
-            Message({
-                showClose: true,
-                message: getErrorMessage(res.resultCode, res.resultMessage),
-                type: 'error'
-            });
+            if (1001 !== res.resultCode) {
+                Message({
+                    showClose: true,
+                    message: getErrorMessage(res.resultCode, res.resultMessage),
+                    type: 'error'
+                });
+            }
             Promise.reject(error)
         } else {
             console.log("response success--->", res);

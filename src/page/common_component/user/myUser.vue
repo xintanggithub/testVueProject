@@ -1,10 +1,13 @@
 <template>
     <div class="user">
-        <img v-show="loginStatusValue"
-             :src="imgSrc"
-             @click="goMine"
-             :onload="loadImg(loginInfo.img)"
-             class="userImg"/>
+        <el-avatar :src="loginInfo.img">
+            <img :src="require('../../../res/img/user_center.png')"/>
+        </el-avatar>
+        <!--<img v-show="loginStatusValue"-->
+        <!--:src="imgSrc"-->
+        <!--@click="goMine"-->
+        <!--:onload="loadImg(loginInfo.img)"-->
+        <!--class="userImg"/>-->
         <div v-show="loginStatusValue" style="display: flex;flex-direction: column;">
             <div class="nameStyle">{{loginInfo.userName}}</div>
             <div style="margin-left: 1vw;">

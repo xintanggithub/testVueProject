@@ -1,7 +1,6 @@
 <template>
     <div>
         <mavon-editor
-                class="md"
                 :value="mdValue"
                 :subfield = "false"
                 :defaultOpen = "'preview'"

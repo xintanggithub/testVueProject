@@ -19,7 +19,8 @@
 <style>
     .detail_content_a_style {
         width: 93vw;
-        height: 80vh;
+        height: auto;
+        max-height: 80vh;
         background-color: rgba(255, 255, 255, 0.5);
         overflow-y: scroll;
     }

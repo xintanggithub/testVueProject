@@ -8,7 +8,7 @@
                     type="text"
                     placeholder="请输入内容"
                     v-model="title"
-                    maxlength="100"
+                    maxlength="65"
                     show-word-limit
                     class="editTitleInput editLog"
             >
