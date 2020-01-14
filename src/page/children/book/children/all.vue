@@ -5,7 +5,7 @@
             <el-button icon="el-icon-star-on">精品推荐</el-button>
             <el-button @click="my" icon="el-icon-document">我的笔记</el-button>
             <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
-            <el-autocomplete style="" v-model="state" :fetch-suggestions="querySearchAsync" placeholder="请输入搜索内容"
+            <el-autocomplete class="searchInput" v-model="state" :fetch-suggestions="querySearchAsync" placeholder="请输入搜索内容"
                              :trigger-on-focus="false" @select="handleSelect">
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-autocomplete>
@@ -15,7 +15,7 @@
                 <el-card shadow="hover" class="allListCard">
                     <div class="allListTitle">
                         <i v-show="itemData.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
-                        {{itemData.title}}
+                        <el-link>{{itemData.title}}</el-link>
                     </div>
                     <div class="allListDescription"><span class="popLabel">{{itemData.description}}</span></div>
                     <div class="allListTag">
@@ -136,10 +136,6 @@
                 });
             },
             my() {
-                if (this.defaultIndex === 2) {
-                    return
-                }
-                this.defaultIndex = 2;
                 this.$router.push({name: 'bookMyBook'});
             },
             async querySearchAsync(queryString, cb) {
