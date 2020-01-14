@@ -1,8 +1,8 @@
 <template>
     <div v-loading="firstLoading">
         <div class="tabsDiv">
-            <el-button type="danger" icon="el-icon-document-copy" class="marginLeftSt">全部笔记</el-button>
-            <el-button icon="el-icon-star-on">精品推荐</el-button>
+            <el-button type="danger" icon="el-icon-document-copy" class="marginLeftSt">笔记广场</el-button>
+            <el-button @click="jp" icon="el-icon-star-on">精品推荐</el-button>
             <el-button @click="my" icon="el-icon-document">我的笔记</el-button>
             <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
             <el-autocomplete class="searchInput" v-model="state" :fetch-suggestions="querySearchAsync"
@@ -12,7 +12,7 @@
             </el-autocomplete>
         </div>
         <div class="detail_content_a_style list_root_style allListDiv" @scroll="orderScroll" ref="Box">
-            <div v-for="(itemData,index) in listData" :key="index">
+            <div v-show="firstMessage===''" v-for="(itemData,index) in listData" :key="index">
                 <el-card shadow="hover" class="allListCard">
                     <div class="allListTitle">
                         <i v-show="itemData.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
@@ -33,6 +33,11 @@
                         <el-link type="info" style="margin-left: 1vw;">{{itemData.userName}}</el-link>
                     </div>
                 </el-card>
+            </div>
+            <div v-show="firstMessage!==''" class="errorView">
+                <div class="errorContent">
+                    <i class="el-icon-warning" style="color:#F56C6C;"> {{firstMessage}}</i>
+                </div>
             </div>
         </div>
         <div v-show="showBootLoading"
@@ -132,12 +137,15 @@
                     this.showBootLoading = false;
                     console.log("queryBookByUser error ===> ", error);
                     if (refresh) {
-                        v.firstMessage = error.data.resultMessage
+                        v.firstMessage = error.message;
                     }
                 });
             },
             my() {
                 this.$router.push({name: 'bookMyBook'});
+            },
+            jp() {
+                this.$router.push({name: 'jp'});
             },
             async querySearchAsync(queryString, cb) {
                 const params = queryBookByUserParams(queryString, this.openType, 1, 20);
@@ -173,6 +181,21 @@
     }
 </script>
 <style>
+    .errorContent {
+        width: auto;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .errorView {
+        width: 80vw;
+        height: 80vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
     .allListUser {
         display: flex;
         flex-direction: row;

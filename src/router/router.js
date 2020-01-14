@@ -15,6 +15,7 @@ import edit from '~/page/children/book/edit'
 import detail from '~/page/children/book/detail'
 import bookAll from '~/page/children/book/children/all'
 import bookMyBook from '~/page/children/book/children/myboot'
+import jp from '~/page/children/book/children/jp'
 
 Vue.use(Router);
 
@@ -45,6 +46,10 @@ export const commonRouterMap = [
                 path: 'bookMyBook',
                 name: 'bookMyBook',
                 component: bookMyBook
+            }, {
+                path: 'jp',
+                name: 'jp',
+                component: jp
             }]
         }]
     }, {

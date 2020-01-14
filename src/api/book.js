@@ -32,6 +32,33 @@ export function queryBookByUser2(params) {
     })
 }
 
+export function queryBookBySplashParams(keyword, page, pageSize) {
+    const params = {};
+    if (keyword !== "" && keyword !== null && keyword !== undefined) {
+        params['keyword'] = keyword;
+    }
+    params['splash'] = 1;
+    params['page'] = page;
+    params['pageSize'] = pageSize;
+    return params
+}
+
+export function queryBookBySplash(params) {
+    return request({
+        url: `api/v1/book/queryBooksBySplash`,
+        method: 'get',
+        params
+    })
+}
+
+export function queryBookBySplash2(params) {
+    return request2({
+        url: `api/v1/book/queryBooksBySplash`,
+        method: 'get',
+        params
+    })
+}
+
 export function insertBookParams(userId, title, openType, img, description, content, bookType) {
     const params = {};
     params['userId'] = userId;

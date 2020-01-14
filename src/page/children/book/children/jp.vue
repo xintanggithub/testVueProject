@@ -2,8 +2,8 @@
     <div v-loading="firstLoading">
         <div class="tabsDiv">
             <el-button @click="allBook" icon="el-icon-document-copy" class="marginLeftSt">笔记广场</el-button>
-            <el-button @click="jp" icon="el-icon-star-on">精品推荐</el-button>
-            <el-button type="danger" icon="el-icon-document">我的笔记</el-button>
+            <el-button type="danger" icon="el-icon-star-on">精品推荐</el-button>
+            <el-button @click="my" icon="el-icon-document">我的笔记</el-button>
             <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
             <el-autocomplete class="searchInput" v-model="state" :fetch-suggestions="queryMySearchAsync"
                              placeholder="请输入搜索内容"
@@ -48,11 +48,11 @@
 </template>
 <script>
 
-    import {queryBookByUser, queryBookByUserParams, queryBookByUser2} from "../../../../api/book"
+    import {queryBookBySplash, queryBookBySplash2, queryBookBySplashParams} from "../../../../api/book"
     import {loginStatus} from '../../../../utils/loginStatus'
 
     export default {
-        name: "bookMyBook",
+        name: "jp",
         data() {
             return {
                 firstLoading: false,
@@ -73,9 +73,6 @@
             this.loadListData(true);
         },
         methods: {
-            jp() {
-                this.$router.push({name: 'jp'});
-            },
             addBook() {
                 if (loginStatus()) {
                     this.$router.push('/edit');
@@ -118,10 +115,9 @@
                     this.showBootLoading = true;
                 }
                 let v = this;
-                const params = queryBookByUserParams(null, this.openType, this.page, this.pageSize);
+                const params = queryBookBySplashParams(null, this.page, this.pageSize);
                 console.log("queryBookByUser params ===> ", params);
-                await queryBookByUser(params).then(data => {
-                    console.log("queryBookByUser success ===> ", data);
+                await queryBookBySplash(params).then(data => {
                     this.firstLoading = false;
                     this.loading = false;
                     this.showBootLoading = false;
@@ -141,15 +137,19 @@
                     console.log("queryBookByUser error ===> ", error);
                     if (refresh) {
                         v.firstMessage = error.message;
+                        console.log("v.firstLoading ===> ", v.firstMessage);
                     }
                 });
             },
             allBook() {
                 this.$router.push({name: 'bookAll'});
             },
+            my() {
+                this.$router.push({name: 'bookMyBook'});
+            },
             async queryMySearchAsync(queryString, cb) {
-                const params = queryBookByUserParams(queryString, this.openType, 1, 20);
-                await queryBookByUser2(params).then(data => {
+                const params = queryBookBySplashParams(queryString, 1, 20);
+                await queryBookBySplash2(params).then(data => {
                     let list = data.data.data.lists;
                     this.restaurants = [];
                     for (let a in list) {
