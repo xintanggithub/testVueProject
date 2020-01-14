@@ -65,14 +65,14 @@
         </div>
         <el-drawer :visible.sync="drawer" :before-close="handleClose" :direction="direction" :modal="modal"
                    :modal-append-to-body="modalAppendToBody" size="50%" :show-close="false">
-            <div style="display:flex;justify-content: center;flex-direction: row;">
-                <div style="display: flex;flex-direction: column;">
+            <div class="popDiv">
+                <div class="popContent">
                     <span>设置标签：</span>
-                    <span style="color: #C0C4CC;font-size: 11px;margin-top: 10px;">
+                    <span class="popLabel">
                         说明：最多可以添加6个标签，方便其他人通过感兴趣的标签，快速找到对应的内容。<br/>
                         更容易突出内容要点、关键要素等等。
                     </span>
-                    <div style="width: auto;display: flex;flex-direction: row;margin-top: 20px;">
+                    <div class="popTag">
                         <el-tag style="margin-right: 10px;" :key="tag" v-for="tag in dynamicTags" closable
                                 :disable-transitions="false"
                                 @close="handleClose2(tag)" type="danger">
@@ -86,21 +86,21 @@
                                    @click="showInput">+ 添加标签
                         </el-button>
                     </div>
-                    <div style="display: flex;flex-direction: row;margin-top: 30px;align-items: center;">
+                    <div class="popType">
                         <span>类型：</span>
                         <el-select size="small" v-model="typeValue" placeholder="请选择" clearable value="">
                             <el-option v-for="item in typeOptions" :key="item.value" :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>
                     </div>
-                    <div style="display: flex;flex-direction: row;margin-top: 30px;">
+                    <div class="popDescription">
                         <span>简述：</span>
                         <el-input style="width: 30vw;font-size: 12px;" type="textarea" placeholder="请简单描述"
                                   v-model="description"
                                   maxlength="50"
                                   show-word-limit></el-input>
                     </div>
-                    <div style="display: flex;flex-direction: row;margin-top: 6vh;">
+                    <div class="popHandle">
                         <el-button type="danger" class="editLog editCommit" @click="submit">提交</el-button>
                         <el-button type="info" class="editLog editCommit" style="margin-left: 4vw;" @click="cancel">
                             取消
@@ -230,6 +230,49 @@
 </script>
 
 <style>
+    .popHandle {
+        display: flex;
+        flex-direction: row;
+        margin-top: 6vh;
+    }
+
+    .popDescription {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+    }
+
+    .popType {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        align-items: center;
+    }
+
+    .popTag {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+    }
+
+    .popLabel {
+        color: #C0C4CC;
+        font-size: 11px;
+        margin-top: 10px;
+    }
+
+    .popContent {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .popDiv {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+    }
+
     .openBtnS {
         height: 40px;
         width: 40px;
