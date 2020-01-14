@@ -6,9 +6,9 @@
             <el-button @click="my" icon="el-icon-document">我的笔记</el-button>
             <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
             <el-autocomplete class="searchInput" v-model="state" :fetch-suggestions="queryMySearchAsync"
-                             placeholder="请输入搜索内容"
+                             placeholder="请输入搜索内容" @keyup.enter.native="enter"
                              :trigger-on-focus="false" @select="handleSelect">
-                <el-button slot="append" icon="el-icon-search"></el-button>
+                <el-button slot="append" icon="el-icon-search" @click="enter"></el-button>
             </el-autocomplete>
         </div>
         <div class="detail_content_a_style list_root_style allListDiv" @scroll="orderScroll" ref="Box">
@@ -115,9 +115,10 @@
                     this.showBootLoading = true;
                 }
                 let v = this;
-                const params = queryBookBySplashParams(null, this.page, this.pageSize);
+                const params = queryBookBySplashParams(this.state, this.page, this.pageSize);
                 console.log("queryBookByUser params ===> ", params);
                 await queryBookBySplash(params).then(data => {
+                    v.firstMessage = "";
                     this.firstLoading = false;
                     this.loading = false;
                     this.showBootLoading = false;
@@ -146,6 +147,9 @@
             },
             my() {
                 this.$router.push({name: 'bookMyBook'});
+            },
+            enter() {
+                this.loadListData(true)
             },
             async queryMySearchAsync(queryString, cb) {
                 const params = queryBookBySplashParams(queryString, 1, 20);
