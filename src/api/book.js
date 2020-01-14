@@ -23,6 +23,7 @@ export function queryBookByUser(params) {
         params
     })
 }
+
 export function queryBookByUser2(params) {
     return request2({
         url: `api/v1/book/queryBookAllByUser`,
@@ -30,6 +31,27 @@ export function queryBookByUser2(params) {
         params
     })
 }
+
+export function insertBookParams(userId, title, openType, img, description, content, bookType) {
+    const params = {};
+    params['userId'] = userId;
+    params['title'] = title;
+    params['openType'] = openType;
+    params['img'] = img;
+    params['description'] = description;
+    params['content'] = content;
+    params['bookType'] = bookType;
+    return params
+}
+
+export function insertBook(params) {
+    return request({
+        url: `api/v1/book/insertBook`,
+        method: 'post',
+        data: params
+    })
+}
+
 //
 // export function login(params) {
 //     return request({

@@ -1,5 +1,5 @@
 <template>
-    <div class="editRoot">
+    <div v-loading="loading" class="editRoot">
         <div class="editTop">
             <div class="editLog" @click="goHome">
                 <img src="../../../res/img/logo_icon.png" class="logoIcon"/>
@@ -114,14 +114,18 @@
     </div>
 </template>
 <script>
+
     import myFooter from '../../common_component/foot/footer'
     import myUser from '../../common_component/user/myUser'
+    import {insertBook, insertBookParams} from '../../../api/book'
+    import {getLoginInfo} from '../../../utils/loginStatus'
 
     export default {
         components: {myFooter, myUser},
         name: "edit",
         data() {
             return {
+                loading: false,
                 description: '',//简述
                 typeValue: '',//类型
                 typeOptions: [{value: "原创作品", label: "原创作品"}, {value: "博文转载", label: "博文转载"}],
@@ -172,8 +176,45 @@
             }
         },
         methods: {
-            submitApiData() {
-
+            tipDialog() {
+                this.$confirm('提交成功，是否再写一篇？', "提示", {
+                    confirmButtonText: '再写一篇',
+                    cancelButtonText: '不了',
+                    type: 'warning'
+                }).then(_ => {
+                    //取消显示
+                }).catch(_ => {
+                    //关闭界面
+                    this.$router.go(-1);
+                });
+            },
+            async submitApiData() {
+                let tag = '';
+                for (let x in this.dynamicTags) {
+                    tag += this.dynamicTags[x] + (this.dynamicTags.length === x ? "" : ",")
+                }
+                let params = insertBookParams(getLoginInfo().id, this.title, this.checked1 ? 1 : 0,
+                    tag.substr(0, tag.length - 1), this.description, this.value, this.typeValue);
+                console.log("insert params =>", params);
+                this.loading = true;
+                await insertBook(params).then(data => {
+                    this.loading = false;
+                    this.drawer = false;
+                    this.description = '';
+                    this.dynamicTags = [];
+                    this.checked1 = false;
+                    this.title = '';
+                    this.value = '';
+                    this.tipDialog()
+                }).catch(error => {
+                    this.loading = false;
+                    this.$notify({
+                        title: '错误',
+                        message: error.data.resultMessage || "提交发生异常",
+                        type: 'error',
+                        duration: 2000
+                    });
+                })
             },
             cancel() {
                 this.handleClose()
@@ -183,7 +224,7 @@
                     this.$notify({
                         title: '警告',
                         message: '请填写标签',
-                        type: 'error',
+                        type: 'warning',
                         duration: 2000
                     });
                 } else {
@@ -194,7 +235,7 @@
                             this.$notify({
                                 title: '警告',
                                 message: '请填写简介',
-                                type: 'error',
+                                type: 'warning',
                                 duration: 2000
                             });
                         }
@@ -202,7 +243,7 @@
                         this.$notify({
                             title: '警告',
                             message: '请选择类型',
-                            type: 'error',
+                            type: 'warning',
                             duration: 2000
                         });
                     }
