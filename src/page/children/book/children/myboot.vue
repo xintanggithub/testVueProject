@@ -5,7 +5,7 @@
             <el-button icon="el-icon-star-on">精品推荐</el-button>
             <el-button type="danger" icon="el-icon-document">我的笔记</el-button>
             <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
-            <el-autocomplete class="searchInput" v-model="state" :fetch-suggestions="querySearchAsync" placeholder="请输入搜索内容"
+            <el-autocomplete class="searchInput" v-model="state" :fetch-suggestions="queryMySearchAsync" placeholder="请输入搜索内容"
                              :trigger-on-focus="false" @select="handleSelect">
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-autocomplete>
@@ -138,7 +138,7 @@
             allBook() {
                 this.$router.push({name: 'bookAll'});
             },
-            async querySearchAsync(queryString, cb) {
+            async queryMySearchAsync(queryString, cb) {
                 const params = queryBookByUserParams(queryString, this.openType, 1, 20);
                 await queryBookByUser2(params).then(data => {
                     let list = data.data.data.lists;
@@ -150,17 +150,17 @@
                         this.restaurants.push(p);
                     }
                     let restaurants = this.restaurants;
-                    let results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
+                    let results = queryString ? restaurants.filter(this.createMyStateFilter(queryString)) : restaurants;
                     cb(results);
                 }).catch(error => {
                     this.restaurants = [];
                     let restaurants = this.restaurants;
-                    let results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
+                    let results = queryString ? restaurants.filter(this.createMyStateFilter(queryString)) : restaurants;
                     cb(results);
 
                 });
             },
-            createStateFilter(queryString) {
+            createMyStateFilter(queryString) {
                 return (state) => {
                     return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
                 };

@@ -5,7 +5,8 @@
             <el-button icon="el-icon-star-on">精品推荐</el-button>
             <el-button @click="my" icon="el-icon-document">我的笔记</el-button>
             <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
-            <el-autocomplete class="searchInput" v-model="state" :fetch-suggestions="querySearchAsync" placeholder="请输入搜索内容"
+            <el-autocomplete class="searchInput" v-model="state" :fetch-suggestions="querySearchAsync"
+                             placeholder="请输入搜索内容"
                              :trigger-on-focus="false" @select="handleSelect">
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-autocomplete>
