@@ -48,7 +48,7 @@
 </template>
 <script>
 
-    import {queryBookByUser, queryBookByUserParams, queryBookByUser2} from "../../../../api/book"
+    import {queryBookByUser, queryBookByUser2, queryBookByUserParams} from "../../../../api/book"
     import {loginStatus} from '../../../../utils/loginStatus'
 
     export default {
@@ -66,7 +66,7 @@
                 listData: [],
                 page: 1,
                 pageSize: 20,
-                openType: 0,//1公开
+                openType: 2,//2所有
             }
         },
         created() {
@@ -260,7 +260,7 @@
     }
 
     .popLabel {
-        color: #C0C4CC;
+        color: #909399;
         font-size: 11px;
         margin-top: 10px;
     }

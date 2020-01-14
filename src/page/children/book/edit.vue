@@ -78,7 +78,7 @@
                                 @close="handleClose2(tag)" type="danger">
                             {{tag}}
                         </el-tag>
-                        <el-input v-show="dynamicTags.length<6" style="width: 6vw;" class="input-new-tag" maxlength="6"
+                        <el-input v-show="dynamicTags.length<6" style="width: 6vw;" class="input-new-tag" maxlength="20"
                                   v-if="inputVisible" v-model="inputValue" show-word-limit ref="saveTagInput"
                                   size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
                         </el-input>
@@ -97,7 +97,7 @@
                         <span>简述：</span>
                         <el-input style="width: 30vw;font-size: 12px;" type="textarea" placeholder="请简单描述"
                                   v-model="description"
-                                  maxlength="50"
+                                  maxlength="150"
                                   show-word-limit></el-input>
                     </div>
                     <div class="popHandle">

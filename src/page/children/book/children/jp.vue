@@ -260,7 +260,7 @@
     }
 
     .popLabel {
-        color: #C0C4CC;
+        color: #909399;
         font-size: 11px;
         margin-top: 10px;
     }
