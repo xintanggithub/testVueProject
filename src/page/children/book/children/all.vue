@@ -1,37 +1,32 @@
 <template>
     <div v-loading="firstLoading">
-        <div style="width: 100vw;height: 8vh;display: flex;flex-direction: row;align-items: center;">
+        <div class="tabsDiv">
             <el-button type="danger" icon="el-icon-document-copy" class="marginLeftSt">全部笔记</el-button>
             <el-button icon="el-icon-star-on">精品推荐</el-button>
             <el-button @click="my" icon="el-icon-document">我的笔记</el-button>
             <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
-            <el-autocomplete style="margin-left: 2vw;width: 52.5vw;" v-model="state"
-                             :fetch-suggestions="querySearchAsync"
-                             placeholder="请输入搜索内容"
-                             :trigger-on-focus="false"
-                             @select="handleSelect">
+            <el-autocomplete style="" v-model="state" :fetch-suggestions="querySearchAsync" placeholder="请输入搜索内容"
+                             :trigger-on-focus="false" @select="handleSelect">
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-autocomplete>
         </div>
-        <div class="detail_content_a_style list_root_style" style="padding-left: 7.2vw;margin-top: -1.8vh;"
-             @scroll="orderScroll" ref="Box">
+        <div class="detail_content_a_style list_root_style allListDiv" @scroll="orderScroll" ref="Box">
             <div v-for="(itemData,index) in listData" :key="index">
-                <el-card shadow="hover" style="width: 41.5vw;height: 16vh;margin: 10px;">
-                    <div style="max-lines: 2;min-height: 5vh;max-height: 5vh;">
+                <el-card shadow="hover" class="allListCard">
+                    <div class="allListTitle">
                         <i v-show="itemData.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
                         {{itemData.title}}
                     </div>
-                    <div style="display: flex;flex-direction: row;">
-                        <el-tag type="info" size="small" :style="index!==0?'margin-left: 0.5vw;':''"
-                                :key="index"
-                                v-for="(tag,index) in loadTag(itemData.img)"
-                                :disable-transitions="false">
+                    <div class="allListDescription"><span class="popLabel">{{itemData.description}}</span></div>
+                    <div class="allListTag">
+                        <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''" :key="index"
+                                v-for="(tag,index) in loadTag(itemData.img)" :disable-transitions="false">
                             <i v-show="index===0" class="el-icon-collection-tag"></i>
                             {{tag}}
                         </el-tag>
                     </div>
-                    <div style="display: flex;flex-direction: row;margin-top: 1vh;align-items: center;">
-                        <el-avatar size="42" :src="itemData.userHead">
+                    <div class="allListUser">
+                        <el-avatar size="small" :src="itemData.userHead">
                             <img :src="require('../../../../res/img/user_center.png')"/>
                         </el-avatar>
                         <el-link type="info" style="margin-left: 1vw;">{{itemData.userName}}</el-link>
@@ -181,4 +176,71 @@
     }
 </script>
 <style>
+    .allListUser {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0.7vh;
+        align-items: center;
+    }
+
+    .allListTag {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0.3vh;
+    }
+
+    .allListDescription {
+        margin-top: 0.2vh;
+        max-lines: 2;
+        min-height: 5vh;
+        max-height: 5vh;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        width: 39.5vw;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        word-break: break-all;
+    }
+
+    .allListTitle {
+        max-lines: 1;
+        max-height: 2.2vh;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        width: 39.5vw;
+        white-space: nowrap;
+        margin-top: -1vh;
+    }
+
+    .allListCard {
+        width: 41.5vw;
+        height: 16vh;
+        margin: 10px;
+    }
+
+    .allListDiv {
+        padding-left: 7.2vw;
+        margin-top: -1.8vh;
+    }
+
+    .searchInput {
+        margin-left: 2vw;
+        width: 52.5vw;
+    }
+
+    .tabsDiv {
+        width: 100vw;
+        height: 8vh;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .popLabel {
+        color: #C0C4CC;
+        font-size: 11px;
+        margin-top: 10px;
+    }
 </style>
