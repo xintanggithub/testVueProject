@@ -4,14 +4,8 @@
             <div class="editLog" @click="goHome">
                 <img src="../../../res/img/logo_icon.png" class="logoIcon"/>
             </div>
-            <el-input
-                    type="text"
-                    placeholder="请输入内容"
-                    v-model="title"
-                    maxlength="65"
-                    show-word-limit
-                    class="editTitleInput editLog"
-            >
+            <el-input type="text" placeholder="请输入内容" v-model="title" maxlength="65" show-word-limit
+                      class="editTitleInput editLog">
             </el-input>
             <el-checkbox class="editLog" v-model="checked1" label="公开发布" border></el-checkbox>
             <el-button type="danger" class="editLog editCommit" @click="commit">确认发布</el-button>
@@ -25,7 +19,7 @@
                         <el-button @click="close" type="danger" icon="el-icon-close" round>关闭帮助</el-button>
                     </div>
                     <el-card>
-                    <span class="helpContent">
+                        <span class="helpContent">
                     F8	    开启/关闭导航<br/>
                 F9		预览/编辑切换<br/>
                 F10		开启/关闭全屏<br/>
@@ -69,6 +63,53 @@
                 </div>
             </transition>
         </div>
+        <el-drawer :visible.sync="drawer" :before-close="handleClose" :direction="direction" :modal="modal"
+                   :modal-append-to-body="modalAppendToBody" size="50%" :show-close="false">
+            <div style="display:flex;justify-content: center;flex-direction: row;">
+                <div style="display: flex;flex-direction: column;">
+                    <span>设置标签：</span>
+                    <span style="color: #C0C4CC;font-size: 11px;margin-top: 10px;">
+                        说明：最多可以添加6个标签，方便其他人通过感兴趣的标签，快速找到对应的内容。<br/>
+                        更容易突出内容要点、关键要素等等。
+                    </span>
+                    <div style="width: auto;display: flex;flex-direction: row;margin-top: 20px;">
+                        <el-tag style="margin-right: 10px;" :key="tag" v-for="tag in dynamicTags" closable
+                                :disable-transitions="false"
+                                @close="handleClose2(tag)" type="danger">
+                            {{tag}}
+                        </el-tag>
+                        <el-input v-show="dynamicTags.length<6" style="width: 6vw;" class="input-new-tag" maxlength="6"
+                                  v-if="inputVisible" v-model="inputValue" show-word-limit ref="saveTagInput"
+                                  size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+                        </el-input>
+                        <el-button v-show="dynamicTags.length<6" v-else class="button-new-tag" size="small"
+                                   @click="showInput">+ 添加标签
+                        </el-button>
+                    </div>
+                    <div style="display: flex;flex-direction: row;margin-top: 30px;align-items: center;">
+                        <span>类型：</span>
+                        <el-select size="small" v-model="typeValue" placeholder="请选择" clearable value="">
+                            <el-option v-for="item in typeOptions" :key="item.value" :label="item.label"
+                                       :value="item.value"></el-option>
+                        </el-select>
+                    </div>
+                    <div style="display: flex;flex-direction: row;margin-top: 30px;">
+                        <span>简述：</span>
+                        <el-input style="width: 30vw;font-size: 12px;" type="textarea" placeholder="请简单描述"
+                                  v-model="description"
+                                  maxlength="50"
+                                  show-word-limit></el-input>
+                    </div>
+                    <div style="display: flex;flex-direction: row;margin-top: 6vh;">
+                        <el-button type="danger" class="editLog editCommit" @click="submit">提交</el-button>
+                        <el-button type="info" class="editLog editCommit" style="margin-left: 4vw;" @click="cancel">
+                            取消
+                        </el-button>
+                    </div>
+                </div>
+
+            </div>
+        </el-drawer>
         <my-footer></my-footer>
     </div>
 </template>
@@ -81,6 +122,16 @@
         name: "edit",
         data() {
             return {
+                description: '',
+                typeValue: '',
+                typeOptions: [{value: "1", label: "原创作品"}, {value: "2", label: "博文转载"}],
+                dynamicTags: [],
+                inputVisible: false,
+                inputValue: '',
+                direction: 'btt',
+                modal: false,
+                modalAppendToBody: false,
+                drawer: false,
                 editStatus: false,
                 helpStatus: false,
                 openHelpStatus: false,
@@ -121,6 +172,36 @@
             }
         },
         methods: {
+            cancel() {
+                this.handleClose()
+            },
+            submit() {
+            },
+            handleClose2(tag) {
+                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+            },
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.dynamicTags.push(inputValue);
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            },
+            showInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+            handleClose() {
+                this.$confirm('确认取消提交？')
+                    .then(_ => {
+                        this.drawer = false;
+                    })
+                    .catch(_ => {
+                    });
+            },
             close() {
                 this.helpStatus = true;
                 setTimeout(() => {
@@ -136,6 +217,7 @@
                 }, 300);
             },
             commit() {
+                this.drawer = true;
                 console.log("value ===》 ", this.value);
                 console.log("checked1 ===》 ", this.checked1);
                 console.log("render ===》 ", this.render);

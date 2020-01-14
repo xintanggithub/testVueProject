@@ -4,7 +4,7 @@
             <el-button type="danger" icon="el-icon-document-copy" class="marginLeftSt">全部笔记</el-button>
             <el-button icon="el-icon-star-on">精品推荐</el-button>
             <el-button @click="my" icon="el-icon-document">我的笔记</el-button>
-            <el-button icon="el-icon-edit" type="warning">新增笔记</el-button>
+            <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
             <el-autocomplete style="margin-left: 2vw;width: 52.5vw;" v-model="state"
                              :fetch-suggestions="querySearchAsync"
                              placeholder="请输入搜索内容"
@@ -71,6 +71,9 @@
             this.loadListData(true);
         },
         methods: {
+            addBook() {
+                this.$router.push('/edit');
+            },
             loadTag(val) {
                 if (null === val || "" === val || undefined === val) {
                     return ["暂无标签"]
