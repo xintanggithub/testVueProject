@@ -48,6 +48,7 @@
 <script>
 
     import {queryBookByUser, queryBookByUserParams, queryBookByUser2} from "../../../../api/book"
+    import {loginStatus} from '../../../../utils/loginStatus'
 
     export default {
         name: "bookAll",
@@ -72,7 +73,11 @@
         },
         methods: {
             addBook() {
-                this.$router.push('/edit');
+                if (loginStatus()) {
+                    this.$router.push('/edit');
+                } else {
+                    this.$router.push('/login');
+                }
             },
             loadTag(val) {
                 if (null === val || "" === val || undefined === val) {

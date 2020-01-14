@@ -15,8 +15,7 @@
                 <el-button v-show="hideLoginOut===false" @click="loginOutMt" type="text" size="mini">退出</el-button>
             </div>
         </div>
-        <div v-show="loginStatusValue===false"
-             style=" width: 18vw;height: auto;display: flex;flex-direction: row-reverse;">
+        <div v-show="loginStatusValue===false" class="loginDiv">
             <el-button @click="login" type="text" size="mini">登录</el-button>
         </div>
     </div>
@@ -46,6 +45,7 @@
             },
             loginOutMt() {
                 loginOut();
+                this.loginInfo.img = "http:hhh/empty";
                 this.loginStatusValue = loginStatus();
             },
             login() {
@@ -73,6 +73,13 @@
 
 </script>
 <style>
+    .loginDiv {
+        width: 3vw;
+        height: auto;
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
     .user {
         width: 12vw;
         height: auto;

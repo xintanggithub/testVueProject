@@ -122,10 +122,10 @@
         name: "edit",
         data() {
             return {
-                description: '',
-                typeValue: '',
-                typeOptions: [{value: "1", label: "原创作品"}, {value: "2", label: "博文转载"}],
-                dynamicTags: [],
+                description: '',//简述
+                typeValue: '',//类型
+                typeOptions: [{value: "原创作品", label: "原创作品"}, {value: "博文转载", label: "博文转载"}],
+                dynamicTags: [],//标签
                 inputVisible: false,
                 inputValue: '',
                 direction: 'btt',
@@ -135,7 +135,7 @@
                 editStatus: false,
                 helpStatus: false,
                 openHelpStatus: false,
-                checked1: false,
+                checked1: false,//true 选择，false 未选择
                 title: "",
                 value: "",
                 toolbars: {
@@ -151,7 +151,7 @@
                     ol: true, // 有序列表
                     ul: true, // 无序列表
                     link: true, // 链接
-                    imagelink: true, // 图片链接
+                    // imagelink: true, // 图片链接
                     code: false, // code
                     table: true, // 表格
                     fullscreen: true, // 全屏编辑
@@ -172,10 +172,41 @@
             }
         },
         methods: {
+            submitApiData() {
+
+            },
             cancel() {
                 this.handleClose()
             },
             submit() {
+                if (this.dynamicTags.length <= 0) {
+                    this.$notify({
+                        title: '警告',
+                        message: '请填写标签',
+                        type: 'error',
+                        duration: 2000
+                    });
+                } else {
+                    if (this.typeValue) {
+                        if (this.description) {
+                            this.submitApiData()
+                        } else {
+                            this.$notify({
+                                title: '警告',
+                                message: '请填写简介',
+                                type: 'error',
+                                duration: 2000
+                            });
+                        }
+                    } else {
+                        this.$notify({
+                            title: '警告',
+                            message: '请选择类型',
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }
+                }
             },
             handleClose2(tag) {
                 this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
@@ -217,10 +248,28 @@
                 }, 300);
             },
             commit() {
-                this.drawer = true;
-                console.log("value ===》 ", this.value);
-                console.log("checked1 ===》 ", this.checked1);
-                console.log("render ===》 ", this.render);
+                //value 内容 title 标题
+                if (this.title) {
+                    if (this.value || this.value === null || this.value === undefined || this.value === " ") {
+                        console.log("title ==> ", this.title);
+                        console.log("value ==> ", this.value);
+                        this.drawer = true;
+                    } else {
+                        this.$notify({
+                            title: '错误',
+                            message: '当前还没有书写任何内容哦~',
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }
+                } else {
+                    this.$notify({
+                        title: '错误',
+                        message: '还没有填写标题哦~',
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
             },
             goHome() {
                 this.$router.push('/')
