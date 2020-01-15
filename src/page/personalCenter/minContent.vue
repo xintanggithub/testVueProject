@@ -10,6 +10,8 @@
                                 <img :src="userInfo.img" class="headD"/>
                                 <div class="liy">
                                     <div class="qer">
+                                        <el-button circle icon="el-icon-right" style="margin-left: 1vw;"
+                                                   @click="dialogVisible=true"></el-button>
                                         <el-popover placement="bottom" title="请选择新头像：" width="650" trigger="click">
                                             <div v-loading="loadingPop" element-loading-text=" "
                                                  element-loading-spinner="el-icon-loading" class="lh">
@@ -124,10 +126,17 @@
                 </div>
             </div>
         </div>
+        <el-dialog title="提示" :visible.sync="dialogVisible" width="25%" :modal-append-to-body="false" style="top: 20%;">
+            <span>请确认是否需要退出登录？</span>
+            <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="loginOutMtM">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>
-    import {getLoginInfo, setUserName,changeImg} from '../../utils/loginStatus'
+    import {getLoginInfo, setUserName, changeImg,loginOut} from '../../utils/loginStatus'
     import {queryUserInfo} from '../../api/login'
     import {formatTime} from '../../utils/formatUtils'
     import {getHeaderList, changeHead} from '../../api/user'
@@ -136,6 +145,7 @@
         name: 'minContent',
         data() {
             return {
+                dialogVisible: false,
                 changeHeadLoading: false,
                 HIndex: 999,
                 loadingPop: false,
@@ -164,6 +174,11 @@
             this.queryUserInfoMt();
         },
         methods: {
+            loginOutMtM() {
+                this.dialogVisible = false;
+                loginOut();
+                this.$router.push('/')
+            },
             async changeHead(img) {
                 console.log('img ===>', img);
                 this.changeHeadLoading = true;

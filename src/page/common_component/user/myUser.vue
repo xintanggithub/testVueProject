@@ -1,7 +1,7 @@
 <template>
     <div class="user">
         <el-avatar :src="loginInfo.img">
-            <img :src="require('../../../res/img/user_center.png')"/>
+            <img :src="imgSrc"/>
         </el-avatar>
         <!--<img v-show="loginStatusValue"-->
         <!--:src="imgSrc"-->
@@ -11,7 +11,7 @@
         <div v-show="loginStatusValue" style="display: flex;flex-direction: column;">
             <div class="nameStyle">{{loginInfo.userName}}</div>
             <div style="margin-left: 1vw;">
-                <el-button @click="goMine" type="text" size="mini">个人中心</el-button>
+                <el-button v-show="hideMine===false" @click="goMine" type="text" size="mini">个人中心</el-button>
                 <el-button v-show="hideLoginOut===false" @click="loginOutMt" type="text" size="mini">退出</el-button>
             </div>
         </div>
@@ -65,6 +65,10 @@
         },
         props: {
             hideLoginOut: {
+                type: Boolean,
+                default: false
+            },
+            hideMine: {
                 type: Boolean,
                 default: false
             }
