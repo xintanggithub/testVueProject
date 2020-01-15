@@ -175,6 +175,11 @@
                 }
             }
         },
+        created() {
+            //type 1 新增 2 编辑
+            let type = this.$route.params.type;
+            console.log("type ===>  ", type)
+        },
         methods: {
             tipDialog() {
                 this.$confirm('提交成功，是否再写一篇？', "提示", {

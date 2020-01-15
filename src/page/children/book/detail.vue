@@ -1,16 +1,7 @@
 <template>
     <div>
-        <mavon-editor
-                :value="mdValue"
-                :subfield = "false"
-                :defaultOpen = "'preview'"
-                :toolbarsFlag = "false"
-                :editable="false"
-                :scrollStyle="true"
-                :ishljs = "true"
-        >
-
-        </mavon-editor>
+        <mavon-editor :value="mdValue" :subfield="false" :defaultOpen="'preview'" :toolbarsFlag="false"
+                      :editable="false" :scrollStyle="true" :ishljs="true"></mavon-editor>
     </div>
 </template>
 <script>
@@ -18,6 +9,7 @@
         name: "detail",
         data() {
             return {
+                id: "",
                 mdValue: "12312313wqeqeqeq\n" +
                     "\n" +
                     "```\n" +
@@ -30,6 +22,10 @@
                     "\n" +
                     "##### 哦哦"
             }
+        },
+        created() {
+            this.id = this.$route.params.id;
+            console.log("====> detail id === ", this.id)
         },
         methods: {}
     }

@@ -14,11 +14,13 @@
         <div class="detail_content_a_style list_root_style allListDiv" @scroll="orderScroll" ref="Box">
             <div v-show="firstMessage===''" v-for="(itemData,index) in listData" :key="index">
                 <el-card shadow="hover" class="allListCard">
-                    <div class="allListTitle">
+                    <div class="allListTitle" @click="itemClick(itemData.bookId)">
                         <i v-show="itemData.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
                         <el-link>{{itemData.title}}</el-link>
                     </div>
-                    <div class="allListDescription"><span class="popLabel">{{itemData.description}}</span></div>
+                    <div class="allListDescription" @click="itemClick(itemData.bookId)">
+                        <span class="popLabel">{{itemData.description}}</span>
+                    </div>
                     <div class="allListTag">
                         <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''" :key="index"
                                 v-for="(tag,index) in loadTag(itemData.img)" :disable-transitions="false">
@@ -73,9 +75,23 @@
             this.loadListData(true);
         },
         methods: {
+            itemClick(id) {
+                console.log("open detail ===>");
+                this.$router.push({
+                    name: 'detail',
+                    params: {
+                        id: id
+                    }
+                });
+            },
             addBook() {
                 if (loginStatus()) {
-                    this.$router.push('/edit');
+                    this.$router.push({
+                        name: 'edit',
+                        params: {
+                            type: 1
+                        }
+                    });
                 } else {
                     this.$router.push('/login');
                 }
@@ -179,7 +195,7 @@
                 };
             },
             handleSelect(item) {
-                console.log(item);
+                this.itemClick(item.address)
             }
         }
     }
