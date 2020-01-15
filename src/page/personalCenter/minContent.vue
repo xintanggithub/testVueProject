@@ -212,15 +212,23 @@
         methods: {
             changeDescription() {
                 //修改简介
+                // changeUserInfo
+                //getDescriptionParams
             },
             changeAddress() {
                 //修改地址信息
+                // changeUserInfo
+                //getAddressParams
             },
             changeAccount() {
                 //修改账号信息
+                // changeUserInfo
+                //getAccountParams
             },
             changeName() {
                 //修改名称、性别
+                // changeUserInfo
+                // getNameParams
             },
             loginOutMtM() {
                 this.dialogVisible = false;
