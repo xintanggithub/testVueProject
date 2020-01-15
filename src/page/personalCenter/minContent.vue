@@ -68,56 +68,88 @@
                     </div>
                     <div class="titleD" style="width: 63%;">
                         <el-card shadow="hover">
-                            <div class="titleStyle" style="width: 100%;">
-                                <span class="rTitle">昵称：</span>
-                                <span class="names">{{userData.userName}}</span>
-                            </div>
-                            <div class="titleStyle titleMarginTop">
-                                <span class="rTitle">性别：</span>
-                                <span class="LStyle">{{userData.sex===1?'男':'女'}}</span>
-                            </div>
-                        </el-card>
-                        <el-card shadow="hover" class="titleMarginTop3">
-                            <div class="titleStyle titleMarginTop">
-                                <span class="rTitle">账号：</span>
-                                <span class="LStyle">{{userInfo.userCode}}</span>
-                            </div>
-                            <div class="titleStyle titleMarginTop">
-                                <span class="rTitle">用户ID：</span>
-                                <span class="LStyle">{{userInfo.id}}</span>
-                            </div>
-                            <div class="titleStyle titleMarginTop">
-                                <span class="rTitle">电话：</span>
-                                <span class="LStyle">{{userData.tel}}</span>
-                            </div>
-                            <div class="titleStyle titleMarginTop">
-                                <span class="rTitle">注册时间：</span>
-                                <span class="LStyle">{{userData.createTime}}</span>
+                            <div @mouseout="nameM=false" @mouseover="nameM=true" class="float0">
+                                <div class="float2">
+                                    <div class="titleStyle" style="width: 100%;">
+                                        <span class="rTitle">昵称：</span>
+                                        <span class="names">{{userData.userName}}</span>
+                                    </div>
+                                    <div class="titleStyle titleMarginTop">
+                                        <span class="rTitle">性别：</span>
+                                        <span class="LStyle">{{userData.sex===1?'男':'女'}}</span>
+                                    </div>
+                                </div>
+                                <div v-show="nameM" class="editBtn">
+                                    <el-button icon="el-icon-edit" circle style="margin-left: 1vw;"
+                                               @click="changeName"></el-button>
+                                </div>
                             </div>
                         </el-card>
                         <el-card shadow="hover" class="titleMarginTop3">
-                            <div class="titleStyle titleMarginTop">
-                                <span class="rTitle">省：</span>
-                                <span class="LStyle">{{userData.province}}</span>
+                            <div @mouseout="nameZ=false" @mouseover="nameZ=true" class="float1">
+                                <div class="float2">
+                                    <div class="titleStyle titleMarginTop">
+                                        <span class="rTitle">账号：</span>
+                                        <span class="LStyle">{{userInfo.userCode}}</span>
+                                    </div>
+                                    <div class="titleStyle titleMarginTop">
+                                        <span class="rTitle">用户ID：</span>
+                                        <span class="LStyle">{{userInfo.id}}</span>
+                                    </div>
+                                    <div class="titleStyle titleMarginTop">
+                                        <span class="rTitle">电话：</span>
+                                        <span class="LStyle">{{userData.tel}}</span>
+                                    </div>
+                                    <div class="titleStyle titleMarginTop">
+                                        <span class="rTitle">注册时间：</span>
+                                        <span class="LStyle">{{userData.createTime}}</span>
+                                    </div>
+                                </div>
+                                <div v-show="nameZ" class="editBtn">
+                                    <el-button icon="el-icon-edit" circle style="margin-left: 1vw;"
+                                               @click="changeAccount"></el-button>
+                                </div>
                             </div>
-                            <div class="titleStyle titleMarginTop">
-                                <span class="rTitle">城市：</span>
-                                <span class="LStyle">{{userData.city}}</span>
-                            </div>
-                            <div class="titleStyle titleMarginTop">
-                                <span class="rTitle">区域：</span>
-                                <span class="LStyle">{{userData.area}}</span>
-                            </div>
-                            <div class="titleStyle titleMarginTop">
-                                <span class="rTitle">详细地址：</span>
-                                <span class="LStyle">{{userData.address}}</span>
+                        </el-card>
+                        <el-card shadow="hover" class="titleMarginTop3">
+                            <div @mouseout="nameA=false" @mouseover="nameA=true" class="float3">
+                                <div class="float2">
+                                    <div class="titleStyle titleMarginTop">
+                                        <span class="rTitle">省：</span>
+                                        <span class="LStyle">{{userData.province}}</span>
+                                    </div>
+                                    <div class="titleStyle titleMarginTop">
+                                        <span class="rTitle">城市：</span>
+                                        <span class="LStyle">{{userData.city}}</span>
+                                    </div>
+                                    <div class="titleStyle titleMarginTop">
+                                        <span class="rTitle">区域：</span>
+                                        <span class="LStyle">{{userData.area}}</span>
+                                    </div>
+                                    <div class="titleStyle titleMarginTop">
+                                        <span class="rTitle">详细地址：</span>
+                                        <span class="LStyle">{{userData.address}}</span>
+                                    </div>
+                                </div>
+                                <div v-show="nameA" class="editBtn">
+                                    <el-button icon="el-icon-edit" circle style="margin-left: 1vw;"
+                                               @click="changeAddress"></el-button>
+                                </div>
                             </div>
                         </el-card>
                         <el-card shadow="hover" class="titleMarginTop3" style="height: 15vh;">
-                            <div class="titleStyle">
-                                <span class="rTitle">个人简介：</span>
-                                <div style="padding-right: 3vh;">
-                                    <span class="LStyle">{{userData.description}}</span>
+                            <div @mouseout="nameJ=false" @mouseover="nameJ=true" class="float4">
+                                <div class="float2">
+                                    <div class="titleStyle2">
+                                        <span class="rTitle">个人简介：</span>
+                                        <div class="jjw">
+                                            <span class="LStyle">{{userData.description}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-show="nameJ" class="editBtn">
+                                    <el-button icon="el-icon-edit" circle style="margin-left: 1vw;"
+                                               @click="changeDescription"></el-button>
                                 </div>
                             </div>
                         </el-card>
@@ -136,15 +168,19 @@
     </div>
 </template>
 <script>
-    import {getLoginInfo, setUserName, changeImg,loginOut} from '../../utils/loginStatus'
+    import {changeImg, getLoginInfo, loginOut, setUserName} from '../../utils/loginStatus'
     import {queryUserInfo} from '../../api/login'
     import {formatTime} from '../../utils/formatUtils'
-    import {getHeaderList, changeHead} from '../../api/user'
+    import {changeHead, getHeaderList} from '../../api/user'
 
     export default {
         name: 'minContent',
         data() {
             return {
+                nameJ: false,
+                nameA: false,
+                nameZ: false,
+                nameM: false,
                 dialogVisible: false,
                 changeHeadLoading: false,
                 HIndex: 999,
@@ -174,6 +210,18 @@
             this.queryUserInfoMt();
         },
         methods: {
+            changeDescription() {
+                //修改简介
+            },
+            changeAddress() {
+                //修改地址信息
+            },
+            changeAccount() {
+                //修改账号信息
+            },
+            changeName() {
+                //修改名称、性别
+            },
             loginOutMtM() {
                 this.dialogVisible = false;
                 loginOut();
@@ -231,6 +279,46 @@
 
 </script>
 <style>
+    .editBtn {
+        position: absolute;
+        z-index: 7;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    .float1 {
+        position: relative;
+        width: 100%;
+        height: 14vh;
+    }
+
+    .float3 {
+        position: relative;
+        width: 100%;
+        height: 13vh;
+    }
+
+    .float4 {
+        position: relative;
+        width: 100%;
+        height: 13vh;
+    }
+
+    .float0 {
+        position: relative;
+        width: 100%;
+        height: 7vh;
+    }
+
+    .float2 {
+        position: absolute;
+        z-index: 6;
+        width: 100%;
+        height: 60px;
+    }
+
     .cb {
         border-radius: 10%;
         width: 100%;
@@ -382,7 +470,17 @@
 
     .titleStyle {
         display: flex;
+        align-items: center;
         flex-direction: row;
+    }
+
+    .titleStyle2 {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .jjw {
+        max-width: 45vw;
     }
 
 </style>
