@@ -54,6 +54,14 @@ export function loginOut() {
 }
 
 /**
+ * 修改头像
+ * @param img
+ */
+export function changeImg(img) {
+    window.localStorage.setItem(USER_IMG_KEY, img);
+}
+
+/**
  * 获取登录信息
  */
 export function getLoginInfo() {

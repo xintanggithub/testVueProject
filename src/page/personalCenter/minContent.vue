@@ -17,10 +17,10 @@
                                                     <el-card shadow="hover" class="headPop" style="margin: 2px;">
                                                         <div class="xk" style="position: relative;">
                                                             <img @mouseover="mouseover(index)" class="lu"
-                                                                 :src="header.img" style="z-index: 2;">
+                                                                 :src="header.head" style="z-index: 2;">
                                                             <div @mouseout="mouseout" v-show="HIndex===index"
-                                                                 style="border-radius: 10%;width: 100%;height: 100%;position:absolute;z-index: 3;display:flex;flex-direction: column-reverse;background-color: rgba(0,0,0,0.53)">
-                                                                <el-button @click="changeHead(header.img)"
+                                                                 class="cb">
+                                                                <el-button @click="changeHead(header.head)"
                                                                            :loading="changeHeadLoading">更换
                                                                 </el-button>
                                                             </div>
@@ -127,9 +127,10 @@
     </div>
 </template>
 <script>
-    import {getLoginInfo, setUserName} from '../../utils/loginStatus'
+    import {getLoginInfo, setUserName,changeImg} from '../../utils/loginStatus'
     import {queryUserInfo} from '../../api/login'
     import {formatTime} from '../../utils/formatUtils'
+    import {getHeaderList, changeHead} from '../../api/user'
 
     export default {
         name: 'minContent',
@@ -163,12 +164,23 @@
             this.queryUserInfoMt();
         },
         methods: {
-            changeHead(img) {
+            async changeHead(img) {
                 console.log('img ===>', img);
                 this.changeHeadLoading = true;
-                setTimeout(() => {
+                const params = {};
+                params["userId"] = getLoginInfo().id;
+                params["img"] = img;
+                await changeHead(params).then(data => {
+                    console.log("change ==> success");
                     this.changeHeadLoading = false;
-                },2000);
+                    this.userInfo.img = img;
+                    changeImg(img);
+                    this.queryUserInfoMt()
+                }).catch(error => {
+                    console.log("change ==> error");
+                    this.changeHeadLoading = false;
+
+                });
             },
             mouseout() {
                 this.HIndex = 999;
@@ -177,26 +189,15 @@
                 console.log('index ===>', index);
                 this.HIndex = index;
             },
-            showPop() {
+            async showPop() {
                 this.loadingPop = true;
-                setTimeout(() => {
+                await getHeaderList({}).then(data => {
                     this.loadingPop = false;
-                    this.headerList = [
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"},
-                        {img: "https://tsondy.club/header/2.jpg"}
-                    ]
-                }, 1000);
+                    this.headerList = data.data.data.lists;
+                    console.log("list ==> ", this.headerList)
+                }).catch(error => {
+                    this.loadingPop = false;
+                })
             },
             formatTime,
             async queryUserInfoMt() {
@@ -215,6 +216,17 @@
 
 </script>
 <style>
+    .cb {
+        border-radius: 10%;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 3;
+        display: flex;
+        flex-direction: column-reverse;
+        background-color: rgba(0, 0, 0, 0.53)
+    }
+
     .ap {
         height: 16vh;
         display: flex;
