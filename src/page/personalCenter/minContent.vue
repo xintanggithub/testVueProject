@@ -1,19 +1,38 @@
 <template>
     <div v-loading="loading">
-        <div style="width: 84vw;margin-left: 8vw;padding-top: 4vh;">
-            <div style="width: 100%;height: 81vh;box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.07);background-color: white;border-radius: 5px;">
+        <div class="jsd">
+            <div class="plo">
                 <!--head-->
                 <div class="topDiv">
                     <div style="height: auto;">
-                        <el-card shadow="hover" style="margin-left: 4.5vw;width:22vw;">
-                            <div style="display: flex;flex-direction: row;height: 20vh;">
+                        <el-card shadow="hover" class="mkj">
+                            <div class="ppi">
                                 <img :src="userInfo.img" class="headD"/>
-                                <div style="height: 20vh;display: flex;flex-direction: column;padding-left: 2vw;">
-                                    <div style="width: 6.8vw;display: flex;flex-direction: row-reverse;">
-                                        <el-button icon="el-icon-edit" circle></el-button>
+                                <div class="liy">
+                                    <div class="qer">
+                                        <el-popover placement="bottom" title="请选择新头像：" width="650" trigger="click">
+                                            <div v-loading="loadingPop" element-loading-text=" "
+                                                 element-loading-spinner="el-icon-loading" class="lh">
+                                                <div v-for="(header,index) in headerList" :key="index">
+                                                    <el-card shadow="hover" class="headPop" style="margin: 2px;">
+                                                        <div class="xk" style="position: relative;">
+                                                            <img @mouseover="mouseover(index)" class="lu"
+                                                                 :src="header.img" style="z-index: 2;">
+                                                            <div @mouseout="mouseout" v-show="HIndex===index"
+                                                                 style="border-radius: 10%;width: 100%;height: 100%;position:absolute;z-index: 3;display:flex;flex-direction: column-reverse;background-color: rgba(0,0,0,0.53)">
+                                                                <el-button @click="changeHead(header.img)"
+                                                                           :loading="changeHeadLoading">更换
+                                                                </el-button>
+                                                            </div>
+                                                        </div>
+                                                    </el-card>
+                                                </div>
+                                            </div>
+                                            <el-button slot="reference" icon="el-icon-edit" circle
+                                                       @click="showPop"></el-button>
+                                        </el-popover>
                                     </div>
-                                    <div style="height: 16vh;display: flex;flex-direction: column-reverse;font-size: 13px;"
-                                         class="textColor">
+                                    <div class="textColor ap">
                                         <div style="margin-top: 1vh;">
                                             点赞：9999
                                         </div>
@@ -26,7 +45,7 @@
                             </div>
                         </el-card>
                         <!--content-->
-                        <div style="height:40vh;width:25vw;margin-left: 6vh;display: flex;flex-direction: column;margin-top: 3vh;">
+                        <div class="tg">
                             <span style="margin-left: 1.5vw;">历史记录：</span>
                             <el-timeline style="margin-top: 1vh;margin-left:-1vw;width: 21vw;" reverse="false">
                                 <el-timeline-item
@@ -40,8 +59,7 @@
                                     </el-card>
                                 </el-timeline-item>
                             </el-timeline>
-                            <div v-show="historyList.length>=3" class="textColor"
-                                 style="justify-content: center;display: flex;flex-direction: row;">
+                            <div v-show="historyList.length>=3" class="textColor gf">
                                 <el-link type="info">更多历史 <i class="el-icon-arrow-down"></i></el-link>
                             </div>
                         </div>
@@ -117,6 +135,10 @@
         name: 'minContent',
         data() {
             return {
+                changeHeadLoading: false,
+                HIndex: 999,
+                loadingPop: false,
+                headerList: [],
                 loading: false,
                 userInfo: {},
                 userData: {},
@@ -141,6 +163,41 @@
             this.queryUserInfoMt();
         },
         methods: {
+            changeHead(img) {
+                console.log('img ===>', img);
+                this.changeHeadLoading = true;
+                setTimeout(() => {
+                    this.changeHeadLoading = false;
+                },2000);
+            },
+            mouseout() {
+                this.HIndex = 999;
+            },
+            mouseover(index) {
+                console.log('index ===>', index);
+                this.HIndex = index;
+            },
+            showPop() {
+                this.loadingPop = true;
+                setTimeout(() => {
+                    this.loadingPop = false;
+                    this.headerList = [
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"},
+                        {img: "https://tsondy.club/header/2.jpg"}
+                    ]
+                }, 1000);
+            },
             formatTime,
             async queryUserInfoMt() {
                 this.loading = true;
@@ -158,6 +215,87 @@
 
 </script>
 <style>
+    .ap {
+        height: 16vh;
+        display: flex;
+        flex-direction: column-reverse;
+        font-size: 13px;
+    }
+
+    .gf {
+        justify-content: center;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .tg {
+        height: 40vh;
+        width: 25vw;
+        margin-left: 6vh;
+        display: flex;
+        flex-direction: column;
+        margin-top: 3vh;
+    }
+
+    .lu {
+        width: 73px;
+        height: 73px;
+        border-radius: 10%;
+        margin: 5px;
+    }
+
+    .xk {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .lh {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap
+    }
+
+    .qer {
+        width: 6.8vw;
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    .liy {
+        height: 20vh;
+        display: flex;
+        flex-direction: column;
+        padding-left: 2vw;
+    }
+
+    .ppi {
+        display: flex;
+        flex-direction: row;
+        height: 20vh;
+    }
+
+    .mkj {
+        margin-left: 4.5vw;
+        width: 22vw;
+    }
+
+    .plo {
+        width: 100%;
+        height: 81vh;
+        box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.07);
+        background-color: white;
+        border-radius: 5px;
+    }
+
+    .jsd {
+        width: 84vw;
+        margin-left: 8vw;
+        padding-top: 4vh;
+    }
+
+    .headPop {
+        border-radius: 20%;
+    }
 
     .topDiv {
         padding-top: 6vh;
