@@ -178,7 +178,10 @@
         created() {
             //type 1 新增 2 编辑
             let type = this.$route.params.type;
-            console.log("type ===>  ", type)
+            console.log("type ===>  ", type);
+            //book id
+            let id = this.$route.params.id;
+            console.log("id ===>  ", id);
         },
         methods: {
             tipDialog() {
