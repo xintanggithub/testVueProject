@@ -96,11 +96,12 @@
                         <el-card shadow="hover" class="titleMarginTop3" style="height: 15vh;">
                             <div class="titleStyle">
                                 <span class="rTitle">个人简介：</span>
+                                <div style="padding-right: 3vh;">
+                                    <span class="LStyle">{{userData.description}}</span>
+                                </div>
                             </div>
                         </el-card>
-                        <div style="padding-right: 3vh;padding-bottom: 1vh;padding-top: 1vh;">
-                            <span class="LStyle">{{userData.description}}</span>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -217,7 +218,6 @@
     .titleStyle {
         display: flex;
         flex-direction: row;
-        align-items: center
     }
 
 </style>
