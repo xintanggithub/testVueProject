@@ -90,7 +90,7 @@
                                         </el-select>
                                     </div>
                                 </div>
-                                <div v-show="nameM" class="editBtn">
+                                <div v-show="nameM || showEditName" class="editBtn">
                                     <el-button :icon="showEditName?'el-icon-close':'el-icon-edit'" circle
                                                style="margin-left: 1vw;" @click="changeName"></el-button>
                                     <el-button v-show="showEditName" icon="el-icon-check" circle
@@ -114,16 +114,23 @@
                                     </div>
                                     <div class="titleStyle titleMarginTop">
                                         <span class="rTitle">电话：</span>
-                                        <span class="LStyle">{{userData.tel}}</span>
+                                        <span v-show="!showEditAccount" class="LStyle">{{userData.tel}}</span>
+                                        <el-input style="width: 15vw;" v-show="showEditAccount" type="text"
+                                                  :placeholder="userData.tel" v-model="changeInfo.tel"
+                                                  show-word-limit size="mini">
+                                        </el-input>
                                     </div>
                                     <div class="titleStyle titleMarginTop">
                                         <span class="rTitle">注册时间：</span>
                                         <span class="LStyle">{{userData.createTime}}</span>
                                     </div>
                                 </div>
-                                <div v-show="nameZ" class="editBtn">
-                                    <el-button icon="el-icon-edit" circle style="margin-left: 1vw;"
-                                               @click="changeAccount"></el-button>
+                                <div v-show="nameZ || showEditAccount" class="editBtn">
+                                    <el-button :icon="showEditAccount?'el-icon-close':'el-icon-edit'" circle
+                                               style="margin-left: 1vw;" @click="changeAccount"></el-button>
+                                    <el-button v-show="showEditAccount" icon="el-icon-check" circle
+                                               :loading="saveAccountLoading"
+                                               style="margin-left: 1vw;" @click="saveChangeAccount"></el-button>
                                 </div>
                             </div>
                         </el-card>
@@ -133,14 +140,19 @@
                             <div @mouseout="nameA=false" @mouseover="nameA=true" class="float3">
                                 <div class="float2">
                                     <div class="titleStyle titleMarginTop">
-                                        <span class="rTitle">省：</span>
-                                        <span class="LStyle">{{userData.province}}</span>
+                                        <span v-show="!showEditAddress" class="rTitle">省：</span>
+                                        <span v-show="showEditAddress" class="rTitle">省市区：</span>
+                                        <span v-show="!showEditAddress" class="LStyle">{{userData.province}}</span>
+                                        <el-cascader id="addressRef" v-show="showEditAddress"
+                                                     v-model="selectAddressValue" size="mini"
+                                                     :options="addressJson" @change="handleAddressChange"
+                                                     style="width: 20vw;"></el-cascader>
                                     </div>
-                                    <div class="titleStyle titleMarginTop">
+                                    <div v-show="!showEditAddress" class="titleStyle titleMarginTop">
                                         <span class="rTitle">城市：</span>
                                         <span class="LStyle">{{userData.city}}</span>
                                     </div>
-                                    <div class="titleStyle titleMarginTop">
+                                    <div v-show="!showEditAddress" class="titleStyle titleMarginTop">
                                         <span class="rTitle">区域：</span>
                                         <span class="LStyle">{{userData.area}}</span>
                                     </div>
@@ -149,9 +161,12 @@
                                         <span class="LStyle">{{userData.address}}</span>
                                     </div>
                                 </div>
-                                <div v-show="nameA" class="editBtn">
-                                    <el-button icon="el-icon-edit" circle style="margin-left: 1vw;"
-                                               @click="changeAddress"></el-button>
+                                <div v-show="nameA || showEditAddress" class="editBtn">
+                                    <el-button :icon="showEditAddress?'el-icon-close':'el-icon-edit'" circle
+                                               style="margin-left: 1vw;" @click="changeAddress"></el-button>
+                                    <el-button v-show="showEditAddress" icon="el-icon-check" circle
+                                               :loading="saveAddressLoading"
+                                               style="margin-left: 1vw;" @click="saveChangeAddress"></el-button>
                                 </div>
                             </div>
                         </el-card>
@@ -193,11 +208,19 @@
     import {formatTime} from '../../utils/formatUtils'
     import {changeHead, getHeaderList} from '../../api/user'
     import {changeUserInfo, getNameParams} from "~/api/user";
+    import axios from 'axios'
 
     export default {
         name: 'minContent',
         data() {
             return {
+                selectAddressValue: [],
+                addressJson: [],
+                jsonUrl: '../../../src/assets/json/address.json',
+                saveAddressLoading: false,
+                showEditAddress: false,
+                saveAccountLoading: false,
+                showEditAccount: false,
                 saveNameLoading: false,
                 showEditName: false,
                 nameJ: false,
@@ -210,40 +233,79 @@
                 loadingPop: false,
                 changeInfo: {
                     name: "",
-                    sex: ""
+                    sex: "",
+                    tel: "",
+                    province: "",
+                    city: "",
+                    area: "",
+                    address: ""
                 },
                 headerList: [],
                 loading: false,
-                sexOptions: [{
-                    value: '1',
-                    label: '男'
-                }, {
-                    value: '0',
-                    label: '女'
-                }],
+                sexOptions: [
+                    {
+                        value: '1',
+                        label: '男'
+                    }, {
+                        value: '0',
+                        label: '女'
+                    }
+                ],
                 userInfo: {},
                 userData: {},
-                historyList: [{
-                    type: "类型1",
-                    updateTime: 1578466191000,
-                    name: "记录1"
-                }, {
-                    type: "类型2",
-                    updateTime: 1578466191000,
-                    name: "记录2"
-                }, {
-                    type: "类型3",
-                    updateTime: 1578466191000,
-                    name: "记录3"
-                },]
+                historyList: [
+                    {
+                        type: "类型1",
+                        updateTime: 1578466191000,
+                        name: "记录1"
+                    }, {
+                        type: "类型2",
+                        updateTime: 1578466191000,
+                        name: "记录2"
+                    }, {
+                        type: "类型3",
+                        updateTime: 1578466191000,
+                        name: "记录3"
+                    }
+                ]
             }
         },
         created() {
             this.userInfo = getLoginInfo();
             console.log('userInfo ===>', this.userInfo);
+            axios.get(this.jsonUrl).then(res => {
+                this.addressJson = res.data;
+            });
             this.queryUserInfoMt();
         },
         methods: {
+            handleAddressChange(val) {
+                console.log("====address select=>", val);
+                let pid = val[0];
+                let cid = val[1];
+                let aid = val[2];
+                for (let index in this.addressJson) {
+                    let itemP = this.addressJson[index];
+                    if (itemP.value === pid) {
+                        this.changeInfo.province = itemP.label;
+                        let itemC = itemP.children;
+                        for (let index2 in itemC) {
+                            let itemAP = itemC[index2];
+                            if (itemAP.value === cid) {
+                                this.changeInfo.city = itemAP.label;
+                                let itemA = itemAP.children;
+                                for (let index3 in itemA) {
+                                    let itemAc = itemA[index3];
+                                    if (itemAc.value === aid) {
+                                        this.changeInfo.area = itemAc.label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                console.log("changeInfo ====> select ==> ", this.changeInfo)
+            },
             changeDescription() {
                 //修改简介
                 // changeUserInfo
@@ -253,8 +315,22 @@
                 //修改地址信息
                 // changeUserInfo
                 //getAddressParams
+                this.showEditAddress = !this.showEditAddress;
+                if (this.showEditAddress) {
+                } else {
+                    this.selectAddressValue = [];
+                }
+            },
+            saveChangeAddress() {
+
             },
             changeAccount() {
+                this.showEditAccount = !this.showEditAccount;
+                if (this.showEditAccount) {
+                    this.changeInfo.tel = "";
+                }
+            },
+            async saveChangeAccount() {
                 //修改账号信息
                 // changeUserInfo
                 //getAccountParams
