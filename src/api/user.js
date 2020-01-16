@@ -43,7 +43,9 @@ export function getNameParams(userId, userName, sex) {
     const params = {};
     params["userId"] = userId;
     params["userName"] = userName;
-    params["sex"] = sex;
+    if (sex) {
+        params["sex"] = sex;
+    }
     return params
 }
 
@@ -70,10 +72,14 @@ export function getAccountParams(userId, tel) {
 export function getAddressParams(userId, province, city, area, address) {
     const params = {};
     params["userId"] = userId;
-    params["province"] = province;
-    params["city"] = city;
-    params["area"] = area;
-    params["address"] = address;
+    if (province !== null && province !== "" && province !== undefined) {
+        params["province"] = province;
+        params["city"] = city;
+        params["area"] = area;
+    }
+    if (address !== null && address !== "" && address !== undefined) {
+        params["address"] = address;
+    }
     return params
 }
 

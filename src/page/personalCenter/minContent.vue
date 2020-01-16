@@ -158,7 +158,9 @@
                                     </div>
                                     <div class="titleStyle titleMarginTop">
                                         <span class="rTitle">详细地址：</span>
-                                        <span class="LStyle">{{userData.address}}</span>
+                                        <span v-show="!showEditAddress" class="LStyle">{{userData.address}}</span>
+                                        <el-input size="mini" v-model="changeInfo.address" style="width: 15vw;"
+                                                  v-show="showEditAddress" :placeholder="userData.address"></el-input>
                                     </div>
                                 </div>
                                 <div v-show="nameA || showEditAddress" class="editBtn">
@@ -207,7 +209,7 @@
     import {queryUserInfo} from '../../api/login'
     import {formatTime} from '../../utils/formatUtils'
     import {changeHead, getHeaderList} from '../../api/user'
-    import {changeUserInfo, getNameParams} from "~/api/user";
+    import {changeUserInfo, getAccountParams, getAddressParams, getNameParams} from "~/api/user";
     import axios from 'axios'
 
     export default {
@@ -312,17 +314,53 @@
                 //getDescriptionParams
             },
             changeAddress() {
-                //修改地址信息
-                // changeUserInfo
-                //getAddressParams
                 this.showEditAddress = !this.showEditAddress;
                 if (this.showEditAddress) {
                 } else {
                     this.selectAddressValue = [];
+                    this.changeInfo.province = "";
+                    this.changeInfo.city = "";
+                    this.changeInfo.area = "";
+                    this.changeInfo.address = "";
                 }
             },
-            saveChangeAddress() {
-
+            async saveChangeAddress() {
+                //修改地址信息
+                if (this.changeInfo.province === "" && this.changeInfo.city === "" && this.changeInfo.area === ""
+                    && this.changeInfo.address === "") {
+                    //如果都为空，说明没有修改
+                    this.$notify({
+                        title: '警告',
+                        message: '无修改内容',
+                        type: 'warning',
+                        duration: 2000
+                    });
+                } else {
+                    this.saveAddressLoading = true;
+                    let changeAddressParams = getAddressParams(this.userInfo.id, this.changeInfo.province,
+                        this.changeInfo.city, this.changeInfo.area, this.changeInfo.address);
+                    console.log("changeAddressParams==>", changeAddressParams);
+                    await changeUserInfo(changeAddressParams).then(() => {
+                        this.selectAddressValue = [];
+                        this.changeInfo.province = "";
+                        this.changeInfo.city = "";
+                        this.changeInfo.area = "";
+                        this.changeInfo.address = "";
+                        if (changeAddressParams.province) {
+                            this.userData.province = changeAddressParams.province;
+                            this.userData.city = changeAddressParams.city;
+                            this.userData.area = changeAddressParams.area;
+                        }
+                        if (changeAddressParams.address) {
+                            this.userData.address = changeAddressParams.address;
+                        }
+                        this.saveAddressLoading = false;
+                        this.showEditAddress = false;
+                    }).catch(() => {
+                        this.saveAddressLoading = false;
+                        this.showEditAddress = false;
+                    })
+                }
             },
             changeAccount() {
                 this.showEditAccount = !this.showEditAccount;
@@ -332,8 +370,27 @@
             },
             async saveChangeAccount() {
                 //修改账号信息
-                // changeUserInfo
-                //getAccountParams
+                if (this.changeInfo.tel) {
+                    this.saveAccountLoading = true;
+                    let accountParams = getAccountParams(this.userInfo.id, this.changeInfo.tel);
+                    console.log("changeAccountParams==>", accountParams);
+                    await changeUserInfo(accountParams).then(data => {
+                        this.userData.tel = accountParams.tel;
+                        this.changeInfo.tel = "";
+                        this.saveAccountLoading = false;
+                        this.showEditAccount = false;
+                    }).catch(error => {
+                        this.saveAccountLoading = false;
+                        this.showEditAccount = false;
+                    });
+                } else {
+                    this.$notify({
+                        title: '警告',
+                        message: '没有填写电话',
+                        type: 'warning',
+                        duration: 2000
+                    });
+                }
             },
             changeName() {
                 this.showEditName = !this.showEditName;
