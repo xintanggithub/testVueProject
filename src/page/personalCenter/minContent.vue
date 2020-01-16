@@ -39,7 +39,7 @@
                                             被赞：{{startCount}}
                                         </div>
                                         <div>
-                                            笔记：9999
+                                            笔记：{{bookCount}}
                                         </div>
                                     </div>
 
@@ -214,17 +214,20 @@
     </div>
 </template>
 <script>
+
+    import axios from 'axios'
     import {changeImg, getLoginInfo, loginOut, setUserName} from '../../utils/loginStatus'
     import {queryUserInfo} from '../../api/login'
     import {formatTime} from '../../utils/formatUtils'
     import {changeHead, getHeaderList, queryStarCount} from '../../api/user'
     import {changeUserInfo, getAccountParams, getAddressParams, getDescriptionParams, getNameParams} from "~/api/user";
-    import axios from 'axios'
+    import {queryBookByUser2,queryBookByUserParams} from '../../api/book'
 
     export default {
         name: 'minContent',
         data() {
             return {
+                bookCount: 0,
                 startCount: 0,
                 saveDescriptionLoading: false,
                 showEditDescription: false,
@@ -293,8 +296,15 @@
             });
             this.queryUserInfoMt();
             this.queryStarCountMt();
+            this.queryBookCount();
         },
         methods: {
+            async queryBookCount() {
+                let params = queryBookByUserParams("", 2, 1, 1);
+                await queryBookByUser2(params).then(data => {
+                    this.bookCount = data.data.data.totalCount;
+                })
+            },
             async queryStarCountMt() {
                 let params = {};
                 params["userId"] = this.userInfo.id;
