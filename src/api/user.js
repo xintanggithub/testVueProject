@@ -34,6 +34,18 @@ export function changeUserInfo(params) {
 }
 
 /**
+ * 查询评星数量
+ * @param params
+ */
+export function queryStarCount(params) {
+    return request({
+        url: `api/v1/star/queryBStar`,
+        method: 'get',
+        params
+    })
+}
+
+/**
  * 修改用户名相关
  * @param userId 用户ID
  * @param userName 用户名

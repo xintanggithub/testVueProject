@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="textColor ap">
                                         <div style="margin-top: 1vh;">
-                                            点赞：9999
+                                            被赞：{{startCount}}
                                         </div>
                                         <div>
                                             笔记：9999
@@ -217,7 +217,7 @@
     import {changeImg, getLoginInfo, loginOut, setUserName} from '../../utils/loginStatus'
     import {queryUserInfo} from '../../api/login'
     import {formatTime} from '../../utils/formatUtils'
-    import {changeHead, getHeaderList} from '../../api/user'
+    import {changeHead, getHeaderList, queryStarCount} from '../../api/user'
     import {changeUserInfo, getAccountParams, getAddressParams, getDescriptionParams, getNameParams} from "~/api/user";
     import axios from 'axios'
 
@@ -225,6 +225,7 @@
         name: 'minContent',
         data() {
             return {
+                startCount: 0,
                 saveDescriptionLoading: false,
                 showEditDescription: false,
                 selectAddressValue: [],
@@ -291,8 +292,18 @@
                 this.addressJson = res.data;
             });
             this.queryUserInfoMt();
+            this.queryStarCountMt();
         },
         methods: {
+            async queryStarCountMt() {
+                let params = {};
+                params["userId"] = this.userInfo.id;
+                await queryStarCount(params).then(data => {
+                    this.startCount = data.data.data;
+                }).catch(() => {
+                    console.log("start error")
+                });
+            },
             handleAddressChange(val) {
                 console.log("====address select=>", val);
                 let pid = val[0];
