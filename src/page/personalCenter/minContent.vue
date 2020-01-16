@@ -62,7 +62,7 @@
                                 </el-timeline-item>
                             </el-timeline>
                             <div v-show="historyList.length>=3" class="textColor gf">
-                                <el-link type="info">更多历史 <i class="el-icon-arrow-down"></i></el-link>
+                                <el-link type="info">更多记录 <i class="el-icon-arrow-down"></i></el-link>
                             </div>
                         </div>
                     </div>
@@ -176,17 +176,26 @@
                         <!--description-->
                         <el-card shadow="hover" class="titleMarginTop3" style="height: 15vh;">
                             <div @mouseout="nameJ=false" @mouseover="nameJ=true" class="float4">
-                                <div class="float2">
+                                <div class="float5">
                                     <div class="titleStyle2">
-                                        <span class="rTitle">个人简介：</span>
+                                        <span class="rTitle2">个人简介：</span>
                                         <div class="jjw">
-                                            <span class="LStyle"></span>
+                                            <span v-show="!showEditDescription"
+                                                  class="LStyle">{{userData.description}}</span>
+                                            <el-input v-show="showEditDescription" type="textarea"
+                                                      :placeholder="userData.description"
+                                                      style="width: 38vw;" rows="4"
+                                                      v-model="changeInfo.description" maxlength="150" show-word-limit>
+                                            </el-input>
                                         </div>
                                     </div>
                                 </div>
-                                <div v-show="nameJ" class="editBtn">
-                                    <el-button icon="el-icon-edit" circle style="margin-left: 1vw;"
-                                               @click="changeDescription"></el-button>
+                                <div v-show="nameJ || showEditDescription" class="editBtn">
+                                    <el-button :icon="showEditDescription?'el-icon-close':'el-icon-edit'" circle
+                                               style="margin-left: 1vw;" @click="changeDescription"></el-button>
+                                    <el-button v-show="showEditDescription" icon="el-icon-check" circle
+                                               :loading="saveDescriptionLoading"
+                                               style="margin-left: 1vw;" @click="saveChangeDescription"></el-button>
                                 </div>
                             </div>
                         </el-card>
@@ -209,13 +218,15 @@
     import {queryUserInfo} from '../../api/login'
     import {formatTime} from '../../utils/formatUtils'
     import {changeHead, getHeaderList} from '../../api/user'
-    import {changeUserInfo, getAccountParams, getAddressParams, getNameParams} from "~/api/user";
+    import {changeUserInfo, getAccountParams, getAddressParams, getDescriptionParams, getNameParams} from "~/api/user";
     import axios from 'axios'
 
     export default {
         name: 'minContent',
         data() {
             return {
+                saveDescriptionLoading: false,
+                showEditDescription: false,
                 selectAddressValue: [],
                 addressJson: [],
                 jsonUrl: '../../../src/assets/json/address.json',
@@ -240,7 +251,8 @@
                     province: "",
                     city: "",
                     area: "",
-                    address: ""
+                    address: "",
+                    description: ""
                 },
                 headerList: [],
                 loading: false,
@@ -309,9 +321,36 @@
                 console.log("changeInfo ====> select ==> ", this.changeInfo)
             },
             changeDescription() {
+                this.showEditDescription = !this.showEditDescription;
+                if (!this.showEditDescription) {
+                    this.changeInfo.description = "";
+                }
+            },
+            async saveChangeDescription() {
                 //修改简介
-                // changeUserInfo
-                //getDescriptionParams
+                if (this.changeInfo.description) {
+                    this.saveDescriptionLoading = true;
+                    let descriptionParams = getDescriptionParams(this.userInfo.id, this.changeInfo.description);
+                    console.log("descriptionParams==>", descriptionParams);
+                    await changeUserInfo(descriptionParams).then(() => {
+                        if (descriptionParams.description) {
+                            this.userData.description = descriptionParams.description;
+                        }
+                        this.changeInfo.description = "";
+                        this.saveDescriptionLoading = false;
+                        this.showEditDescription = false;
+                    }).catch(() => {
+                        this.saveDescriptionLoading = false;
+                        this.showEditDescription = false;
+                    });
+                } else {
+                    this.$notify({
+                        title: '警告',
+                        message: '无修改内容',
+                        type: 'warning',
+                        duration: 2000
+                    });
+                }
             },
             changeAddress() {
                 this.showEditAddress = !this.showEditAddress;
@@ -375,7 +414,9 @@
                     let accountParams = getAccountParams(this.userInfo.id, this.changeInfo.tel);
                     console.log("changeAccountParams==>", accountParams);
                     await changeUserInfo(accountParams).then(data => {
-                        this.userData.tel = accountParams.tel;
+                        if (accountParams.tel) {
+                            this.userData.tel = accountParams.tel;
+                        }
                         this.changeInfo.tel = "";
                         this.saveAccountLoading = false;
                         this.showEditAccount = false;
@@ -405,9 +446,13 @@
                 let params = getNameParams(this.userInfo.id, this.changeInfo.name, this.changeInfo.sex === "男" ? 1 : 0);
                 console.log("saveChangeName  params => ", params);
                 await changeUserInfo(params).then(data => {
-                    this.userData.sex = params.sex;
-                    this.userData.userName = params.userName;
-                    setUserName(params.userName);
+                    if (params.sex) {
+                        this.userData.sex = params.sex;
+                    }
+                    if (params.userName) {
+                        this.userData.userName = params.userName;
+                        setUserName(params.userName);
+                    }
                     this.changeInfo.sex = "";
                     this.changeInfo.name = "";
                     this.showEditName = false;
@@ -511,6 +556,13 @@
         position: absolute;
         z-index: 6;
         width: 80%;
+        height: 60px;
+    }
+
+    .float5 {
+        position: absolute;
+        z-index: 6;
+        width: 85%;
         height: 60px;
     }
 
@@ -638,6 +690,11 @@
     }
 
     .rTitle {
+        font-size: 0.9rem;
+    }
+
+    .rTitle2 {
+        width: 5vw;
         font-size: 0.9rem;
     }
 
