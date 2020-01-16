@@ -67,24 +67,40 @@
                         </div>
                     </div>
                     <div class="titleD" style="width: 63%;">
+                        <!--name-->
                         <el-card shadow="hover">
                             <div @mouseout="nameM=false" @mouseover="nameM=true" class="float0">
                                 <div class="float2">
                                     <div class="titleStyle" style="width: 100%;">
                                         <span class="rTitle">昵称：</span>
-                                        <span class="names">{{userData.userName}}</span>
+                                        <span v-show="!showEditName" class="names">{{userData.userName}}</span>
+                                        <el-input style="width: 15vw;" v-show="showEditName" type="text"
+                                                  :placeholder="userData.userName" v-model="changeInfo.name"
+                                                  maxlength="12" show-word-limit size="small">
+                                        </el-input>
                                     </div>
                                     <div class="titleStyle titleMarginTop">
                                         <span class="rTitle">性别：</span>
-                                        <span class="LStyle">{{userData.sex===1?'男':'女'}}</span>
+                                        <span v-show="!showEditName" class="LStyle">{{userData.sex===1?'男':'女'}}</span>
+                                        <el-select v-show="showEditName" v-model="changeInfo.sex"
+                                                   :placeholder="userData.sex===1?'男':'女'" value=""
+                                                   style="width: 6vw;" size="mini">
+                                            <el-option v-for="item in sexOptions" :key="item.value" :label="item.label"
+                                                       :value="item.value"></el-option>
+                                        </el-select>
                                     </div>
                                 </div>
                                 <div v-show="nameM" class="editBtn">
-                                    <el-button icon="el-icon-edit" circle style="margin-left: 1vw;"
-                                               @click="changeName"></el-button>
+                                    <el-button :icon="showEditName?'el-icon-close':'el-icon-edit'" circle
+                                               style="margin-left: 1vw;" @click="changeName"></el-button>
+                                    <el-button v-show="showEditName" icon="el-icon-check" circle
+                                               :loading="saveNameLoading"
+                                               style="margin-left: 1vw;" @click="saveChangeName"></el-button>
                                 </div>
                             </div>
                         </el-card>
+
+                        <!--account-->
                         <el-card shadow="hover" class="titleMarginTop3">
                             <div @mouseout="nameZ=false" @mouseover="nameZ=true" class="float1">
                                 <div class="float2">
@@ -111,6 +127,8 @@
                                 </div>
                             </div>
                         </el-card>
+
+                        <!--address-->
                         <el-card shadow="hover" class="titleMarginTop3">
                             <div @mouseout="nameA=false" @mouseover="nameA=true" class="float3">
                                 <div class="float2">
@@ -137,13 +155,15 @@
                                 </div>
                             </div>
                         </el-card>
+
+                        <!--description-->
                         <el-card shadow="hover" class="titleMarginTop3" style="height: 15vh;">
                             <div @mouseout="nameJ=false" @mouseover="nameJ=true" class="float4">
                                 <div class="float2">
                                     <div class="titleStyle2">
                                         <span class="rTitle">个人简介：</span>
                                         <div class="jjw">
-                                            <span class="LStyle">{{userData.description}}</span>
+                                            <span class="LStyle"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -172,11 +192,14 @@
     import {queryUserInfo} from '../../api/login'
     import {formatTime} from '../../utils/formatUtils'
     import {changeHead, getHeaderList} from '../../api/user'
+    import {changeUserInfo, getNameParams} from "~/api/user";
 
     export default {
         name: 'minContent',
         data() {
             return {
+                saveNameLoading: false,
+                showEditName: false,
                 nameJ: false,
                 nameA: false,
                 nameZ: false,
@@ -185,8 +208,19 @@
                 changeHeadLoading: false,
                 HIndex: 999,
                 loadingPop: false,
+                changeInfo: {
+                    name: "",
+                    sex: ""
+                },
                 headerList: [],
                 loading: false,
+                sexOptions: [{
+                    value: '1',
+                    label: '男'
+                }, {
+                    value: '0',
+                    label: '女'
+                }],
                 userInfo: {},
                 userData: {},
                 historyList: [{
@@ -226,9 +260,29 @@
                 //getAccountParams
             },
             changeName() {
+                this.showEditName = !this.showEditName;
+                if (this.showEditName) {
+                    this.changeInfo.sex = "";
+                    this.changeInfo.name = "";
+                }
+            },
+            async saveChangeName() {
                 //修改名称、性别
-                // changeUserInfo
-                // getNameParams
+                this.saveNameLoading = true;
+                let params = getNameParams(this.userInfo.id, this.changeInfo.name, this.changeInfo.sex === "男" ? 1 : 0);
+                console.log("saveChangeName  params => ", params);
+                await changeUserInfo(params).then(data => {
+                    this.userData.sex = params.sex;
+                    this.userData.userName = params.userName;
+                    setUserName(params.userName);
+                    this.changeInfo.sex = "";
+                    this.changeInfo.name = "";
+                    this.showEditName = false;
+                    this.saveNameLoading = false;
+                }).catch(error => {
+                    this.showEditName = false;
+                    this.saveNameLoading = false;
+                })
             },
             loginOutMtM() {
                 this.dialogVisible = false;
@@ -289,7 +343,7 @@
 <style>
     .editBtn {
         position: absolute;
-        z-index: 7;
+        z-index: 5;
         width: 100%;
         height: auto;
         display: flex;
@@ -323,7 +377,7 @@
     .float2 {
         position: absolute;
         z-index: 6;
-        width: 100%;
+        width: 80%;
         height: 60px;
     }
 
