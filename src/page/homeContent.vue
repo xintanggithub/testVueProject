@@ -1,7 +1,6 @@
 <template>
     <div style="display: flex;flex-direction: column;">
         tab content--->
-        <el-button @click="edit">edit</el-button>
         <el-button @click="queryDetail">queryDetail</el-button>
     </div>
 </template>
