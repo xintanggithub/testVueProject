@@ -55,7 +55,7 @@
                                         v-for="(history, index) in historyList"
                                         :key="index">
                                     <el-card shadow="hover" style="height: 9vh;">
-                                        <el-link type="info" class="titleDDD">
+                                        <el-link type="info" class="titleDDD" @click="historyClick(history)">
                                             <el-tag effect="plain" size="mini" style="margin-right: 10px;">
                                                 {{history.type}}
                                             </el-tag>
@@ -233,6 +233,7 @@
     import {changeUserInfo, getAccountParams, getAddressParams, getDescriptionParams, getNameParams} from "~/api/user";
     import {queryBookByUser2, queryBookByUserParams} from '../../api/book'
     import {getHistoryParamsByUser, queryHistoryList} from '../../api/history'
+    import {queryBookByUserParams2} from "~/api/book";
 
     export default {
         name: 'minContent',
@@ -298,6 +299,14 @@
             this.queryHistoryList();
         },
         methods: {
+            historyClick(history) {
+                this.$router.push({
+                    name: 'detail',
+                    params: {
+                        id: history.businessId
+                    }
+                });
+            },
             async queryHistoryList() {
                 this.loadingHistory = true;
                 let params = getHistoryParamsByUser(this.userInfo.id, 1, 3);
@@ -309,7 +318,7 @@
                 })
             },
             async queryBookCount() {
-                let params = queryBookByUserParams("", 2, 1, 1);
+                let params = queryBookByUserParams2(this.userInfo.id, "", 2, 1, 1);
                 await queryBookByUser2(params).then(data => {
                     this.bookCount = data.data.data.totalCount;
                 })

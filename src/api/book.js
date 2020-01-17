@@ -12,6 +12,18 @@ export function queryBookByUserParams(keyword, openType, page, pageSize) {
     return params
 }
 
+export function queryBookByUserParams2(userId, keyword, openType, page, pageSize) {
+    const params = {};
+    params['userId'] = userId;
+    if (keyword !== "" && keyword !== null && keyword !== undefined) {
+        params['keyword'] = keyword;
+    }
+    params['openType'] = openType;
+    params['page'] = page;
+    params['pageSize'] = pageSize;
+    return params
+}
+
 /**
  * 获取列表
  * @param params
@@ -54,6 +66,17 @@ export function queryBookBySplash(params) {
 export function queryBookBySplash2(params) {
     return request2({
         url: `api/v1/book/queryBooksBySplash`,
+        method: 'get',
+        params
+    })
+}
+
+/**
+ * 获取详情
+ */
+export function queryBookByUserIdAndBookId(params) {
+    return request({
+        url: `api/v1/book/queryBook`,
         method: 'get',
         params
     })

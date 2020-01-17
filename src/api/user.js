@@ -1,6 +1,17 @@
 import request from '../utils/request'
 
 /**
+ * 获取用户信息
+ */
+export function queryUserInfo(params) {
+    return request({
+        url: `api/v1/user/queryUserById`,
+        method: 'get',
+        params
+    })
+}
+
+/**
  * 获取头像列表
  */
 export function getHeaderList(params) {
