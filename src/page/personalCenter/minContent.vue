@@ -4,7 +4,7 @@
             <div class="plo">
                 <!--head-->
                 <div class="topDiv">
-                    <div style="height: auto;">
+                    <div style="height: auto;margin-top: -1vh;">
                         <el-card shadow="hover" class="mkj">
                             <div class="ppi">
                                 <img :src="userInfo.img" class="headD"/>
@@ -54,9 +54,8 @@
                                 <el-timeline-item
                                         v-for="(history, index) in historyList"
                                         :key="index">
-                                    <el-card shadow="hover">
-                                        <el-link type="info"
-                                                 style="width: 18vw;overflow: hidden;text-overflow: ellipsis;display: block;white-space: nowrap;">
+                                    <el-card shadow="hover" style="height: 9vh;">
+                                        <el-link type="info" class="titleDDD">
                                             <el-tag effect="plain" size="mini" style="margin-right: 10px;">
                                                 {{history.type}}
                                             </el-tag>
@@ -77,7 +76,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="titleD" style="width: 63%;">
+                    <div class="titleD" style="width: 63%;margin-top: -1vh;">
                         <!--name-->
                         <el-card shadow="hover">
                             <div @mouseout="nameM=false" @mouseover="nameM=true" class="float0">
@@ -550,6 +549,15 @@
 
 </script>
 <style>
+    .titleDDD {
+        width: 18vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        white-space: nowrap;
+        margin-top: -0.8vh;
+    }
+
     .editBtn {
         position: absolute;
         z-index: 5;
