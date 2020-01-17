@@ -1,10 +1,10 @@
 <template>
     <div>
         <!-- tab -->
-        <div class="tabDivStyle">
-            <div class="tabMasterStyle">
+        <div class="tabDivStyleDetail">
+            <div class="tabMasterStyleHome">
                 <div style="position: absolute;z-index: 98;">
-                    <el-menu class="elMenuStyle" :default-active="activeIndex" mode="horizontal"
+                    <el-menu class="elMenuStyleDetail" :default-active="activeIndex" mode="horizontal"
                              @select="handleSelect"
                              background-color="#fff"
                              text-color="#000"
@@ -14,8 +14,8 @@
                         <el-menu-item index="3">笔记</el-menu-item>
                     </el-menu>
                 </div>
-                <div class="logo">
-                    <img src="../res/img/logo_icon.png" class="logoIcon"/>
+                <div class="logoHome">
+                    <img src="../res/img/logo_icon.png" class="logoIconHome"/>
                 </div>
                 <my-user></my-user>
             </div>
@@ -28,6 +28,7 @@
     </div>
 </template>
 <script>
+
     import myFooter from './common_component/foot/footer'
     import myUser from './common_component/user/myUser'
 
@@ -69,12 +70,12 @@
         margin-top: 7vh;
     }
 
-    .logoIcon {
+    .logoIconHome {
         max-height: 4.5vh;
         margin-top: 0.4vh;
     }
 
-    .logo {
+    .logoHome {
         width: auto;
         height: auto;
         position: absolute;
@@ -82,14 +83,14 @@
         margin-left: 8vw;
     }
 
-    .tabMasterStyle {
+    .tabMasterStyleHome {
         position: relative;
         height: auto;
         display: flex;
         align-items: center;
     }
 
-    .tabDivStyle {
+    .tabDivStyleDetail {
         width: 100vw;
         height: 9vh;
         display: flex;
@@ -99,7 +100,7 @@
         top: 0;
     }
 
-    .elMenuStyle {
+    .elMenuStyleDetail {
         width: 100vw;
         padding-left: 18vw;
     }

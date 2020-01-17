@@ -1,15 +1,15 @@
 <template>
     <div>
-        <div class="editTop2">
-            <div class="editLog" @click="goHome">
-                <img src="../../../res/img/logo_icon.png" class="logoIcon"/>
+        <div class="editTopDetail2">
+            <div class="editLogDetail" @click="goHome">
+                <img src="../../../res/img/logo_icon.png" class="logoIconDetail"/>
             </div>
-            <div class="titles">
+            <div class="titlesDetail">
                 <span style="font-size: 18px;color: black;">标题：001</span>
             </div>
             <my-user hideLoginOut></my-user>
         </div>
-        <div class="editContent" style="background-color: antiquewhite;margin-top: -10px;">
+        <div class="editContentDetail" style="background-color: antiquewhite;margin-top: -10px;">
 
         </div>
         <!--<mavon-editor :value="mdValue" :subfield="false" :defaultOpen="'preview'" :toolbarsFlag="false"-->
@@ -43,7 +43,7 @@
     }
 </script>
 <style>
-    .titles {
+    .titlesDetail {
         margin-left: 3.7vw;
         width: 55vw;
         max-lines: 2;
@@ -56,7 +56,7 @@
         word-break: break-all;
     }
 
-    .editTop2 {
+    .editTopDetail2 {
         width: 100vw;
         height: 9vh;
         display: flex;
@@ -65,19 +65,19 @@
         background-color: white;
     }
 
-    .editContent {
+    .editContentDetail {
         width: 100%;
         height: 89.1vh;
         display: flex;
         flex-direction: row;
     }
 
-    .logoIcon {
+    .logoIconDetail {
         max-height: 4.5vh;
         margin-top: 0.4vh;
     }
 
-    .editLog {
+    .editLogDetail {
         margin-left: 8vw;
     }
 </style>
