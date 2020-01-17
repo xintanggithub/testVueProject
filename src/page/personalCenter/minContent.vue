@@ -49,18 +49,29 @@
                         <!--content-->
                         <div class="tg">
                             <span style="margin-left: 1.5vw;">历史记录：</span>
-                            <el-timeline style="margin-top: 1vh;margin-left:-1vw;width: 21vw;" reverse="false">
+                            <el-timeline v-show="historyList.length>0"
+                                         style="margin-top: 1vh;margin-left:-1vw;width: 21.9vw;" reverse="false">
                                 <el-timeline-item
                                         v-for="(history, index) in historyList"
                                         :key="index">
                                     <el-card shadow="hover">
-                                        <el-tag effect="plain" size="mini">{{history.type}}</el-tag>
-                                        <el-link type="info">{{history.name}}</el-link>
+                                        <el-link type="info"
+                                                 style="width: 18vw;overflow: hidden;text-overflow: ellipsis;display: block;white-space: nowrap;">
+                                            <el-tag effect="plain" size="mini" style="margin-right: 10px;">
+                                                {{history.type}}
+                                            </el-tag>
+                                            {{history.businessName}}
+                                        </el-link>
                                         <br/>
                                         <span class="textColor margin1">{{formatTime(history.updateTime)}}</span>
                                     </el-card>
                                 </el-timeline-item>
                             </el-timeline>
+                            <div v-show="historyList.length<=0"
+                                 style="width: 21.9vw;display: flex;flex-direction: row;justify-content: center;height: 8vh;padding-top: 8vh;">
+                                <i v-show="loadingHistory" class="el-icon-loading"></i>
+                                {{loadingHistory?'加载中...':'暂无数据'}}
+                            </div>
                             <div v-show="historyList.length>=3" class="textColor gf">
                                 <el-link type="info">更多记录 <i class="el-icon-arrow-down"></i></el-link>
                             </div>
@@ -221,12 +232,14 @@
     import {formatTime} from '../../utils/formatUtils'
     import {changeHead, getHeaderList, queryStarCount} from '../../api/user'
     import {changeUserInfo, getAccountParams, getAddressParams, getDescriptionParams, getNameParams} from "~/api/user";
-    import {queryBookByUser2,queryBookByUserParams} from '../../api/book'
+    import {queryBookByUser2, queryBookByUserParams} from '../../api/book'
+    import {getHistoryParamsByUser, queryHistoryList} from '../../api/history'
 
     export default {
         name: 'minContent',
         data() {
             return {
+                loadingHistory: true,
                 bookCount: 0,
                 startCount: 0,
                 saveDescriptionLoading: false,
@@ -271,21 +284,7 @@
                 ],
                 userInfo: {},
                 userData: {},
-                historyList: [
-                    {
-                        type: "类型1",
-                        updateTime: 1578466191000,
-                        name: "记录1"
-                    }, {
-                        type: "类型2",
-                        updateTime: 1578466191000,
-                        name: "记录2"
-                    }, {
-                        type: "类型3",
-                        updateTime: 1578466191000,
-                        name: "记录3"
-                    }
-                ]
+                historyList: []
             }
         },
         created() {
@@ -297,8 +296,19 @@
             this.queryUserInfoMt();
             this.queryStarCountMt();
             this.queryBookCount();
+            this.queryHistoryList();
         },
         methods: {
+            async queryHistoryList() {
+                this.loadingHistory = true;
+                let params = getHistoryParamsByUser(this.userInfo.id, 1, 3);
+                await queryHistoryList(params).then(data => {
+                    this.historyList = data.data.data.lists;
+                    this.loadingHistory = false;
+                }).catch(() => {
+                    this.loadingHistory = false;
+                })
+            },
             async queryBookCount() {
                 let params = queryBookByUserParams("", 2, 1, 1);
                 await queryBookByUser2(params).then(data => {
