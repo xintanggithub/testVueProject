@@ -4,28 +4,71 @@
             <div class="editLogDetail" @click="goHome">
                 <img src="../../../res/img/logo_icon.png" class="logoIconDetail"/>
             </div>
-            <div class="titlesDetail">
-                <span style="font-size: 18px;color: black;">标题：001</span>
+            <div style="display: flex;flex-direction: column;">
+                <div class="titlesDetail">
+                    <span style="font-size: 18px;color: black;">标题：001</span>
+                </div>
+                <div style="width: 100%;height:3%;display: flex;flex-direction: row;margin-top: 1%;margin-left: 1vw;">
+                    <i v-show="detailInfo.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
+                    <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''" :key="index"
+                            v-for="(tag,index) in loadTag(detailInfo.img)" :disable-transitions="false">
+                        <i v-show="index===0" class="el-icon-collection-tag"></i>
+                        {{tag}}
+                    </el-tag>
+                </div>
             </div>
             <my-user hideLoginOut></my-user>
         </div>
         <div class="editContentDetail" v-loading="loading">
-            <div class="kLKL">
-                <div style="display: flex;flex-direction: column;width: 12vw;background-color: beige;">
-                    <el-avatar shape="square" :size="100" :src="bkUserInfo.img">
-                        <img :src="imgSrc"/>
-                    </el-avatar>
-                    <span class="textD">{{bkUserInfo.userName}}</span>
-                    <span class="dTextColor">被赞:{{startCount}}</span>
-                    <span class="dTextColor">笔记:{{bookCount}}</span>
+            <div :class="showHeadK?'popo':'popoH'">
+                <div :class="showHeadK?'hidH':'showH'">
+                    <mavon-editor style="width: 100%;height:100%;" :value="detailInfo.content" :subfield="false"
+                                  :defaultOpen="'preview'" :toolbarsFlag="false" :editable="false" :scrollStyle="true"
+                                  :ishljs="true"></mavon-editor>
                 </div>
             </div>
-            <div class="popo">
-
+            <div :class="showHeadK?'kLKL':'kLKLH'">
+                <div :class="showHeadK?'hdh':'hdhs'">
+                    <div>
+                        <el-button @click="changeMax">关闭</el-button>
+                    </div>
+                    <transition name="el-zoom-in-top">
+                        <el-card v-show="showHeadK" style="width: auto;height: 15vh;margin-top:1.5vh;">
+                            <div style="display: flex;flex-direction: column;width: 12vw;">
+                                <div style="display: flex;flex-direction: row;">
+                                    <el-avatar shape="square" :size="50" :src="bkUserInfo.img">
+                                        <img :src="imgSrc"/>
+                                    </el-avatar>
+                                    <div style="display: flex;flex-direction: column;margin-left: 0.5vw;align-items: start;">
+                                        <el-link target="_blank" style="width: 7vw;font-size: 13px;">
+                                            {{bkUserInfo.userName}}{{bkUserInfo.userName}}{{bkUserInfo.userName}}
+                                        </el-link>
+                                        <el-link style="font-size: 13px;" type="warning" target="_blank">他的主页
+                                        </el-link>
+                                    </div>
+                                </div>
+                                <span class="dTextColor" style="margin-top: 1vh;">被赞:{{startCount}}</span>
+                                <span class="dTextColor">笔记:{{bookCount}}</span>
+                            </div>
+                        </el-card>
+                    </transition>
+                    <div style="width: 100%;display: flex;flex-direction: row-reverse;" @mouseover="changeMin">
+                        <transition name="el-zoom-in-center">
+                            <el-avatar v-show="showHead" :size="80" :src="bkUserInfo.img"
+                                       style="margin-right: -40px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)">
+                                <img :src="imgSrc"/>
+                            </el-avatar>
+                        </transition>
+                    </div>
+                    <div style="width: 100%;max-height: 30vh;">
+                        <div v-show="loadingTheUserList || theUserList.length===0"
+                             style="width: 100%;display: flex;flex-direction: row;justify-content: center;margin-top: 5vh;">
+                            <i v-show="loadingTheUserList" class="el-icon-loading" style="margin-right: 0.5vw;"></i>{{loadingTheUserList?'加载中...':'没有更多'}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <!--<mavon-editor :value="mdValue" :subfield="false" :defaultOpen="'preview'" :toolbarsFlag="false"-->
-        <!--:editable="false" :scrollStyle="true" :ishljs="true"></mavon-editor>-->
         <my-footer></my-footer>
     </div>
 </template>
@@ -41,6 +84,8 @@
         name: "detail",
         data() {
             return {
+                showHeadK: false,
+                showHead: false,
                 imgSrc: require('../../../res/img/user_center.png'),
                 loading: false,
                 id: "",
@@ -49,6 +94,8 @@
                 bkUserInfo: {},
                 startCount: 0,
                 bookCount: 0,
+                theUserList: [],
+                loadingTheUserList: true,
             }
         },
         created() {
@@ -57,6 +104,18 @@
             this.queryBookDetail(this.id);
         },
         methods: {
+            changeMax() {
+                this.showHeadK = false;
+                setTimeout(() => {
+                    this.showHead = true;
+                }, 300);
+            },
+            changeMin() {
+                setTimeout(() => {
+                    this.showHeadK = true;
+                }, 300);
+                this.showHead = false;
+            },
             async queryBookDetail(id) {
                 this.loading = true;
                 await queryBookByUserIdAndBookId({"bookId": id}).then(detail => {
@@ -75,6 +134,7 @@
                     console.log("data ===> ", info.data.data);
                     this.bkUserInfo = info.data.data;
                     this.loading = false;
+                    this.showHead = true;
                 }).catch(() => {
                     this.loading = false;
                 });
@@ -87,10 +147,20 @@
                 });
             },
             async queryBookCount(id) {
-                let params = queryBookByUserParams2(id, "", 2, 1, 1);
+                let params = queryBookByUserParams2(id, "", 2, 1, 5);
                 await queryBookByUser2(params).then(data => {
+                    this.loadingTheUserList = false;
+                    this.theUserList = data.data.data.lists;
                     this.bookCount = data.data.data.totalCount;
+                }).catch(error => {
+                    this.loadingTheUserList = false;
                 })
+            },
+            loadTag(val) {
+                if (null === val || "" === val || undefined === val) {
+                    return ["暂无标签"]
+                }
+                return val.split(",");
             },
             goHome() {
                 this.$router.push('/')
@@ -99,29 +169,71 @@
     }
 </script>
 <style>
+    .hdh {
+        width: 12vw;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hdhs {
+        width: 4vw;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .showH {
+        width: 96%;
+        height: 98%;
+        margin-left: 4%;
+        margin-top: 1%;
+    }
+
+    .hidH {
+        width: 90%;
+        height: 98%;
+        margin-left: 9%;
+        margin-top: 1%;
+    }
+
     .dTextColor {
         color: #909399;
+        font-size: 13px;
     }
 
     .textD {
+        font-size: 15px;
         color: #606266;
     }
 
     .popo {
-        width: 84vw;
+        width: 88vw;
+        height: 100%;
+    }
+
+    .popoH {
+        width: 96vw;
         height: 100%;
     }
 
     .kLKL {
-        width: 16vw;
+        width: 12vw;
+        height: 100%;
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    .kLKLH {
+        width: 4vw;
         height: 100%;
         display: flex;
         flex-direction: row-reverse;
     }
 
     .titlesDetail {
-        margin-left: 3.7vw;
-        width: 55vw;
+        margin-left: 1.1vw;
+        width: 57.7vw;
         max-lines: 2;
         max-height: 5vh;
         display: -webkit-box;
