@@ -81,7 +81,7 @@
                                     <span style="font-size: 13px;">{{formatTime(itemData.updateTime)}}</span>
                                 </el-card>
                             </div>
-                            <div v-show="theUserList.length>=5" @click="drawer=true"
+                            <div v-show="theUserList.length>=5" @click="showDrawerLayout"
                                  style="width: 100%;display: flex;flex-direction: row;justify-content: center;padding-top: 10px;">
                                 <el-link class="dTextColor">更多...</el-link>
                             </div>
@@ -94,6 +94,17 @@
         <el-drawer :visible.sync="drawer" :direction="rtl" :before-close="handleCloseDrawer"
                    :modal-append-to-body="false" :show-close="false" size="40%">
             <span>我来啦!</span>
+
+            <div class="infinite-list-wrapper" style="overflow:auto">
+                <ul class="list" v-infinite-scroll="loadDrawerList" infinite-scroll-disabled="disabled">
+                    <!--todo 样式调整-->
+                    <li v-for="(bookItem,index) in drawerList" class="list-item">{{index}}{{bookItem.title}}</li>
+                </ul>
+                <p v-if="loadingDrawer">加载中...</p>
+                <p v-if="noMoreLoadingDrawer">没有更多了</p>
+            </div>
+
+
         </el-drawer>
     </div>
 </template>
@@ -110,6 +121,9 @@
         name: "detail",
         data() {
             return {
+                noMoreLoadingDrawer: false,
+                loadingDrawer: false,
+                drawerList: [],
                 drawer: false,
                 showHeadK: false,
                 showHead: false,
@@ -123,6 +137,8 @@
                 bookCount: 0,
                 theUserList: [],
                 loadingTheUserList: true,
+                drawerPage: 0,
+                drawerPageSize: 20,
             }
         },
         created() {
@@ -131,6 +147,23 @@
             this.queryBookDetail(this.id);
         },
         methods: {
+            showDrawerLayout() {
+                this.drawer = true;
+                this.loadDrawerList();
+            },
+            async loadDrawerList() {
+                this.loadingDrawer = true;
+                this.drawerPage++;
+                let params = queryBookByUserParams2(this.detailInfo.userId, "", 1, this.drawerPage, this.drawerPageSize);
+                await queryBookByUser2(params).then(data => {
+                    this.loadingDrawer = false;
+                    this.drawerList = data.data.data.lists;
+                    this.noMoreLoadingDrawer = this.drawerList.length < this.drawerPageSize;
+                }).catch(error => {
+                    this.loadingDrawer = false;
+                })
+
+            },
             handleCloseDrawer(done) {
                 done();
             },
