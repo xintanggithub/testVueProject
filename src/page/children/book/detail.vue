@@ -6,7 +6,7 @@
             </div>
             <div style="display: flex;flex-direction: column;">
                 <div class="titlesDetail">
-                    <span style="font-size: 18px;color: black;">标题：001</span>
+                    <span style="font-size: 18px;color: black;">{{detailInfo.title}}</span>
                 </div>
                 <div style="width: 100%;height:3%;display: flex;flex-direction: row;margin-top: 1%;margin-left: 1vw;">
                     <i v-show="detailInfo.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
@@ -29,11 +29,15 @@
             </div>
             <div :class="showHeadK?'kLKL':'kLKLH'">
                 <div :class="showHeadK?'hdh':'hdhs'">
-                    <div>
-                        <el-button @click="changeMax">关闭</el-button>
+                    <div v-show="showHeadK"
+                         style="width: 100%;display: flex;flex-direction: row-reverse;justify-content: center;">
+                        <span @click="changeMax"
+                              style="width:98%;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);display: flex;flex-direction: row;justify-content: center;background-color: white;margin-top: 1.6vh;">
+                            <i class="el-icon-arrow-up"></i>
+                        </span>
                     </div>
                     <transition name="el-zoom-in-top">
-                        <el-card v-show="showHeadK" style="width: auto;height: 15vh;margin-top:1.5vh;">
+                        <el-card v-show="showHeadK" style="width: auto;height: 15vh;">
                             <div style="display: flex;flex-direction: column;width: 12vw;">
                                 <div style="display: flex;flex-direction: row;">
                                     <el-avatar shape="square" :size="50" :src="bkUserInfo.img">
@@ -69,14 +73,16 @@
                             <span v-show="theUserList.length>0" class="dTextColor"><br/>他的笔记：</span>
                             <div v-show="theUserList.length>0" v-for="(itemData,index) in theUserList" :key="index">
                                 <el-card shadow="hover" style="margin-top: 1vh;height: 10vh;">
-                                    <el-link type="info" class="allListDescriptions">
+                                    <el-link type="info" class="allListDescriptions"
+                                             @click="itemBookListClick(itemData)">
                                         {{itemData.title}}
                                     </el-link>
                                     <span style="font-size: 13px;">{{formatTime(itemData.updateTime)}}</span>
                                 </el-card>
                             </div>
-                            <div v-show="theUserList.length>=5" class="dTextColor" style="width: 100%;display: flex;flex-direction: row;justify-content: center;padding-top: 10px;">
-                                更多...
+                            <div v-show="theUserList.length>=5"
+                                 style="width: 100%;display: flex;flex-direction: row;justify-content: center;padding-top: 10px;">
+                                <el-link class="dTextColor">更多...</el-link>
                             </div>
                         </div>
                     </transition>
@@ -119,6 +125,14 @@
             this.queryBookDetail(this.id);
         },
         methods: {
+            itemBookListClick(itemData) {
+                if (this.detailInfo.bookId !== itemData.bookId) {
+                    this.changeMax();
+                    this.detailInfo = {};
+                    this.id = itemData.bookId;
+                    this.queryBookDetail(itemData.bookId);
+                }
+            },
             formatTime,
             changeMax() {
                 this.showHeadK = false;
