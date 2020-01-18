@@ -60,12 +60,26 @@
                             </el-avatar>
                         </transition>
                     </div>
-                    <div style="width: 100%;max-height: 30vh;">
-                        <div v-show="loadingTheUserList || theUserList.length===0"
-                             style="width: 100%;display: flex;flex-direction: row;justify-content: center;margin-top: 5vh;">
-                            <i v-show="loadingTheUserList" class="el-icon-loading" style="margin-right: 0.5vw;"></i>{{loadingTheUserList?'加载中...':'没有更多'}}
+                    <transition name="el-zoom-in-top">
+                        <div v-show="showHeadK" style="width: 100%;max-height: 30vh;">
+                            <div v-show="loadingTheUserList || theUserList.length===0"
+                                 style="width: 100%;display: flex;flex-direction: row;justify-content: center;margin-top: 5vh;">
+                                <i v-show="loadingTheUserList" class="el-icon-loading" style="margin-right: 0.5vw;"></i>{{loadingTheUserList?'加载中...':'没有更多'}}
+                            </div>
+                            <span v-show="theUserList.length>0" class="dTextColor"><br/>他的笔记：</span>
+                            <div v-show="theUserList.length>0" v-for="(itemData,index) in theUserList" :key="index">
+                                <el-card shadow="hover" style="margin-top: 1vh;height: 10vh;">
+                                    <el-link type="info" class="allListDescriptions">
+                                        {{itemData.title}}
+                                    </el-link>
+                                    <span style="font-size: 13px;">{{formatTime(itemData.updateTime)}}</span>
+                                </el-card>
+                            </div>
+                            <div v-show="theUserList.length>=5" class="dTextColor" style="width: 100%;display: flex;flex-direction: row;justify-content: center;padding-top: 10px;">
+                                更多...
+                            </div>
                         </div>
-                    </div>
+                    </transition>
                 </div>
             </div>
         </div>
@@ -78,6 +92,7 @@
     import myUser from '../../common_component/user/myUser'
     import {queryStarCount, queryUserInfo} from '../../../api/user'
     import {queryBookByUser2, queryBookByUserIdAndBookId, queryBookByUserParams2} from "~/api/book";
+    import {formatTime} from '../../../utils/formatUtils'
 
     export default {
         components: {myFooter, myUser},
@@ -104,6 +119,7 @@
             this.queryBookDetail(this.id);
         },
         methods: {
+            formatTime,
             changeMax() {
                 this.showHeadK = false;
                 setTimeout(() => {
@@ -169,6 +185,18 @@
     }
 </script>
 <style>
+    .allListDescriptions {
+        max-lines: 2;
+        max-height: 4.5vh;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        width: 10vw;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        word-break: break-all;
+    }
+
     .hdh {
         width: 12vw;
         height: 100%;
