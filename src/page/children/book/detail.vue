@@ -9,7 +9,8 @@
                     <span style="font-size: 18px;color: black;">{{detailInfo.title}}</span>
                 </div>
                 <div style="width: 100%;height:3%;display: flex;flex-direction: row;margin-top: 1%;margin-left: 1vw;">
-                    <i v-show="detailInfo.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
+                    <i v-show="detailInfo.splash==='1'" class="el-icon-star-on"
+                       style="color: #409EFF;margin-right: 10px;"></i>
                     <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''" :key="index"
                             v-for="(tag,index) in loadTag(detailInfo.img)" :disable-transitions="false">
                         <i v-show="index===0" class="el-icon-collection-tag"></i>
@@ -80,7 +81,7 @@
                                     <span style="font-size: 13px;">{{formatTime(itemData.updateTime)}}</span>
                                 </el-card>
                             </div>
-                            <div v-show="theUserList.length>=5"
+                            <div v-show="theUserList.length>=5" @click="drawer=true"
                                  style="width: 100%;display: flex;flex-direction: row;justify-content: center;padding-top: 10px;">
                                 <el-link class="dTextColor">更多...</el-link>
                             </div>
@@ -90,6 +91,10 @@
             </div>
         </div>
         <my-footer></my-footer>
+        <el-drawer :visible.sync="drawer" :direction="rtl" :before-close="handleCloseDrawer"
+                   :modal-append-to-body="false" :show-close="false" size="40%">
+            <span>我来啦!</span>
+        </el-drawer>
     </div>
 </template>
 <script>
@@ -105,6 +110,7 @@
         name: "detail",
         data() {
             return {
+                drawer: false,
                 showHeadK: false,
                 showHead: false,
                 imgSrc: require('../../../res/img/user_center.png'),
@@ -125,6 +131,9 @@
             this.queryBookDetail(this.id);
         },
         methods: {
+            handleCloseDrawer(done) {
+                done();
+            },
             itemBookListClick(itemData) {
                 if (this.detailInfo.bookId !== itemData.bookId) {
                     this.changeMax();
