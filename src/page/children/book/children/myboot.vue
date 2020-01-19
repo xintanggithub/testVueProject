@@ -89,7 +89,6 @@
             },
             formatTime,
             itemClick(id) {
-                window.localStorage.setItem("toDetailBook", "1");
                 console.log("open detail ===>");
                 this.$router.push({
                     name: 'detail',
