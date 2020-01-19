@@ -91,7 +91,8 @@
                                     </div>
                                     <div class="titleStyle titleMarginTop">
                                         <span class="rTitle">性别：</span>
-                                        <span v-show="!showEditName" class="LStyle">{{userData.sex===1?'男':'女'}}</span>
+                                        <span v-show="!showEditName"
+                                              class="LStyle">{{(userData.sex==='1' || userData.sex===1 )?'男':'女'}}</span>
                                         <el-select v-show="showEditName" v-model="changeInfo.sex"
                                                    :placeholder="userData.sex===1?'男':'女'" value=""
                                                    style="width: 6vw;" size="mini">
@@ -482,12 +483,10 @@
             async saveChangeName() {
                 //修改名称、性别
                 this.saveNameLoading = true;
-                let params = getNameParams(this.userInfo.id, this.changeInfo.name, this.changeInfo.sex === "男" ? 1 : 0);
+                let params = getNameParams(this.userInfo.id, this.changeInfo.name, this.changeInfo.sex);
                 console.log("saveChangeName  params => ", params);
                 await changeUserInfo(params).then(data => {
-                    if (params.sex) {
-                        this.userData.sex = params.sex;
-                    }
+                    this.userData.sex = this.changeInfo.sex;
                     if (params.userName) {
                         this.userData.userName = params.userName;
                         setUserName(params.userName);

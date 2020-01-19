@@ -65,7 +65,9 @@ export function queryStarCount(params) {
 export function getNameParams(userId, userName, sex) {
     const params = {};
     params["userId"] = userId;
-    params["userName"] = userName;
+    if (userName !== null && userName !== "" && userName !== undefined) {
+        params["userName"] = userName;
+    }
     if (sex) {
         params["sex"] = sex;
     }
