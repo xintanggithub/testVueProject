@@ -14,9 +14,11 @@
         <div class="detail_content_a_style list_root_style allListDiv" @scroll="orderScroll" ref="Box">
             <div v-show="firstMessage===''" v-for="(itemData,index) in listData" :key="index">
                 <el-card shadow="hover" class="allListCard">
-                    <div class="allListTitle" @click="itemClick(itemData.bookId)">
-                        <i v-show="itemData.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
-                        <el-link>{{itemData.title}}</el-link>
+                    <div class="allListTitle">
+                        <i class="el-icon-edit" style="color: #409EFF;" @click="editBook">编辑</i>
+                        <i v-show="itemData.splash==='1'" class="el-icon-star-on" @click="itemClick(itemData.bookId)"
+                           style="color: #409EFF;"></i>
+                        <el-link @click="itemClick(itemData.bookId)">{{itemData.title}}</el-link>
                     </div>
                     <div class="allListDescription" @click="itemClick(itemData.bookId)">
                         <span class="popLabel">{{itemData.description}}</span>
@@ -33,7 +35,9 @@
                             <img :src="require('../../../../res/img/user_center.png')"/>
                         </el-avatar>
                         <div style="display: flex;flex-direction: column;">
-                            <el-link type="info" style="width:auto;margin-left: 1vw;font-size: 13px;justify-content: start;">{{itemData.userName}}
+                            <el-link type="info"
+                                     style="width:auto;margin-left: 1vw;font-size: 13px;justify-content: start;">
+                                {{itemData.userName}}
                             </el-link>
                             <span style="font-size: 11px;;color: #909399;margin-left: 1vw;">{{formatTime(itemData.updateTime)}}</span>
                         </div>
@@ -80,8 +84,12 @@
             this.loadListData(true);
         },
         methods: {
+            editBook() {
+                console.log("edit==>")
+            },
             formatTime,
             itemClick(id) {
+                window.localStorage.setItem("toDetailBook", "1");
                 console.log("open detail ===>");
                 this.$router.push({
                     name: 'detail',

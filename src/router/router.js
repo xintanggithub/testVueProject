@@ -45,7 +45,8 @@ export const commonRouterMap = [
             }, {
                 path: 'bookMyBook',
                 name: 'bookMyBook',
-                component: bookMyBook
+                component: bookMyBook,
+                keepalive: true
             }, {
                 path: 'jp',
                 name: 'jp',
