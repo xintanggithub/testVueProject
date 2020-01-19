@@ -263,7 +263,7 @@
 
     .allListDiv {
         padding-left: 7.2vw;
-        margin-top: -1.8vh;
+        margin-top: -1vh;
     }
 
     .searchInput {
@@ -277,6 +277,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        padding-top: 1vh;
     }
 
     .popLabel {

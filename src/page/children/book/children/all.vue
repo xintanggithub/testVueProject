@@ -263,7 +263,7 @@
 
     .allListDiv {
         padding-left: 7.2vw;
-        margin-top: -1.8vh;
+        margin-top: -1vh;
     }
 
     .searchInput {
@@ -275,6 +275,7 @@
         width: 100vw;
         height: 8vh;
         display: flex;
+        padding-top: 1vh;
         flex-direction: row;
         align-items: center;
     }
