@@ -93,15 +93,32 @@
         <my-footer></my-footer>
         <el-drawer :visible.sync="drawer" :direction="rtl" :before-close="handleCloseDrawer"
                    :modal-append-to-body="false" :show-close="false" size="40%">
-            <span>我来啦!</span>
+            <span class="titlesDetail">他的更多：</span>
 
             <div class="infinite-list-wrapper" style="overflow:auto">
                 <ul class="list" v-infinite-scroll="loadDrawerList" infinite-scroll-disabled="disabled">
-                    <!--todo 样式调整-->
-                    <li v-for="(bookItem,index) in drawerList" class="list-item">{{index}}{{bookItem.title}}</li>
+                    <div v-show="drawerList.length>0" v-for="(itemData,index) in drawerList" :key="index">
+                        <el-card shadow="hover" style="margin-top: 1vh;height: auto;width: 95%;">
+                            <el-link type="info" class="allListDescriptions2"
+                                     @click="itemBookListClick(itemData)">
+                                {{itemData.title}}
+                            </el-link>
+                            <div>
+                                <span style="font-size: 13px;">{{formatTime(itemData.updateTime)}}</span>
+                                <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''"
+                                        :key="index"
+                                        v-for="(tag,index) in loadTag(itemData.img)" :disable-transitions="false">
+                                    <i v-show="index===0" class="el-icon-collection-tag"></i>
+                                    {{tag}}
+                                </el-tag>
+                            </div>
+                        </el-card>
+                    </div>
                 </ul>
-                <p v-if="loadingDrawer">加载中...</p>
-                <p v-if="noMoreLoadingDrawer">没有更多了</p>
+                <div style="width: 100%;display: flex;flex-direction: row;justify-content: center;">
+                    <p v-if="loadingDrawer">加载中...</p>
+                    <p v-if="noMoreLoadingDrawer" class="textD">没有更多了</p>
+                </div>
             </div>
 
 
@@ -247,6 +264,18 @@
         display: -webkit-box;
         text-overflow: ellipsis;
         width: 10vw;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        word-break: break-all;
+    }
+
+    .allListDescriptions2 {
+        max-lines: 2;
+        max-height: 4.5vh;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        max-width: 100%;
         overflow: hidden;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
