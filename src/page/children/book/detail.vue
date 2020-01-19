@@ -4,13 +4,12 @@
             <div class="editLogDetail" @click="goHome">
                 <img src="../../../res/img/logo_icon.png" class="logoIconDetail"/>
             </div>
-            <div style="display: flex;flex-direction: column;">
+            <div class="splpd">
                 <div class="titlesDetail">
-                    <span style="font-size: 18px;color: black;">{{detailInfo.title}}</span>
+                    <span class="polpsdjnv">{{detailInfo.title}}</span>
                 </div>
-                <div style="width: 100%;height:3%;display: flex;flex-direction: row;margin-top: 1%;margin-left: 1vw;">
-                    <i v-show="detailInfo.splash==='1'" class="el-icon-star-on"
-                       style="color: #409EFF;margin-right: 10px;"></i>
+                <div class="qwekcnvif">
+                    <i v-show="detailInfo.splash==='1'" class="el-icon-star-on lkjhg"></i>
                     <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''" :key="index"
                             v-for="(tag,index) in loadTag(detailInfo.img)" :disable-transitions="false">
                         <i v-show="index===0" class="el-icon-collection-tag"></i>
@@ -30,10 +29,8 @@
             </div>
             <div :class="showHeadK?'kLKL':'kLKLH'">
                 <div :class="showHeadK?'hdh':'hdhs'">
-                    <div v-show="showHeadK"
-                         style="width: 100%;display: flex;flex-direction: row-reverse;justify-content: center;">
-                        <span @click="changeMax"
-                              style="width:98%;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);display: flex;flex-direction: row;justify-content: center;background-color: white;margin-top: 1.6vh;">
+                    <div v-show="showHeadK" class="owujn">
+                        <span @click="changeMax" class="ppmm">
                             <i class="el-icon-arrow-up"></i>
                         </span>
                     </div>
@@ -57,7 +54,7 @@
                             </div>
                         </el-card>
                     </transition>
-                    <div style="width: 100%;display: flex;flex-direction: row-reverse;" @mouseover="changeMin">
+                    <div class="ikjnm" @mouseover="changeMin">
                         <transition name="el-zoom-in-center">
                             <el-avatar v-show="showHead" :size="80" :src="bkUserInfo.img"
                                        style="margin-right: -40px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)">
@@ -73,7 +70,7 @@
                             </div>
                             <span v-show="theUserList.length>0" class="dTextColor"><br/>他的笔记：</span>
                             <div v-show="theUserList.length>0" v-for="(itemData,index) in theUserList" :key="index">
-                                <el-card shadow="hover" style="margin-top: 1vh;height: 10vh;">
+                                <el-card shadow="hover" class="lieess">
                                     <el-link type="info" class="allListDescriptions"
                                              @click="itemBookListClick(itemData)">
                                         {{itemData.title}}
@@ -81,8 +78,7 @@
                                     <span style="font-size: 13px;">{{formatTime(itemData.updateTime)}}</span>
                                 </el-card>
                             </div>
-                            <div v-show="theUserList.length>=5" @click="showDrawerLayout"
-                                 style="width: 100%;display: flex;flex-direction: row;justify-content: center;padding-top: 10px;">
+                            <div v-show="theUserList.length>=5" @click="showDrawerLayout" class="ppkddasyq">
                                 <el-link class="dTextColor">更多...</el-link>
                             </div>
                         </div>
@@ -283,6 +279,67 @@
     }
 </script>
 <style>
+
+    .ppkddasyq {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding-top: 10px;
+    }
+
+    .lieess {
+        margin-top: 1vh;
+        height: 10vh;
+    }
+
+    .ikjnm {
+        width: 100%;
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    .ppmm {
+        width: 98%;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        background-color: white;
+        margin-top: 1.6vh;
+    }
+
+    .owujn {
+        width: 100%;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+    }
+
+    .lkjhg {
+        color: #409EFF;
+        margin-right: 10px;
+    }
+
+    .qwekcnvif {
+        width: 100%;
+        height: 3%;
+        display: flex;
+        flex-direction: row;
+        margin-top: 1%;
+        margin-left: 1vw;
+    }
+
+    .polpsdjnv {
+        font-size: 18px;
+        color: black;
+    }
+
+    .splpd {
+        display: flex;
+        flex-direction: column;
+    }
+
     .allListDescriptions {
         max-lines: 2;
         max-height: 4.5vh;
