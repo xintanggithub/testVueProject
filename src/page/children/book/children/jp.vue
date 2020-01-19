@@ -32,7 +32,11 @@
                         <el-avatar size="small" :src="itemData.userHead">
                             <img :src="require('../../../../res/img/user_center.png')"/>
                         </el-avatar>
-                        <el-link type="info" style="margin-left: 1vw;">{{itemData.userName}}</el-link>
+                        <div style="display: flex;flex-direction: column;">
+                            <el-link type="info" style="width:auto;margin-left: 1vw;font-size: 13px;justify-content: start;">{{itemData.userName}}
+                            </el-link>
+                            <span style="font-size: 11px;;color: #909399;margin-left: 1vw;">{{formatTime(itemData.updateTime)}}</span>
+                        </div>
                     </div>
                 </el-card>
             </div>
@@ -52,6 +56,7 @@
 
     import {queryBookBySplash, queryBookBySplash2, queryBookBySplashParams} from "../../../../api/book"
     import {loginStatus} from '../../../../utils/loginStatus'
+    import {formatTime} from '../../../../utils/formatUtils'
 
     export default {
         name: "jp",
@@ -75,6 +80,7 @@
             this.loadListData(true);
         },
         methods: {
+            formatTime,
             itemClick(id) {
                 console.log("open detail ===>");
                 this.$router.push({
@@ -141,7 +147,7 @@
                     if (refresh) {
                         v.listData = data.data.data.lists;
                     } else {
-                        v.listData.push(data.data.data.lists)
+                        v.listData = this.listData.concat(data.data.data.lists);
                     }
                     v.noMore = data.data.data.totalCount > data.data.data.page * data.data.data.pageSize;
                     if (v.noMore) {

@@ -95,8 +95,9 @@
                    :modal-append-to-body="false" :show-close="false" size="40%">
             <span class="titlesDetail">他的更多：</span>
 
-            <div class="infinite-list-wrapper" style="overflow:auto">
-                <ul class="list" v-infinite-scroll="loadDrawerList" infinite-scroll-disabled="disabled">
+            <div class="infinite-list-wrapper" style="max-height: 80vh;overflow-y: scroll;" ref="Box2"
+                 @scroll="orderScroll2">
+                <ul class="list" infinite-scroll-disabled="disabled">
                     <div v-show="drawerList.length>0" v-for="(itemData,index) in drawerList" :key="index">
                         <el-card shadow="hover" style="margin-top: 1vh;height: auto;width: 95%;">
                             <el-link type="info" class="allListDescriptions2"
@@ -116,7 +117,7 @@
                     </div>
                 </ul>
                 <div style="width: 100%;display: flex;flex-direction: row;justify-content: center;">
-                    <p v-if="loadingDrawer">加载中...</p>
+                    <p v-if="loadingDrawer && !noMoreLoadingDrawer">加载中...</p>
                     <p v-if="noMoreLoadingDrawer" class="textD">没有更多了</p>
                 </div>
             </div>
@@ -164,18 +165,42 @@
             this.queryBookDetail(this.id);
         },
         methods: {
+            orderScroll2(e) {
+                let a = this.$refs.Box2.scrollHeight;
+                let b = this.$refs.Box2.clientHeight;
+                let c = this.$refs.Box2.scrollTop;
+                console.log("====> a", a);
+                console.log("====> b+c", b + c);
+                this.loadingDrawer = (b + c >= a - 3);
+                if (this.loadingDrawer) {
+                    if (!this.noMoreLoadingDrawer) {
+                        this.loadDrawerList(false)
+                    }
+                }
+            },
             showDrawerLayout() {
                 this.drawer = true;
-                this.loadDrawerList();
+                this.loadDrawerList(true);
             },
-            async loadDrawerList() {
+            async loadDrawerList(refresh) {
                 this.loadingDrawer = true;
-                this.drawerPage++;
+                if (refresh) {
+                    this.drawerPage = 1;
+                } else {
+                    this.drawerPage++;
+                }
                 let params = queryBookByUserParams2(this.detailInfo.userId, "", 1, this.drawerPage, this.drawerPageSize);
                 await queryBookByUser2(params).then(data => {
+                    console.log("dataList ===>", data.data.data.lists);
                     this.loadingDrawer = false;
-                    this.drawerList = data.data.data.lists;
-                    this.noMoreLoadingDrawer = this.drawerList.length < this.drawerPageSize;
+                    let list = [];
+                    list = data.data.data.lists;
+                    if (refresh) {
+                        this.drawerList = list;
+                    } else {
+                        this.drawerList = this.drawerList.concat(list)
+                    }
+                    this.noMoreLoadingDrawer = list.length < this.drawerPageSize;
                 }).catch(error => {
                     this.loadingDrawer = false;
                 })
