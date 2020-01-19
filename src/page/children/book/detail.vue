@@ -93,9 +93,9 @@
         <my-footer></my-footer>
         <el-drawer :visible.sync="drawer" :direction="rtl" :before-close="handleCloseDrawer"
                    :modal-append-to-body="false" :show-close="false" size="40%">
-            <span class="titlesDetail">他的更多：</span>
+            <span class="titlesDetail" style="margin-top: -3vh;">他的更多：</span>
 
-            <div class="infinite-list-wrapper" style="max-height: 80vh;overflow-y: scroll;" ref="Box2"
+            <div class="infinite-list-wrapper" style="max-height: 95vh;overflow-y: scroll;" ref="Box2"
                  @scroll="orderScroll2">
                 <ul class="list" infinite-scroll-disabled="disabled">
                     <div v-show="drawerList.length>0" v-for="(itemData,index) in drawerList" :key="index">
