@@ -72,7 +72,8 @@
                                 {{loadingHistory?'加载中...':'暂无数据'}}
                             </div>
                             <div v-show="historyList.length>=3" class="textColor gf">
-                                <el-link type="info" @click="drawer2=true">更多记录 <i class="el-icon-arrow-down"></i>
+                                <el-link type="info" @click="queryHistoryListMore">更多记录 <i
+                                        class="el-icon-arrow-down"></i>
                                 </el-link>
                             </div>
                         </div>
@@ -225,9 +226,36 @@
         </el-dialog>
 
         <el-drawer :visible.sync="drawer2" :direction="direction" :before-close="handleCloseDrawerMin"
-                   :modal-append-to-body="false" :show-close="false" size="100%">
-            历史记录
-
+                   :modal-append-to-body="false" :show-close="false" size="100%"
+                   style="padding-left: 8vw;padding-right: 8vw;padding-top: 7.6vh;">
+            <div style="display: flex;flex-direction: row;align-items: baseline;">
+                <div style="width: 80%">
+                    <span class="rTitle" style="margin-left: 5.5vw;">历史记录:</span>
+                </div>
+                <div style="width: 20%;display: flex;flex-direction: row-reverse;padding-right: 5vw;">
+                    <el-button icon="el-icon-close" circle @click="drawer2=false"></el-button>
+                </div>
+            </div>
+            <div class="detail_content_a_style2 list_root_style2"
+                 style="justify-content: start;padding-left: 5vw;max-height: 79vh;overflow-y: scroll;"
+                 ref="Box3" @scroll="orderScroll3">
+                <div v-for="(history, index) in moreHistoryList" :key="index">
+                    <el-card shadow="hover" style="height: 9vh;width: 36vw;margin: 10px;">
+                        <el-link type="info" class="titleDDD2" @click="historyClick(history)">
+                            <el-tag effect="plain" size="mini" style="margin-right: 10px;">
+                                {{history.type}}
+                            </el-tag>
+                            {{history.businessName}}
+                        </el-link>
+                        <br/>
+                        <span class="textColor margin1">{{formatTime(history.updateTime)}}</span>
+                    </el-card>
+                </div>
+            </div>
+            <div style="width: 100%;display: flex;flex-direction: row;justify-content: center;font-size: 14px;color: rgba(0,0,0,0.53);">
+                <p v-if="loadingDrawer && !noMoreLoadingDrawer">加载中...</p>
+                <p v-if="noMoreLoadingDrawer">没有更多了</p>
+            </div>
         </el-drawer>
 
     </div>
@@ -240,7 +268,7 @@
     import {formatTime} from '../../utils/formatUtils'
     import {changeHead, getHeaderList, queryStarCount} from '../../api/user'
     import {changeUserInfo, getAccountParams, getAddressParams, getDescriptionParams, getNameParams} from "~/api/user";
-    import {queryBookByUser2, queryBookByUserParams} from '../../api/book'
+    import {queryBookByUser2} from '../../api/book'
     import {getHistoryParamsByUser, queryHistoryList} from '../../api/history'
     import {queryBookByUserParams2} from "~/api/book";
 
@@ -248,7 +276,11 @@
         name: 'minContent',
         data() {
             return {
-                direction:'btt',
+                morePage: 0,
+                moreHistoryList: [],
+                loadingDrawer: false,
+                noMoreLoadingDrawer: false,
+                direction: 'btt',
                 drawer2: false,
                 loadingHistory: true,
                 bookCount: 0,
@@ -310,6 +342,19 @@
             this.queryHistoryList();
         },
         methods: {
+            orderScroll3(e) {
+                let a = this.$refs.Box3.scrollHeight;
+                let b = this.$refs.Box3.clientHeight;
+                let c = this.$refs.Box3.scrollTop;
+                console.log("====> a", a);
+                console.log("====> b+c", b + c);
+                let abls = (b + c >= a - 3);
+                if (abls && !this.loadingDrawer) {
+                    if (!this.noMoreLoadingDrawer) {
+                        this.queryHistoryListMore(false)
+                    }
+                }
+            },
             handleCloseDrawerMin(done) {
                 done();
             },
@@ -320,6 +365,27 @@
                         id: history.businessId
                     }
                 });
+            },
+            async queryHistoryListMore(refresh) {
+                this.loadingDrawer = true;
+                if (refresh) {
+                    this.drawer2 = true;
+                    this.morePage = 1;
+                } else {
+                    this.morePage++;
+                }
+                let params = getHistoryParamsByUser(this.userInfo.id, this.morePage, 20);
+                await queryHistoryList(params).then(data => {
+                    this.loadingDrawer = false;
+                    if (refresh) {
+                        this.moreHistoryList = data.data.data.lists;
+                    } else {
+                        this.moreHistoryList = this.moreHistoryList.concat(data.data.data.lists)
+                    }
+                    this.noMoreLoadingDrawer = data.data.data.lists.length < 20;
+                }).catch(() => {
+                    this.loadingDrawer = false;
+                })
             },
             async queryHistoryList() {
                 this.loadingHistory = true;
@@ -570,8 +636,31 @@
 
 </script>
 <style>
+    .detail_content_a_style2 {
+        width: 84vw;
+        height: auto;
+        max-height: 80vh;
+        background-color: rgba(255, 255, 255, 0.5);
+        overflow-y: scroll;
+    }
+
+    .list_root_style2 {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap
+    }
+
     .titleDDD {
         width: 18vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        white-space: nowrap;
+        margin-top: -0.8vh;
+    }
+
+    .titleDDD2 {
+        width: 34vw;
         overflow: hidden;
         text-overflow: ellipsis;
         display: block;

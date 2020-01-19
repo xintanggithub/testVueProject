@@ -171,8 +171,8 @@
                 let c = this.$refs.Box2.scrollTop;
                 console.log("====> a", a);
                 console.log("====> b+c", b + c);
-                this.loadingDrawer = (b + c >= a - 3);
-                if (this.loadingDrawer) {
+                let abl = (b + c >= a - 3);
+                if (abl && !this.loadingDrawer) {
                     if (!this.noMoreLoadingDrawer) {
                         this.loadDrawerList(false)
                     }
