@@ -72,7 +72,8 @@
                                 {{loadingHistory?'加载中...':'暂无数据'}}
                             </div>
                             <div v-show="historyList.length>=3" class="textColor gf">
-                                <el-link type="info">更多记录 <i class="el-icon-arrow-down"></i></el-link>
+                                <el-link type="info" @click="drawer2=true">更多记录 <i class="el-icon-arrow-down"></i>
+                                </el-link>
                             </div>
                         </div>
                     </div>
@@ -222,6 +223,13 @@
                 <el-button type="primary" @click="loginOutMtM">确 定</el-button>
             </span>
         </el-dialog>
+
+        <el-drawer :visible.sync="drawer2" :direction="direction" :before-close="handleCloseDrawerMin"
+                   :modal-append-to-body="false" :show-close="false" size="100%">
+            历史记录
+
+        </el-drawer>
+
     </div>
 </template>
 <script>
@@ -240,6 +248,8 @@
         name: 'minContent',
         data() {
             return {
+                direction:'btt',
+                drawer2: false,
                 loadingHistory: true,
                 bookCount: 0,
                 startCount: 0,
@@ -300,6 +310,9 @@
             this.queryHistoryList();
         },
         methods: {
+            handleCloseDrawerMin(done) {
+                done();
+            },
             historyClick(history) {
                 this.$router.push({
                     name: 'detail',
