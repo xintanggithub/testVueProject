@@ -33,7 +33,9 @@
                             <img :src="require('../../../../res/img/user_center.png')"/>
                         </el-avatar>
                         <div style="display: flex;flex-direction: column;">
-                            <el-link type="info" style="width:auto;margin-left: 1vw;font-size: 13px;justify-content: start;">{{itemData.userName}}
+                            <el-link type="info"
+                                     style="width:auto;margin-left: 1vw;font-size: 13px;justify-content: start;">
+                                {{itemData.userName}}
                             </el-link>
                             <span style="font-size: 11px;;color: #909399;margin-left: 1vw;">{{formatTime(itemData.updateTime)}}</span>
                         </div>
@@ -51,7 +53,7 @@
             <i v-show="loading" class="el-icon-loading"></i><span style="font-size: 11px;">{{noMore?"正在加载更多...":"已经加载完了"}}</span>
         </div>
         <el-drawer :visible.sync="drawerDetail" :direction="direction"
-                   :modal-append-to-body="false" :show-close="false" size="100%">
+                   :modal-append-to-body="false" :show-close="false" size="97.4%">
             <detail ref="childAll" :book-id="bookId"></detail>
         </el-drawer>
     </div>

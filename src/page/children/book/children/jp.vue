@@ -51,7 +51,7 @@
             <i v-show="loading" class="el-icon-loading"></i><span style="font-size: 11px;">{{noMore?"正在加载更多...":"已经加载完了"}}</span>
         </div>
         <el-drawer :visible.sync="drawerDetail" :direction="direction"
-                   :modal-append-to-body="false" :show-close="false" size="100%">
+                   :modal-append-to-body="false" :show-close="false" size="97.4%">
             <detail ref="childJP" :book-id="bookId"></detail>
         </el-drawer>
     </div>

@@ -56,7 +56,7 @@
         </div>
 
         <el-drawer :visible.sync="drawerDetail" :direction="direction"
-                   :modal-append-to-body="false" :show-close="false" size="100%">
+                   :modal-append-to-body="false" :show-close="false" size="97.4%">
             <detail ref="child" :book-id="bookId"></detail>
         </el-drawer>
     </div>
