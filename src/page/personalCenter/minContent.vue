@@ -257,7 +257,10 @@
                 <p v-if="noMoreLoadingDrawer">没有更多了</p>
             </div>
         </el-drawer>
-
+        <el-drawer :visible.sync="drawerDetail" :direction="direction2"
+                   :modal-append-to-body="false" :show-close="false" size="100%">
+            <detail ref="childAll" :book-id="bookId"></detail>
+        </el-drawer>
     </div>
 </template>
 <script>
@@ -271,11 +274,17 @@
     import {queryBookByUser2} from '../../api/book'
     import {getHistoryParamsByUser, queryHistoryList} from '../../api/history'
     import {queryBookByUserParams2} from "~/api/book";
+    import detail from '../../page/children/book/detail'
 
     export default {
+        components: {detail},
         name: 'minContent',
         data() {
             return {
+                bookId: '',
+                direction2: 'btt',
+                selectId: "",
+                drawerDetail: false,
                 morePage: 0,
                 moreHistoryList: [],
                 loadingDrawer: false,
@@ -359,12 +368,9 @@
                 done();
             },
             historyClick(history) {
-                this.$router.push({
-                    name: 'detail',
-                    params: {
-                        id: history.businessId
-                    }
-                });
+                this.bookId = history.businessId;
+                this.drawerDetail = true;
+                this.$refs.childAll.test(history.businessId);
             },
             async queryHistoryListMore(refresh) {
                 this.loadingDrawer = true;

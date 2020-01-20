@@ -1,14 +1,10 @@
 <template>
     <div style="display: flex;flex-direction: column;">
-       <detail :bookId="id"></detail>
     </div>
 </template>
 <script>
 
-    import detail from '../page/children/book/detail'
-
     export default {
-        components: {detail},
         name: 'homeContent',
         data() {
             return {
