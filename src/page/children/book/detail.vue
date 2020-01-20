@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="editTopDetail2">
-            <div class="editLogDetail" @click="goHome">
+            <div :class="showHeadK?'editLogDetail':'editLogDetail2'" @click="goHome">
                 <img src="../../../res/img/logo_icon.png" class="logoIconDetail"/>
             </div>
             <div class="splpd">
@@ -476,5 +476,8 @@
 
     .editLogDetail {
         margin-left: 8vw;
+    }
+    .editLogDetail2 {
+        margin-left: 4vw;
     }
 </style>
