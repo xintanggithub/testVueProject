@@ -131,6 +131,12 @@
     import {formatTime} from '../../../utils/formatUtils'
 
     export default {
+        props: {
+            bookId: {
+                type: String,
+                default: ""
+            }
+        },
         components: {myFooter, myUser},
         name: "detail",
         data() {
@@ -144,7 +150,7 @@
                 imgSrc: require('../../../res/img/user_center.png'),
                 loading: false,
                 id: "",
-                mdValue: "12312313wqeqeqeq",
+                mdValue: "",
                 detailInfo: {},
                 bkUserInfo: {},
                 startCount: 0,
@@ -156,11 +162,15 @@
             }
         },
         created() {
-            this.id = this.$route.params.id;
+            this.id = this.bookId;
             console.log("====> detail id === ", this.id);
             this.queryBookDetail(this.id);
         },
         methods: {
+            test(e) {
+                this.id = e;
+                this.queryBookDetail(e);
+            },
             orderScroll2(e) {
                 let a = this.$refs.Box2.scrollHeight;
                 let b = this.$refs.Box2.clientHeight;

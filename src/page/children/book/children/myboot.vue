@@ -54,6 +54,11 @@
              style="width: 100%;height: auto;display: flex;flex-direction: row;justify-content: center;">
             <i v-show="loading" class="el-icon-loading"></i><span style="font-size: 11px;">{{noMore?"正在加载更多...":"已经加载完了"}}</span>
         </div>
+
+        <el-drawer :visible.sync="drawerDetail" :direction="direction"
+                   :modal-append-to-body="false" :show-close="false" size="98%">
+            <detail ref="child" :book-id="bookId"></detail>
+        </el-drawer>
     </div>
 </template>
 <script>
@@ -61,11 +66,17 @@
     import {queryBookByUser, queryBookByUser2, queryBookByUserParams} from "../../../../api/book"
     import {loginStatus} from '../../../../utils/loginStatus'
     import {formatTime} from '../../../../utils/formatUtils'
+    import detail from '../detail'
 
     export default {
+        components: {detail},
         name: "bookMyBook",
         data() {
             return {
+                bookId: '',
+                direction: 'btt',
+                selectId: "",
+                drawerDetail: false,
                 firstLoading: false,
                 firstMessage: "",
                 restaurants: [],
@@ -89,13 +100,9 @@
             },
             formatTime,
             itemClick(id) {
-                console.log("open detail ===>");
-                this.$router.push({
-                    name: 'detail',
-                    params: {
-                        id: id
-                    }
-                });
+                this.bookId = id;
+                this.drawerDetail = true;
+                this.$refs.child.test(id);
             },
             jp() {
                 this.$router.push({name: 'jp'});
