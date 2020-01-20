@@ -22,7 +22,7 @@
         <div class="editContentDetail" v-loading="loading">
             <div :class="showHeadK?'popo':'popoH'">
                 <div :class="showHeadK?'hidH':'showH'">
-                    <mavon-editor style="width: 100%;height:100%;" :value="detailInfo.content" :subfield="false"
+                    <mavon-editor style="width: 100%;height:99.8%;" :value="detailInfo.content" :subfield="false"
                                   :defaultOpen="'preview'" :toolbarsFlag="false" :editable="false" :scrollStyle="true"
                                   :ishljs="true"></mavon-editor>
                 </div>
@@ -88,7 +88,7 @@
         </div>
         <my-footer></my-footer>
         <el-drawer :visible.sync="drawer" :direction="rtl" :before-close="handleCloseDrawer"
-                   :modal-append-to-body="false" :show-close="false" size="40%">
+                   :modal-append-to-body="false" :modal="false" :show-close="false" size="40%">
             <span class="titlesDetail" style="margin-top: -3vh;">他的更多：</span>
 
             <div class="infinite-list-wrapper" style="max-height: 95vh;overflow-y: scroll;" ref="Box2"
@@ -168,6 +168,8 @@
         },
         methods: {
             test(e) {
+                this.showHeadK = false;
+                this.showHead = true;
                 this.id = e;
                 this.queryBookDetail(e);
             },
@@ -453,6 +455,7 @@
         width: 100vw;
         height: 9vh;
         display: flex;
+        margin-top: -5vh;
         flex-direction: row;
         align-items: center;
         background-color: white;
