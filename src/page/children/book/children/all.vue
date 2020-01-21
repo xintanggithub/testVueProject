@@ -173,7 +173,11 @@
                 });
             },
             my() {
-                this.$router.push({name: 'bookMyBook'});
+                if (loginStatus()) {
+                    this.$router.push({name: 'bookMyBook'});
+                } else {
+                    this.$router.push('/login');
+                }
             },
             jp() {
                 this.$router.push({name: 'jp'});

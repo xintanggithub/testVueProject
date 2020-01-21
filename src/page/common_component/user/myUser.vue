@@ -47,6 +47,7 @@
                 loginOut();
                 this.loginInfo.img = "http:hhh/empty";
                 this.loginStatusValue = loginStatus();
+                this.$router.push("/")
             },
             login() {
                 this.$router.push({name: 'login'});

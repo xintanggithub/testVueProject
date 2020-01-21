@@ -33,7 +33,9 @@
                             <img :src="require('../../../../res/img/user_center.png')"/>
                         </el-avatar>
                         <div style="display: flex;flex-direction: column;">
-                            <el-link type="info" style="width:auto;margin-left: 1vw;font-size: 13px;justify-content: start;">{{itemData.userName}}
+                            <el-link type="info"
+                                     style="width:auto;margin-left: 1vw;font-size: 13px;justify-content: start;">
+                                {{itemData.userName}}
                             </el-link>
                             <span style="font-size: 11px;;color: #909399;margin-left: 1vw;">{{formatTime(itemData.updateTime)}}</span>
                         </div>
@@ -174,7 +176,11 @@
                 this.$router.push({name: 'bookAll'});
             },
             my() {
-                this.$router.push({name: 'bookMyBook'});
+                if (loginStatus()) {
+                    this.$router.push({name: 'bookMyBook'});
+                } else {
+                    this.$router.push('/login');
+                }
             },
             enter() {
                 this.loadListData(true)
