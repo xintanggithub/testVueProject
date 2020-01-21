@@ -15,7 +15,8 @@
             <div v-show="firstMessage===''" v-for="(itemData,index) in listData" :key="index">
                 <el-card shadow="hover" class="allListCard">
                     <div class="allListTitle">
-                        <i class="el-icon-edit" style="color: #409EFF;" @click="editBook(itemData)">编辑</i>
+                        <i class="el-icon-edit" style="color: #409EFF;cursor: pointer;"
+                           @click="editBook(itemData)">编辑</i>
                         <i v-show="itemData.splash==='1'" class="el-icon-star-on" @click="itemClick(itemData.bookId)"
                            style="color: #409EFF;"></i>
                         <el-link @click="itemClick(itemData.bookId)">{{itemData.title}}</el-link>
@@ -68,12 +69,15 @@
                           class="editTitleInput editLog">
                 </el-input>
                 <el-checkbox class="editLog" v-model="checkEdit" label="公开发布" border></el-checkbox>
-                <div style="width: 41%;display: flex;flex-direction: row-reverse;">
+                <el-button :icon="showMore?'el-icon-caret-top':'el-icon-caret-bottom'" style="margin-left: 1vw;"
+                           @click="showMore=!showMore" circle></el-button>
+                <div style="width: 38%;display: flex;flex-direction: row-reverse;">
                     <el-button type="danger" @click="editCommit">确认修改</el-button>
                     <el-button style="margin-right: 1vw;" type="warning" @click="drawerEdit=false">取消修改</el-button>
                 </div>
             </div>
-            <div style="width: 100%;display: flex;flex-direction: row;height: 16vh;background-color: rgba(255,248,231,0.53)">
+            <div v-show="showMore"
+                 style="width: 100%;display: flex;flex-direction: row;height: 16vh;background-color: rgba(255,248,231,0.53)">
                 <div style="width: 50%;display: flex;flex-direction: column;padding-left: 1.5vw;margin-top: 2vh;">
                     <span>设置标签：</span>
                     <span class="popLabel">
@@ -112,7 +116,7 @@
                     </div>
                 </div>
             </div>
-            <mavon-editor class="edit2e" v-model="editItem.content" :toolbars="toolbars"/>
+            <mavon-editor :class="showMore?'edit2e':'edit2e2'" v-model="editItem.content" :toolbars="toolbars"/>
         </el-drawer>
     </div>
 </template>
@@ -130,6 +134,7 @@
         name: "bookMyBook",
         data() {
             return {
+                showMore: false,
                 typeValue: '',//类型
                 typeOptions: [{value: "原创作品", label: "原创作品"}, {value: "博文转载", label: "博文转载"}],
                 inputValue: '',
@@ -400,6 +405,14 @@
     }
 </script>
 <style>
+
+    .edit2e2 {
+        height: 91vh;
+        width: 98%;
+        margin-top: 1vh;
+        margin-left: 1%;
+    }
+
     .edit2e {
         height: 75vh;
         width: 98%;
