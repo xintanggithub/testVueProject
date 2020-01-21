@@ -82,6 +82,19 @@ export function queryBookByUserIdAndBookId(params) {
     })
 }
 
+export function updateBookParams(userId, bookId, title, openType, img, description, content, bookType) {
+    const params = {};
+    params['bookId'] = bookId;
+    params['userId'] = userId;
+    params['title'] = title;
+    params['openType'] = openType;
+    params['img'] = img;
+    params['description'] = description;
+    params['content'] = content;
+    params['bookType'] = bookType;
+    return params
+}
+
 export function insertBookParams(userId, title, openType, img, description, content, bookType) {
     const params = {};
     params['userId'] = userId;
@@ -97,6 +110,17 @@ export function insertBookParams(userId, title, openType, img, description, cont
 export function insertBook(params) {
     return request({
         url: `api/v1/book/insertBook`,
+        method: 'post',
+        data: params
+    })
+}
+
+/**
+ * 更新笔记
+ */
+export function updateBook(params) {
+    return request({
+        url: `api/v1/book/updateBook`,
         method: 'post',
         data: params
     })

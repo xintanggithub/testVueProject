@@ -15,7 +15,7 @@
             <div v-show="firstMessage===''" v-for="(itemData,index) in listData" :key="index">
                 <el-card shadow="hover" class="allListCard">
                     <div class="allListTitle">
-                        <i class="el-icon-edit" style="color: #409EFF;" @click="editBook">编辑</i>
+                        <i class="el-icon-edit" style="color: #409EFF;" @click="editBook(itemData)">编辑</i>
                         <i v-show="itemData.splash==='1'" class="el-icon-star-on" @click="itemClick(itemData.bookId)"
                            style="color: #409EFF;"></i>
                         <el-link @click="itemClick(itemData.bookId)">{{itemData.title}}</el-link>
@@ -59,6 +59,61 @@
                    :modal-append-to-body="false" :show-close="false" size="97.4%">
             <detail ref="child" :book-id="bookId"></detail>
         </el-drawer>
+
+        <el-drawer :visible.sync="drawerEdit" :direction="directionEdit" :close-on-press-escape="false"
+                   :modal-append-to-body="false" :show-close="false" size="100%">
+
+            <div style="width: 100%;display: flex;flex-direction: row;margin-top: -3vh;">
+                <el-input type="text" placeholder="请输入内容" v-model="editItem.title" maxlength="65" show-word-limit
+                          class="editTitleInput editLog">
+                </el-input>
+                <el-checkbox class="editLog" v-model="checkEdit" label="公开发布" border></el-checkbox>
+                <div style="width: 41%;display: flex;flex-direction: row-reverse;">
+                    <el-button type="danger" @click="editCommit">确认修改</el-button>
+                    <el-button style="margin-right: 1vw;" type="warning" @click="drawerEdit=false">取消修改</el-button>
+                </div>
+            </div>
+            <div style="width: 100%;display: flex;flex-direction: row;height: 16vh;background-color: rgba(255,248,231,0.53)">
+                <div style="width: 50%;display: flex;flex-direction: column;padding-left: 1.5vw;margin-top: 2vh;">
+                    <span>设置标签：</span>
+                    <span class="popLabel">
+                        说明：最多可以添加6个标签，方便其他人通过感兴趣的标签，快速找到对应的内容。<br/>
+                        更容易突出内容要点、关键要素等等。
+                    </span>
+                    <div class="popTag">
+                        <el-tag style="margin-right: 10px;" :key="tag" v-for="tag in dynamicTags" closable
+                                :disable-transitions="false"
+                                @close="handleClose3(tag)" type="danger">
+                            {{tag}}
+                        </el-tag>
+                        <el-input v-show="dynamicTags.length<6" style="width: 6vw;" class="input-new-tag" maxlength="20"
+                                  v-if="inputVisible" v-model="inputValue" show-word-limit ref="saveTagInput"
+                                  size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+                        </el-input>
+                        <el-button v-show="dynamicTags.length<6" v-else class="button-new-tag" size="small"
+                                   @click="showInput">+ 添加标签
+                        </el-button>
+                    </div>
+                </div>
+                <div style="width: 50%;display: flex;flex-direction: column;">
+                    <div class="popType">
+                        <span>类型：</span>
+                        <el-select size="small" v-model="typeValue" placeholder="请选择" clearable value="">
+                            <el-option v-for="item in typeOptions" :key="item.value" :label="item.label"
+                                       :value="item.value"></el-option>
+                        </el-select>
+                    </div>
+                    <div class="popDescription">
+                        <span>简述：</span>
+                        <el-input style="width: 45.8vw;font-size: 12px;" type="textarea" placeholder="请简单描述"
+                                  v-model="editItem.description"
+                                  maxlength="150"
+                                  show-word-limit></el-input>
+                    </div>
+                </div>
+            </div>
+            <mavon-editor class="edit2e" v-model="editItem.content" :toolbars="toolbars"/>
+        </el-drawer>
     </div>
 </template>
 <script>
@@ -67,12 +122,27 @@
     import {loginStatus} from '../../../../utils/loginStatus'
     import {formatTime} from '../../../../utils/formatUtils'
     import detail from '../detail'
+    import {updateBook, updateBookParams} from "~/api/book";
+    import {getLoginInfo} from "~/utils/loginStatus";
 
     export default {
         components: {detail},
         name: "bookMyBook",
         data() {
             return {
+                typeValue: '',//类型
+                typeOptions: [{value: "原创作品", label: "原创作品"}, {value: "博文转载", label: "博文转载"}],
+                inputValue: '',
+                inputVisible: false,
+                dynamicTags: [],//标签
+                checkEdit: false,
+                editItem: {
+                    title: '',
+                    content: '',
+                    description: ''
+                },
+                drawerEdit: false,
+                directionEdit: 'btt',
                 bookId: '',
                 direction: 'btt',
                 selectId: "",
@@ -89,14 +159,123 @@
                 page: 1,
                 pageSize: 20,
                 openType: 2,//2所有
+                toolbars: {
+                    bold: true, // 粗体
+                    italic: true, // 斜体
+                    header: true, // 标题
+                    underline: true, // 下划线
+                    strikethrough: true, // 中划线
+                    mark: true, // 标记
+                    superscript: true, // 上角标
+                    subscript: true, // 下角标
+                    quote: true, // 引用
+                    ol: true, // 有序列表
+                    ul: true, // 无序列表
+                    link: true, // 链接
+                    // imagelink: true, // 图片链接
+                    code: false, // code
+                    table: true, // 表格
+                    fullscreen: true, // 全屏编辑
+                    readmodel: true, // 沉浸式阅读
+                    htmlcode: true, // 展示html源码
+                    help: true, // 帮助
+                    undo: true, // 上一步
+                    redo: true, // 下一步
+                    trash: true, // 清空
+                    save: true, // 保存（触发events中的save事件）
+                    navigation: false, // 导航目录
+                    alignleft: true, // 左对齐
+                    aligncenter: true, // 居中
+                    alignright: true, // 右对齐
+                    subfield: true, // 单双栏模式
+                    preview: true, // 预览
+                }
             }
         },
         created() {
             this.loadListData(true);
         },
         methods: {
-            editBook() {
-                console.log("edit==>")
+            async editCommit() {
+                if (this.dynamicTags.length <= 0) {
+                    this.$notify({
+                        title: '警告',
+                        message: '请填写标签',
+                        type: 'warning',
+                        duration: 2000
+                    });
+                } else {
+                    if (this.typeValue) {
+                        if (this.editItem.description) {
+                            let tag = '';
+                            for (let x in this.dynamicTags) {
+                                tag += this.dynamicTags[x] + (this.dynamicTags.length === x ? "" : ",")
+                            }
+                            let params = updateBookParams(getLoginInfo().id, this.editItem.bookId, this.editItem.title, this.checkEdit ? 1 : 0,
+                                tag.substr(0, tag.length - 1), this.editItem.description, this.editItem.content, this.typeValue);
+                            console.log("updateBook params =>", params);
+                            this.loading = true;
+                            await updateBook(params).then(data => {
+                                this.drawerEdit = false;
+                                this.dynamicTags = [];
+                                this.checkEdit = false;
+                                this.editItem = {};
+                                this.$notify({
+                                    title: '提示',
+                                    message: '修改成功',
+                                    type: 'success',
+                                    duration: 2000
+                                });
+                            }).catch(error => {
+                                this.loading = false;
+                                this.$notify({
+                                    title: '错误',
+                                    message: error.data.message || "提交发生异常",
+                                    type: 'error',
+                                    duration: 2000
+                                });
+                            })
+                        } else {
+                            this.$notify({
+                                title: '警告',
+                                message: '请填写简介',
+                                type: 'warning',
+                                duration: 2000
+                            });
+                        }
+                    } else {
+                        this.$notify({
+                            title: '警告',
+                            message: '请选择类型',
+                            type: 'warning',
+                            duration: 2000
+                        });
+                    }
+                }
+            },
+            showInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+            handleClose3(tag) {
+                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+            },
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.dynamicTags.push(inputValue);
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            },
+            editBook(itemData) {
+                this.checkEdit = (itemData.openType === 1 || itemData.openType === '1');
+                this.editItem = itemData;
+                this.dynamicTags = this.loadTag(itemData.img);
+                this.typeValue = itemData.bookType;
+                this.drawerEdit = true;
             },
             formatTime,
             itemClick(id) {
@@ -221,6 +400,13 @@
     }
 </script>
 <style>
+    .edit2e {
+        height: 75vh;
+        width: 98%;
+        margin-top: 1vh;
+        margin-left: 1%;
+    }
+
     .errorContent {
         width: auto;
         height: 80vh;
