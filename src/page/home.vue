@@ -10,7 +10,7 @@
                              text-color="#000"
                              active-text-color="#E6A23C">
                         <el-menu-item index="1">首页</el-menu-item>
-                        <el-menu-item index="2">处理中心2</el-menu-item>
+                        <el-menu-item index="2">小游戏</el-menu-item>
                         <el-menu-item index="3">笔记</el-menu-item>
                     </el-menu>
                 </div>
