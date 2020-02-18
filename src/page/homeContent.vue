@@ -1,5 +1,8 @@
 <template>
     <div style="display: flex;flex-direction: column;">
+
+        homePage
+
     </div>
 </template>
 <script>
@@ -8,7 +11,7 @@
         name: 'homeContent',
         data() {
             return {
-                id:"book59f09672-1239-42f3-8b29-141a3cdb32e8"
+                id: "book59f09672-1239-42f3-8b29-141a3cdb32e8"
             }
         },
         methods: {
