@@ -1,14 +1,15 @@
 <template>
     <div>
         <div style="padding-top:2vh;width: 100%;height: 5vh;">
-            <div @mouseover="mouseover" @mouseout="mouseout" class="search" :style="'width:'+(10+0.8*transitionCount)+'vw;'">
+            <div @mouseover="mouseover" @mouseout="mouseout" class="search"
+                 :style="'width:'+(10+0.8*transitionCount)+'vw;'">
                 <el-input placeholder="请输入搜索内容" v-model="keyword" @keyup.enter.native="queryGameList()">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
             </div>
         </div>
         <!--list-->
-        <div class="top_list_root">
+        <div class="top_list_root" v-loading="loading">
             <div class="list_root_style">
                 <div v-for="(itemData,index) in listData" :key="index">
                     <el-card class="list_item"
@@ -51,6 +52,7 @@
         name: 'game',
         data() {
             return {
+                loading: false,
                 transitionCount: 0,
                 t2: null,
                 total: 0,
@@ -66,6 +68,7 @@
                 this.queryGameList();
             },
             async queryGameList() {
+                this.loading = true;
                 const params = {};
                 if (this.keyword) {
                     params["keyword"] = this.keyword;
@@ -77,7 +80,9 @@
                     console.log("success==> ", data.data.data);
                     this.listData = data.data.data.lists;
                     this.total = data.data.data.totalCount;
+                    this.loading = false;
                 }).catch(error => {
+                    this.loading = false;
                     console.log("success==> " + error)
                 })
             },
