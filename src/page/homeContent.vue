@@ -1,9 +1,9 @@
 <template>
     <div class="top_root">
         <div class="top_child">
-            <el-carousel :interval="interval" type="card" height="40vh">
+            <el-carousel class="bn_rt" :interval="interval" type="card" height="40vh">
                 <el-carousel-item v-for="item in topList" :key="item">
-                    <div v-html="item.content">{{item.content}}</div>
+                    <div v-html="item.content" @click="click(item.page)">{{item.content}}</div>
                 </el-carousel-item>
             </el-carousel>
             <div class="top_menu">
@@ -64,23 +64,53 @@
 </template>
 <script>
 
+    import {queryConfig} from "../api/home"
+
     export default {
         name: 'homeContent',
+        inject: ['changeIndex3', 'changeIndex2'],
         data() {
             return {
-                topList: [{}, {}, {}],
+                topList: [],
                 interval: 4000,
             }
         },
         methods: {
+            click(val) {
+                switch (val) {
+                    case "book":
+                        this.changeIndex3();
+                        break;
+                    case "game":
+                        this.changeIndex2();
+                        break;
+                    case "url":
+                        window.open(val.substr("url".length, val.length));
+                        break;
+                    case "page":
+                        this.$router.push({name: val.substr("page".length, val.length)});
+                        break;
+                }
+            },
             cardOne() {
-                this.$router.push({name: 'book'});
+                this.changeIndex3();
             },
             cardTwo() {
-                this.$router.push({name: 'game'});
+                this.changeIndex2();
             },
             cardThree() {
             },
+            async queryConfig() {
+                await queryConfig({}).then(data => {
+                    console.log("data ===>", data.data.data);
+                    this.topList.push({"content": data.data.data.content1, "page": data.data.data.img1});
+                }).catch(error => {
+                    console.log("error ===>", error)
+                })
+            }
+        },
+        created() {
+            this.queryConfig();
         }
     }
 </script>
@@ -113,9 +143,9 @@
     .top_root {
         display: flex;
         flex-direction: column;
-        padding-top: 5vh;
         width: 100vw;
         height: auto;
+        padding-top: 0.8vh;
         max-height: 88vh;
         overflow-y: auto;
     }
@@ -168,5 +198,10 @@
         flex-direction: column;
         align-items: center;
         margin-top: 3vh;
+    }
+
+    .bn_rt {
+        background-color: rgba(250, 235, 215, 0.15);
+        padding-top: 4vh;
     }
 </style>

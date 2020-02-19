@@ -35,6 +35,12 @@
     export default {
         components: {myFooter, myUser},
         name: 'home',
+        provide() {
+            return {
+                changeIndex3: this.changeIndex3,
+                changeIndex2: this.changeIndex2,
+            }
+        },
         data() {
             return {
                 defaultIndexValue: "1",
@@ -42,6 +48,12 @@
             }
         },
         methods: {
+            changeIndex3() {
+                this.handleSelect("3", ["3"]);
+            },
+            changeIndex2() {
+                this.handleSelect("2", ["2"]);
+            },
             handleSelect(key, keyPath) {
                 if (keyPath[0] === this.defaultIndexValue) {
                     return
@@ -58,6 +70,7 @@
                         this.$router.push({name: 'book'});
                         break;
                 }
+                this.activeIndex = key + "";
                 console.log(key, keyPath);
             }
         }

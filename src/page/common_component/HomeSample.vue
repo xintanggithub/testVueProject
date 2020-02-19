@@ -1,7 +1,7 @@
 <template>
     <div>
         <div style="width: 49.2vw;height: 40vh;background-color: antiquewhite;margin-left: 2vw;margin-top: 1vh;">
-            <div v-html="htmlValue" style="width: 100%;height: 100%;background-color: beige;">
+            <div style="width: 100%;height: 100%;background-color: beige;">
 
             </div>
         </div>
