@@ -12,10 +12,10 @@ import minContent from '~/page/personalCenter/minContent'
 import setting from '~/page/personalCenter/setting'
 import mobile from '~/mobile/mobileHome'
 import edit from '~/page/children/book/edit'
-import detail from '~/page/children/book/detail'
 import bookAll from '~/page/children/book/children/all'
 import bookMyBook from '~/page/children/book/children/myboot'
 import jp from '~/page/children/book/children/jp'
+import HomeSample from "~/page/common_component/HomeSample";
 
 Vue.use(Router);
 
@@ -89,11 +89,11 @@ export const commonRouterMap = [
         name: "edit",
         component: edit
     },
-    // {
-    //     path: "/detail",
-    //     name: "detail",
-    //     component: detail
-    // }
+    {
+        path: "/HomeSample",
+        name: "HomeSample",
+        component: HomeSample
+    }
 ];
 
 const createRouter = () => new Router({
