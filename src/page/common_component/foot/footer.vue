@@ -16,6 +16,9 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        position: absolute;
+        top:97vh;
+        left:0;
     }
 
     .spanView {

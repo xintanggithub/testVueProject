@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex;flex-direction: column;padding-top: 2vh; width:100vw;height: auto;max-height: 88vh;overflow-y: scroll;">
+    <div style="display: flex;flex-direction: column;padding-top: 5vh; width:100vw;height: auto;max-height: 88vh;overflow-y: auto;background-color: antiquewhite;">
         <div style="padding-left: 0.5vw;padding-right: 0.5vw;">
             <el-carousel :interval="4000" type="card" height="40vh">
                 <el-carousel-item v-for="item in topList" :key="item">
@@ -8,8 +8,27 @@
                     </div>
                 </el-carousel-item>
             </el-carousel>
-            <div>
+            <div style="display: flex;flex-direction: row;justify-content: center;margin-top: 5vh;width: 100%;">
+                <el-card class="item_card" shadow="hover">
 
+                </el-card>
+                <el-card class="item_card mg_left" shadow="hover">
+
+                </el-card>
+                <el-card class="item_card mg_left" shadow="hover">
+
+                </el-card>
+            </div>
+            <div style="display: flex;flex-direction: row;justify-content: center;margin-top: 5vh;width: 100%;">
+                <el-card class="item_card" shadow="hover">
+
+                </el-card>
+                <el-card class="item_card mg_left" shadow="hover">
+
+                </el-card>
+                <el-card class="item_card mg_left" shadow="hover">
+
+                </el-card>
             </div>
         </div>
     </div>
@@ -20,11 +39,7 @@
         name: 'homeContent',
         data() {
             return {
-                topList: [
-                    {content: "66666<span>66666</span><el-button>66666</el-button>"},
-                    {content: "66666<span>66666</span><el-button>66666</el-button>"},
-                    {content: "66666<span>66666</span><el-button>66666</el-button>"},
-                ]
+                topList: [{}]
             }
         },
         methods: {}
@@ -45,5 +60,14 @@
 
     .el-carousel__item:nth-child(2n+1) {
         background-color: #d3dce6;
+    }
+
+    .item_card {
+        width: 25vw;
+        height: 30vh;
+    }
+
+    .mg_left {
+        margin-left: 5vw;
     }
 </style>
