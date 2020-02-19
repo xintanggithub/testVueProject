@@ -1,33 +1,62 @@
 <template>
-    <div style="display: flex;flex-direction: column;padding-top: 5vh; width:100vw;height: auto;max-height: 88vh;overflow-y: auto;background-color: antiquewhite;">
-        <div style="padding-left: 0.5vw;padding-right: 0.5vw;">
-            <el-carousel :interval="4000" type="card" height="40vh">
+    <div class="top_root">
+        <div class="top_child">
+            <el-carousel :interval="interval" type="card" height="40vh">
                 <el-carousel-item v-for="item in topList" :key="item">
-                    <div v-html="item.content">
-                        {{item.content}}
-                    </div>
+                    <div v-html="item.content">{{item.content}}</div>
                 </el-carousel-item>
             </el-carousel>
-            <div style="display: flex;flex-direction: row;justify-content: center;margin-top: 5vh;width: 100%;">
-                <el-card class="item_card" shadow="hover">
-
+            <div class="top_menu">
+                <el-card @click.native="cardOne" class="item_card" shadow="hover">
+                    <div class="kl1">
+                        <div class="kl2">
+                            <div class="kl3">
+                                <img class="img_st" src="../assets/hp/books.png">
+                            </div>
+                            <div class="kl4">
+                                <div class="text_color" style="width: auto;">
+                                    支持主流的Markdown、富文本格式
+                                </div>
+                                <div class="text_color" style="width: auto;">
+                                    提供共享、私密发布
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </el-card>
-                <el-card class="item_card mg_left" shadow="hover">
-
+                <el-card @click.native="cardTwo" class="item_card mg_left" shadow="hover">
+                    <div class="kl1">
+                        <div class="kl2">
+                            <div class="kl3">
+                                <img class="img_st" src="../assets/hp/browser-games.png">
+                            </div>
+                            <div class="kl4">
+                                <div class="text_color" style="width: auto;">
+                                    休闲、趣味、轻量的玩儿法
+                                </div>
+                                <div class="text_color" style="width: auto;">
+                                    还可以共享你觉得好玩儿有趣小游戏
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </el-card>
-                <el-card class="item_card mg_left" shadow="hover">
-
-                </el-card>
-            </div>
-            <div style="display: flex;flex-direction: row;justify-content: center;margin-top: 5vh;width: 100%;">
-                <el-card class="item_card" shadow="hover">
-
-                </el-card>
-                <el-card class="item_card mg_left" shadow="hover">
-
-                </el-card>
-                <el-card class="item_card mg_left" shadow="hover">
-
+                <el-card @click.native="cardThree" class="item_card mg_left" shadow="hover">
+                    <div class="kl1">
+                        <div class="kl2">
+                            <div class="kl3">
+                                <img class="img_st" src="../assets/hp/other.png">
+                            </div>
+                            <div class="kl4">
+                                <div class="text_color" style="width: auto;">
+                                    主站推荐，好玩儿、好看、有趣的
+                                </div>
+                                <div class="text_color" style="width: auto;">
+                                    没有喜欢的？也可上传推荐哦
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </el-card>
             </div>
         </div>
@@ -39,10 +68,20 @@
         name: 'homeContent',
         data() {
             return {
-                topList: [{}]
+                topList: [{}, {}, {}],
+                interval: 4000,
             }
         },
-        methods: {}
+        methods: {
+            cardOne() {
+                this.$router.push({name: 'book'});
+            },
+            cardTwo() {
+                this.$router.push({name: 'game'});
+            },
+            cardThree() {
+            },
+        }
     }
 </script>
 <style>
@@ -69,5 +108,65 @@
 
     .mg_left {
         margin-left: 5vw;
+    }
+
+    .top_root {
+        display: flex;
+        flex-direction: column;
+        padding-top: 5vh;
+        width: 100vw;
+        height: auto;
+        max-height: 88vh;
+        overflow-y: auto;
+    }
+
+    .top_child {
+        padding-left: 0.5vw;
+        padding-right: 0.5vw;
+    }
+
+    .top_menu {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 5vh;
+        width: 100%;
+    }
+
+    .img_st {
+        width: 5vw;
+    }
+
+    .text_color {
+        color: #909399;
+    }
+
+    .kl1 {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .kl2 {
+        width: auto;
+        height: 26vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .kl3 {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .kl4 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 3vh;
     }
 </style>
