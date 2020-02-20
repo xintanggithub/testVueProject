@@ -8,7 +8,7 @@
                 </el-input>
             </div>
             <div class="r_top" :style="'width:'+(73.7-0.8*transitionCount)+'vw;'">
-                <el-button type="warning">我的收藏</el-button>
+                <el-button type="warning" icon="el-icon-star-off">我的收藏</el-button>
             </div>
         </div>
         <!--list-->
@@ -17,8 +17,20 @@
                 <div v-for="(itemData,index) in listData" :key="index">
                     <el-card class="list_item"
                              shadow="hover">
-                        <el-image @click="openItem(itemData)" fit="cover"
-                                  class="img_item" :src="itemData.img"></el-image>
+                        <div style="position: relative;">
+                            <div style="position: absolute;z-index: 10;">
+                                <el-image @click="openItem(itemData)" fit="cover"
+                                          class="img_item" :src="itemData.img">
+                                </el-image>
+                            </div>
+                            <div :style="showSC===index?'background-color: rgba(0,0,0,0.46);':'background-color: transparent;'"
+                                 class="top_img_btn" @mouseover="showSC=index" @mouseout="showSC=-1">
+                                <div class="sc_sc" v-show="showSC===index">
+                                    <el-button type="warning" icon="el-icon-star-off" circle
+                                               @click="collection(itemData)"></el-button>
+                                </div>
+                            </div>
+                        </div>
                         <div @click="openItem(itemData)" style="display: flex;flex-direction: column;">
                             <div>
                                 <el-link type="warning">{{itemData.title}}</el-link>
@@ -62,7 +74,8 @@
                 page: 1,
                 pageSize: 18,
                 keyword: '',
-                listData: []
+                listData: [],
+                showSC: -1,
             }
         },
         methods: {
@@ -88,6 +101,9 @@
                     this.loading = false;
                     console.log("success==> " + error)
                 })
+            },
+            collection(val) {
+                console.log("collection==> ", val)
             },
             loadTag(val) {
                 if (null === val || "" === val || undefined === val) {
@@ -158,6 +174,26 @@
         width: 11vw;
         height: 14vh;
         border-radius: 5px 5px 0 0
+    }
+
+    .top_img_btn {
+        width: 11vw;
+        height: 14vh;
+        position: absolute;
+        z-index: 11;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 5px 5px 0 0
+    }
+
+    .sc_sc {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 11vw;
     }
 
     .top_list_root {
