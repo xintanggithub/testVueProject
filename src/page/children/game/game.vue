@@ -22,28 +22,38 @@
                                 <el-image @click="openItem(itemData)" fit="cover"
                                           class="img_item" :src="itemData.img">
                                 </el-image>
+                                <div @click="openItem(itemData)" style="display: flex;flex-direction: column;">
+                                    <div>
+                                        <el-link type="warning">{{itemData.title}}</el-link>
+                                    </div>
+                                    <div>
+                                        <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''"
+                                                :key="index"
+                                                v-for="(tag,index) in loadTag(itemData.tag)"
+                                                :disable-transitions="false">
+                                            <i v-show="index===0" class="el-icon-collection-tag"></i>
+                                            {{tag}}
+                                        </el-tag>
+                                    </div>
+                                </div>
                             </div>
                             <div :style="showSC===index?'background-color: rgba(0,0,0,0.46);':'background-color: transparent;'"
                                  class="top_img_btn" @mouseover="showSC=index" @mouseout="showSC=-1">
                                 <div class="sc_sc" v-show="showSC===index">
-                                    <el-button type="warning" icon="el-icon-star-off" circle
-                                               @click="collection(itemData)"></el-button>
+                                    <div style="display: flex;flex-direction: row;">
+                                        <el-tooltip class="item" effect="dark" content="收藏游戏不迷路哦" placement="top">
+                                            <el-button type="warning" icon="el-icon-star-off" circle
+                                                       @click="collection(itemData)"></el-button>
+                                        </el-tooltip>
+                                        <el-tooltip class="item" effect="dark" content="点击开始玩游戏" placement="top">
+                                            <el-button type="success" icon="el-icon-s-promotion" circle
+                                                       @click="openItem(itemData)"></el-button>
+                                        </el-tooltip>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div @click="openItem(itemData)" style="display: flex;flex-direction: column;">
-                            <div>
-                                <el-link type="warning">{{itemData.title}}</el-link>
-                            </div>
-                            <div>
-                                <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''"
-                                        :key="index"
-                                        v-for="(tag,index) in loadTag(itemData.tag)" :disable-transitions="false">
-                                    <i v-show="index===0" class="el-icon-collection-tag"></i>
-                                    {{tag}}
-                                </el-tag>
-                            </div>
-                        </div>
+
                     </el-card>
                 </div>
             </div>
