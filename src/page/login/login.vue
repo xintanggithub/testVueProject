@@ -169,7 +169,7 @@
                             const userInfo = await queryUserInfo({'userId': data.data.data.userId}).then(info => {
                                 console.log("queryUserInfo success ===>", info.data.data);
                                 loginIn(info.data.data.userId, info.data.data.userName, info.data.data.img, v.loginForm.userCode);
-                                v.$router.go(-1);
+                                this.$router.push({name: 'home'});
                             }).catch(() => {
                                 this.loading = false;
                             });
