@@ -1,11 +1,14 @@
 <template>
     <div>
-        <div style="padding-top:2vh;width: 100%;height: 5vh;">
+        <div style="padding-top:3vh;width: 100%;height: 5vh;display: flex;flex-direction: row; margin-left: 6vw;">
             <div @mouseover="mouseover" @mouseout="mouseout" class="search"
                  :style="'width:'+(10+0.8*transitionCount)+'vw;'">
                 <el-input placeholder="请输入搜索内容" v-model="keyword" @keyup.enter.native="queryGameList()">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
+            </div>
+            <div class="r_top" :style="'width:'+(73.7-0.8*transitionCount)+'vw;'">
+                <el-button type="warning">我的收藏</el-button>
             </div>
         </div>
         <!--list-->
@@ -144,7 +147,7 @@
     }
 
     .list_item {
-        width: 15vw;
+        width: 13vw;
         height: 22.7vh;
         margin-left: 1vw;
         margin-top: 1vh;
@@ -152,13 +155,14 @@
     }
 
     .img_item {
-        width: 13vw;
+        width: 11vw;
         height: 14vh;
         border-radius: 5px 5px 0 0
     }
 
     .top_list_root {
-        margin-left: 1vw;
+        margin-left: 7vw;
+        margin-right: 6vw;
         align-items: center;
         min-height: 75vh;
         word-wrap: break-word;
@@ -167,7 +171,7 @@
     }
 
     .mg_pg {
-        margin-left: 2vw;
+        margin-left: 7vw;
         margin-top: 1.2vh;
     }
 
@@ -175,6 +179,11 @@
         width: 10vw;
         margin-left: 2vw;
         height: 100%;
+    }
+
+    .r_top {
+        display: flex;;
+        flex-direction: row-reverse;
     }
 
 </style>
