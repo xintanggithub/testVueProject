@@ -103,10 +103,17 @@
             async queryConfig() {
                 await queryConfig({}).then(data => {
                     console.log("data ===>", data.data.data);
-                    this.topList.push({"content": data.data.data.content1, "page": data.data.data.img1});
+                    this.setBannerData(data.data.data.content1, data.data.data.img1);
+                    this.setBannerData(data.data.data.content2, data.data.data.img2);
+                    this.setBannerData(data.data.data.content3, data.data.data.img3);
                 }).catch(error => {
                     console.log("error ===>", error)
                 })
+            },
+            setBannerData(val, pg) {
+                if (val) {
+                    this.topList.push({"content": val, "page": pg});
+                }
             }
         },
         created() {
