@@ -26,7 +26,7 @@
                                     <div>
                                         <el-link type="warning">{{itemData.title}}</el-link>
                                     </div>
-                                    <div>
+                                    <div style="margin-top: 4px;">
                                         <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''"
                                                 :key="index"
                                                 v-for="(tag,index) in loadTag(itemData.tag)"
@@ -34,6 +34,9 @@
                                             <i v-show="index===0" class="el-icon-collection-tag"></i>
                                             {{tag}}
                                         </el-tag>
+                                    </div>
+                                    <div style="max-height: 5vh;min-height: 5vh;">
+                                        <span style="color: rgba(0,0,0,0.65);font-size: 12px;"> {{itemData.content}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +92,7 @@
                 t2: null,
                 total: 0,
                 page: 1,
-                pageSize: 18,
+                pageSize: 10,
                 keyword: '',
                 listData: [],
                 showSC: -1,
@@ -229,22 +232,22 @@
     }
 
     .list_item {
-        width: 13vw;
-        height: 22.7vh;
+        width: 15.73vw;
+        height: 35vh;
         margin-left: 1vw;
         margin-top: 1vh;
         margin-bottom: 1vh;
     }
 
     .img_item {
-        width: 11vw;
-        height: 14vh;
+        width: 13.5vw;
+        height: 21vh;
         border-radius: 5px 5px 0 0
     }
 
     .top_img_btn {
-        width: 11vw;
-        height: 14vh;
+        width: 13.5vw;
+        height: 21vh;
         position: absolute;
         z-index: 11;
         left: 0;
@@ -259,7 +262,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 11vw;
+        width: 13.73vw;
     }
 
     .top_list_root {
