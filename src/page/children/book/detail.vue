@@ -18,11 +18,14 @@
                 </div>
             </div>
             <my-user hideLoginOut></my-user>
+            <div style="position: absolute;right: 3vh;top: 2.5vh;">
+                <el-button type="danger" icon="el-icon-close" circle></el-button>
+            </div>
         </div>
         <div class="editContentDetail" v-loading="loading">
             <div :class="showHeadK?'popo':'popoH'">
                 <div :class="showHeadK?'hidH':'showH'">
-                    <mavon-editor style="width: 100%;height:99.8%;" :value="detailInfo.content" :subfield="false"
+                    <mavon-editor style="width: 100%;height:99%;" :value="detailInfo.content" :subfield="false"
                                   :defaultOpen="'preview'" :toolbarsFlag="false" :editable="false" :scrollStyle="true"
                                   :ishljs="true"></mavon-editor>
                 </div>
@@ -477,6 +480,7 @@
     .editLogDetail {
         margin-left: 8vw;
     }
+
     .editLogDetail2 {
         margin-left: 4vw;
     }
