@@ -6,12 +6,18 @@
 <script>
     export default {
         name: 'book',
+        inject: ['changeIndex3'],
         data() {
             return {
             }
         },
+        mounted() {
+            this.changeThree();
+        },
         methods: {
-
+            changeThree() {
+                this.changeIndex3();
+            },
         }
     }
 

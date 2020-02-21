@@ -68,12 +68,15 @@
 
     export default {
         name: 'homeContent',
-        inject: ['changeIndex3', 'changeIndex2'],
+        inject: ['changeIndex3', 'changeIndex2', 'changeIndex1'],
         data() {
             return {
                 topList: [],
                 interval: 4000,
             }
+        },
+        mounted() {
+            this.changeOne();
         },
         methods: {
             click(val) {
@@ -91,6 +94,9 @@
                         this.$router.push({name: val.substr("page".length, val.length)});
                         break;
                 }
+            },
+            changeOne(){
+                this.changeIndex1();
             },
             cardOne() {
                 this.changeIndex3();

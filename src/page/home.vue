@@ -39,6 +39,7 @@
             return {
                 changeIndex3: this.changeIndex3,
                 changeIndex2: this.changeIndex2,
+                changeIndex1: this.changeIndex1,
             }
         },
         data() {
@@ -53,6 +54,9 @@
             },
             changeIndex2() {
                 this.handleSelect("2", ["2"]);
+            },
+            changeIndex1() {
+                this.handleSelect("1", ["1"]);
             },
             handleSelect(key, keyPath) {
                 if (keyPath[0] === this.defaultIndexValue) {

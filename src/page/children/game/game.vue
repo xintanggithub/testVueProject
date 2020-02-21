@@ -6,7 +6,7 @@
                 <el-input placeholder="请输入搜索内容" v-model="keyword" @keyup.enter.native="queryGameList()">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
-            </div>n
+            </div>
             <div class="r_top" :style="'width:'+(73.2-0.8*transitionCount)+'vw;'">
                 <el-button type="warning" icon="el-icon-star-on" @click="showCollection">我的收藏</el-button>
             </div>
@@ -81,6 +81,7 @@
 
     export default {
         name: 'game',
+        inject: ['changeIndex2'],
         data() {
             return {
                 loading: false,
@@ -94,7 +95,13 @@
                 showSC: -1,
             }
         },
+        mounted() {
+            this.changeTwo();
+        },
         methods: {
+            changeTwo() {
+                this.changeIndex2();
+            },
             showCollection() {
                 if (loginStatus()) {
                     //todo 展开收藏

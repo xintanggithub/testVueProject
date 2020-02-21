@@ -10,7 +10,7 @@
                              active-text-color="#E6A23C">
                         <el-menu-item index="11">首页</el-menu-item>
                         <el-menu-item index="22">个人中心</el-menu-item>
-                        <el-menu-item index="33">设置</el-menu-item>
+                        <el-menu-item index="33">其他</el-menu-item>
                     </el-menu>
                 </div>
                 <div class="logo">
