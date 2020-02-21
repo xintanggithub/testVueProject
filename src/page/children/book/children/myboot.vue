@@ -64,11 +64,11 @@
         <el-drawer :visible.sync="drawerEdit" :direction="directionEdit" :close-on-press-escape="false"
                    :modal-append-to-body="false" :show-close="false" size="100%">
 
-            <div style="width: 100%;display: flex;flex-direction: row;margin-top: -3vh;">
+            <div style="width: 98%;margin-left: 1%;display: flex;flex-direction: row;margin-top: -3vh;">
                 <el-input type="text" placeholder="请输入内容" v-model="editItem.title" maxlength="65" show-word-limit
                           class="editTitleInput editLog">
                 </el-input>
-                <el-checkbox class="editLog" v-model="checkEdit" label="公开发布" border></el-checkbox>
+                <el-checkbox style="margin-left: 1vw;" class="editLog" v-model="checkEdit" label="公开发布" border></el-checkbox>
                 <el-button :icon="showMore?'el-icon-caret-top':'el-icon-caret-bottom'" style="margin-left: 1vw;"
                            @click="showMore=!showMore" circle></el-button>
                 <div style="width: 38%;display: flex;flex-direction: row-reverse;">
@@ -109,7 +109,7 @@
                     </div>
                     <div class="popDescription">
                         <span>简述：</span>
-                        <el-input style="width: 45.8vw;font-size: 12px;" type="textarea" placeholder="请简单描述"
+                        <el-input style="width: 45.3vw;font-size: 12px;" type="textarea" placeholder="请简单描述"
                                   v-model="editItem.description"
                                   maxlength="150"
                                   show-word-limit></el-input>
@@ -512,4 +512,25 @@
         font-size: 11px;
         margin-top: 10px;
     }
+
+    .popTag {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        margin-top: 1.5vh;
+    }
+
+    .popType {
+        display: flex;
+        flex-direction: row;
+        margin-top: 2vh;
+        align-items: center;
+    }
+
+    .popDescription {
+        display: flex;
+        flex-direction: row;
+        margin-top: 2.5vh;
+    }
+
 </style>
