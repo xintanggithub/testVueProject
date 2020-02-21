@@ -158,33 +158,17 @@
             async collectionGm(val) {
                 await insertCollection(this.getParamsCollection(val)).then(data => {
                     console.log("insertCollection success====>", data);
-                    this.$notify({
-                        title: '成功',
-                        message: '已经加入您的收藏列表里了~',
-                        type: 'success'
-                    });
+                    this.$notify({title: '成功', message: '已经加入您的收藏列表里了~', type: 'success'});
                 }).catch(error => {
                     console.log("insertCollection error====>", error);
-                    this.$notify({
-                        title: '失败',
-                        message: '请稍后重试',
-                        type: 'error'
-                    });
+                    this.$notify({title: '失败', message: '请稍后重试', type: 'error'});
                 })
             },
             async disCollectionGm(val) {
                 await deleteCollection(this.getParamsCollection(val)).then(data => {
-                    this.$notify({
-                        title: '成功',
-                        message: '已经从您的收藏列表里移除了~',
-                        type: 'warning'
-                    });
+                    this.$notify({title: '成功', message: '已经从您的收藏列表里移除了~', type: 'warning'});
                 }).catch(error => {
-                    this.$notify({
-                        title: '失败',
-                        message: '请稍后重试',
-                        type: 'error'
-                    });
+                    this.$notify({title: '失败', message: '请稍后重试', type: 'error'});
                 })
             },
             loadTag(val) {
