@@ -132,6 +132,11 @@
     export default {
         components: {detail},
         name: "bookMyBook",
+        provide() {
+            return {
+                closeAll: this.closeAll
+            }
+        },
         data() {
             return {
                 showMore: false,
@@ -201,6 +206,9 @@
             this.loadListData(true);
         },
         methods: {
+            closeAll() {
+                this.drawerDetail = false;
+            },
             async editCommit() {
                 if (this.dynamicTags.length <= 0) {
                     this.$notify({

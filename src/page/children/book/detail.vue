@@ -19,7 +19,7 @@
             </div>
             <my-user hideLoginOut></my-user>
             <div style="position: absolute;right: 3vh;top: 2.5vh;">
-                <el-button type="danger" icon="el-icon-close" circle></el-button>
+                <el-button type="danger" @click="close" icon="el-icon-close" circle></el-button>
             </div>
         </div>
         <div class="editContentDetail" v-loading="loading">
@@ -140,6 +140,7 @@
                 default: ""
             }
         },
+        inject: ['closeAll'],
         components: {myFooter, myUser},
         name: "detail",
         data() {
@@ -170,6 +171,17 @@
             this.queryBookDetail(this.id);
         },
         methods: {
+            close() {
+                try {
+                    this.closeAll();
+                } catch (e) {
+                }
+                try {
+                    this.closeAll();
+                } catch (e) {
+                }
+
+            },
             test(e) {
                 this.showHeadK = false;
                 this.showHead = true;

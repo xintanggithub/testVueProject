@@ -68,6 +68,11 @@
     export default {
         components: {detail},
         name: "jp",
+        provide() {
+            return {
+                closeAll: this.closeAll
+            }
+        },
         data() {
             return {
                 bookId: '',
@@ -92,6 +97,9 @@
             this.loadListData(true);
         },
         methods: {
+            closeAll() {
+                this.drawerDetail = false;
+            },
             formatTime,
             itemClick(id) {
                 this.bookId = id;
