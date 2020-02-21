@@ -6,9 +6,9 @@
                 <el-input placeholder="请输入搜索内容" v-model="keyword" @keyup.enter.native="queryGameList()">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
-            </div>
-            <div class="r_top" :style="'width:'+(73.7-0.8*transitionCount)+'vw;'">
-                <el-button type="warning" icon="el-icon-star-off" @click="showCollection">我的收藏</el-button>
+            </div>n
+            <div class="r_top" :style="'width:'+(73.2-0.8*transitionCount)+'vw;'">
+                <el-button type="warning" icon="el-icon-star-on" @click="showCollection">我的收藏</el-button>
             </div>
         </div>
         <!--list-->
@@ -42,7 +42,7 @@
                                  class="top_img_btn" @mouseover="showSC=index" @mouseout="showSC=-1">
                                 <div class="sc_sc" v-show="showSC===index">
                                     <div style="display: flex;flex-direction: row;">
-                                        <el-tooltip v-show="loginStatus" class="item" effect="dark"
+                                        <el-tooltip v-show="loginStatus()" class="item" effect="dark"
                                                     :content="itemData.collection===1?'取消收藏多可惜':'点击收藏不迷路'"
                                                     placement="top">
                                             <el-button type="warning"
