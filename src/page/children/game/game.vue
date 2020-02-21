@@ -42,10 +42,13 @@
                                  class="top_img_btn" @mouseover="showSC=index" @mouseout="showSC=-1">
                                 <div class="sc_sc" v-show="showSC===index">
                                     <div style="display: flex;flex-direction: row;">
-                                        <el-tooltip v-show="loginStatus" class="item" effect="dark" content="收藏游戏不迷路哦"
+                                        <el-tooltip v-show="loginStatus" class="item" effect="dark"
+                                                    :content="itemData.collection===1?'取消收藏多可惜':'点击收藏不迷路'"
                                                     placement="top">
-                                            <el-button type="warning" icon="el-icon-star-off" circle
-                                                       @click="collection(itemData)"></el-button>
+                                            <el-button type="warning"
+                                                       :icon="itemData.collection===1?'el-icon-star-on':'el-icon-star-off'"
+                                                       circle
+                                                       @click="collectionMT(itemData)"></el-button>
                                         </el-tooltip>
                                         <el-tooltip class="item" effect="dark" content="点击开始玩游戏" placement="top">
                                             <el-button type="success" icon="el-icon-s-promotion" circle
@@ -73,8 +76,8 @@
 </template>
 <script>
 
-    import {queryGameList} from "../../../api/game"
-    import {loginStatus} from '../../../utils/loginStatus'
+    import {queryListToCollection} from "../../../api/game"
+    import {loginStatus, getLoginInfo} from '../../../utils/loginStatus'
 
     export default {
         name: 'game',
@@ -110,10 +113,13 @@
                 if (this.keyword) {
                     params["keyword"] = this.keyword;
                 }
+                if (loginStatus() && getLoginInfo().id) {
+                    params["userId"] = getLoginInfo().id;
+                }
                 params["page"] = this.page;
                 params["pageSize"] = this.pageSize;
                 //调用接口搜索/查询
-                await queryGameList(params).then(data => {
+                await queryListToCollection(params).then(data => {
                     console.log("success==> ", data.data.data);
                     this.listData = data.data.data.lists;
                     this.total = data.data.data.totalCount;
@@ -123,8 +129,13 @@
                     console.log("success==> " + error)
                 })
             },
-            collection(val) {
-                console.log("collection==> ", val)
+            collectionMT(val) {
+                console.log("collection==> ", val);
+                if (val.collection === 1) {
+                    //取消
+                } else {
+                    //收藏
+                }
             },
             loadTag(val) {
                 if (null === val || "" === val || undefined === val) {
