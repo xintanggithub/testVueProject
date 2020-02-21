@@ -10,8 +10,10 @@
                                 <img :src="userInfo.img" class="headD"/>
                                 <div class="liy">
                                     <div class="qer">
-                                        <el-button circle icon="el-icon-right" style="margin-left: 1vw;"
-                                                   @click="dialogVisible=true"></el-button>
+                                        <el-tooltip effect="dark" content="退出登录" placement="top">
+                                            <el-button circle icon="el-icon-right" style="margin-left: 1vw;"
+                                                       @click="dialogVisible=true"></el-button>
+                                        </el-tooltip>
                                         <el-popover placement="bottom" title="请选择新头像：" width="650" trigger="click">
                                             <div v-loading="loadingPop" element-loading-text=" "
                                                  element-loading-spinner="el-icon-loading" class="lh">
