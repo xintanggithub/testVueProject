@@ -37,7 +37,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- todo 添加登录状态判断，决定是否需要显示收藏  修改列表接口调用-->
                             <div :style="showSC===index?'background-color: rgba(0,0,0,0.46);':'background-color: transparent;'"
                                  class="top_img_btn" @mouseover="showSC=index" @mouseout="showSC=-1">
                                 <div class="sc_sc" v-show="showSC===index">
@@ -48,7 +47,7 @@
                                             <el-button type="warning"
                                                        :icon="itemData.collection===1?'el-icon-star-on':'el-icon-star-off'"
                                                        circle
-                                                       @click="collectionMT(itemData)"></el-button>
+                                                       @click="collectionMT(itemData,index)"></el-button>
                                         </el-tooltip>
                                         <el-tooltip class="item" effect="dark" content="点击开始玩游戏" placement="top">
                                             <el-button type="success" icon="el-icon-s-promotion" circle
@@ -77,7 +76,8 @@
 <script>
 
     import {queryListToCollection} from "../../../api/game"
-    import {loginStatus, getLoginInfo} from '../../../utils/loginStatus'
+    import {deleteCollection, insertCollection} from "../../../api/collection"
+    import {getLoginInfo, loginStatus} from '../../../utils/loginStatus'
 
     export default {
         name: 'game',
@@ -136,13 +136,56 @@
                     console.log("success==> " + error)
                 })
             },
-            collectionMT(val) {
-                console.log("collection==> ", val);
+            collectionMT(val, index) {
+                console.log("collection val==> ", val);
+                console.log("collection index==> ", index);
                 if (val.collection === 1) {
-                    //取消
+                    this.disCollectionGm(val);
+                    val.collection = 0;
                 } else {
                     //收藏
+                    this.collectionGm(val);
+                    val.collection = 1;
                 }
+            },
+            getParamsCollection(val) {
+                const params = {};
+                params["collectionType"] = 1;
+                params["userId"] = getLoginInfo().id;
+                params["gameId"] = val.id;
+                return params
+            },
+            async collectionGm(val) {
+                await insertCollection(this.getParamsCollection(val)).then(data => {
+                    console.log("insertCollection success====>", data);
+                    this.$notify({
+                        title: '成功',
+                        message: '已经加入您的收藏列表里了~',
+                        type: 'success'
+                    });
+                }).catch(error => {
+                    console.log("insertCollection error====>", error);
+                    this.$notify({
+                        title: '失败',
+                        message: '请稍后重试',
+                        type: 'error'
+                    });
+                })
+            },
+            async disCollectionGm(val) {
+                await deleteCollection(this.getParamsCollection(val)).then(data => {
+                    this.$notify({
+                        title: '成功',
+                        message: '已经从您的收藏列表里移除了~',
+                        type: 'warning'
+                    });
+                }).catch(error => {
+                    this.$notify({
+                        title: '失败',
+                        message: '请稍后重试',
+                        type: 'error'
+                    });
+                })
             },
             loadTag(val) {
                 if (null === val || "" === val || undefined === val) {
