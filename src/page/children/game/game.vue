@@ -8,7 +8,7 @@
                 </el-input>
             </div>
             <div class="r_top" :style="'width:'+(73.7-0.8*transitionCount)+'vw;'">
-                <el-button type="warning" icon="el-icon-star-off">我的收藏</el-button>
+                <el-button type="warning" icon="el-icon-star-off" @click="showCollection">我的收藏</el-button>
             </div>
         </div>
         <!--list-->
@@ -37,11 +37,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- todo 添加登录状态判断，决定是否需要显示收藏  修改列表接口调用-->
                             <div :style="showSC===index?'background-color: rgba(0,0,0,0.46);':'background-color: transparent;'"
                                  class="top_img_btn" @mouseover="showSC=index" @mouseout="showSC=-1">
                                 <div class="sc_sc" v-show="showSC===index">
                                     <div style="display: flex;flex-direction: row;">
-                                        <el-tooltip class="item" effect="dark" content="收藏游戏不迷路哦" placement="top">
+                                        <el-tooltip v-show="loginStatus" class="item" effect="dark" content="收藏游戏不迷路哦"
+                                                    placement="top">
                                             <el-button type="warning" icon="el-icon-star-off" circle
                                                        @click="collection(itemData)"></el-button>
                                         </el-tooltip>
@@ -72,6 +74,7 @@
 <script>
 
     import {queryGameList} from "../../../api/game"
+    import {loginStatus} from '../../../utils/loginStatus'
 
     export default {
         name: 'game',
@@ -89,6 +92,14 @@
             }
         },
         methods: {
+            showCollection() {
+                if (loginStatus()) {
+                    //todo 展开收藏
+                } else {
+                    this.$router.push('/login');
+                }
+            },
+            loginStatus,
             handleCurrentChange(val) {
                 console.log("当前是第" + val + "页 ");
                 this.queryGameList();
