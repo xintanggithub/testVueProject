@@ -5,7 +5,16 @@
 </template>
 <script>
     export default {
-        name:'setting'
+        name: 'setting',
+        inject: ['changeIndex33'],
+        mounted() {
+            this.changeIndexThree();
+        },
+        methods: {
+            changeIndexThree() {
+                this.changeIndex33();
+            }
+        }
     }
 
 </script>

@@ -30,6 +30,12 @@
     export default {
         components: {myFooter},
         name: 'mine',
+        provide() {
+            return {
+                changeIndex33: this.changeIndex33,
+                changeIndex22: this.changeIndex22,
+            }
+        },
         data() {
             return {
                 currentIndex: '22',
@@ -39,6 +45,12 @@
         created() {
         },
         methods: {
+            changeIndex33() {
+                this.handleSelectPC("33", ["33"]);
+            },
+            changeIndex22() {
+                this.handleSelectPC("22", ["22"]);
+            },
             handleSelectPC(key, keyPath) {
                 if (keyPath[0] === this.currentIndex) {
                     return
@@ -55,6 +67,7 @@
                         this.$router.push('/mine/setting');
                         break;
                 }
+                this.defaultIndex = key + "";
             },
             goHome() {
                 this.$router.push('/')

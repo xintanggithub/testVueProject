@@ -281,6 +281,7 @@
     export default {
         components: {detail},
         name: 'minContent',
+        inject: ['changeIndex22'],
         data() {
             return {
                 bookId: '',
@@ -352,7 +353,13 @@
             this.queryBookCount();
             this.queryHistoryList();
         },
+        mounted() {
+            this.changeTwos();
+        },
         methods: {
+            changeTwos() {
+                this.changeIndex22();
+            },
             orderScroll3(e) {
                 let a = this.$refs.Box3.scrollHeight;
                 let b = this.$refs.Box3.clientHeight;
