@@ -16,6 +16,8 @@ import bookAll from '~/page/children/book/children/all'
 import bookMyBook from '~/page/children/book/children/myboot'
 import jp from '~/page/children/book/children/jp'
 import HomeSample from "~/page/common_component/HomeSample";
+import collection from "~/page/personalCenter/other/collection";
+import changePassword from "~/page/personalCenter/other/changePassword";
 
 Vue.use(Router);
 
@@ -76,7 +78,20 @@ export const commonRouterMap = [
         }, {
             path: 'setting',
             name: 'setting',
-            component: setting
+            component: setting,
+            redirect: '/mine/setting/collection',
+            children: [
+                {
+                    path: 'collection',
+                    name: 'collection',
+                    component: collection
+                },
+                {
+                    path: 'changePassword',
+                    name: 'changePassword',
+                    component: changePassword
+                },
+            ]
         }]
     },
     {

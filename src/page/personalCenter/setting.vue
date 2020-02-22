@@ -15,6 +15,12 @@
     export default {
         name: 'setting',
         inject: ['changeIndex33'],
+        provide() {
+            return {
+                changeStOne: this.changeStOne,
+                changeStTwo: this.changeStTwo
+            }
+        },
         data() {
             return {
                 tabPosition: 'left',
@@ -26,6 +32,12 @@
             this.changeIndexThree();
         },
         methods: {
+            changeStOne() {
+                this.handleSelect("1", ["1"])
+            },
+            changeStTwo() {
+                this.handleSelect("2", ["2"])
+            },
             changeIndexThree() {
                 this.changeIndex33();
             },
@@ -36,9 +48,10 @@
                 this.defaultIndexValue = keyPath[0];
                 switch (keyPath[0]) {
                     case "1":
+                        this.$router.push({name: 'collection'});
                         break;
                     case "2":
-                        // this.$router.push({name: 'game'});
+                        this.$router.push({name: 'changePassword'});
                         break;
                 }
                 this.activeIndex = key + "";
