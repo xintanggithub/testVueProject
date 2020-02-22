@@ -3,7 +3,7 @@
         <el-menu :default-active="activeIndex" mode="vertical" @select="handleSelect" background-color="#fff"
                  text-color="#000" active-text-color="#E6A23C" style="width: 10vw;height: 89vh;margin-top: 1vh;">
             <el-menu-item index="1">　　　收藏</el-menu-item>
-            <el-menu-item index="2">　　　是的</el-menu-item>
+            <el-menu-item index="2">　　修改密码</el-menu-item>
         </el-menu>
         <!--content-->
         <div class="st_content">
