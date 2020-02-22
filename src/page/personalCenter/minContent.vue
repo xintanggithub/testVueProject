@@ -282,6 +282,11 @@
         components: {detail},
         name: 'minContent',
         inject: ['changeIndex22'],
+        provide() {
+            return {
+                closeAll: this.closeAll
+            }
+        },
         data() {
             return {
                 bookId: '',
@@ -357,6 +362,9 @@
             this.changeTwos();
         },
         methods: {
+            closeAll() {
+                this.drawerDetail = false;
+            },
             changeTwos() {
                 this.changeIndex22();
             },
