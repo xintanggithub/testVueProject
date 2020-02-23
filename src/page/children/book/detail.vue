@@ -6,7 +6,16 @@
             </div>
             <div class="splpd">
                 <div class="titlesDetail">
-                    <span class="polpsdjnv">{{detailInfo.title}}</span>
+                    <el-tooltip v-show="loginStatus()" class="item" effect="dark"
+                                :content="detailInfo.collection===1?'取消收藏多可惜':'点击收藏不迷路'"
+                                placement="top">
+                        <el-button type="warning"
+                                   size="small"
+                                   :icon="detailInfo.collection===1?'el-icon-star-on':'el-icon-star-off'"
+                                   @click="collectionMT(detailInfo)">收藏
+                        </el-button>
+                    </el-tooltip>
+                    <span class="polpsdjnv" :style="loginStatus()?'margin-left: 10px;':'margin-left: 0;'">{{detailInfo.title}}</span>
                 </div>
                 <div class="qwekcnvif">
                     <i v-show="detailInfo.splash==='1'" class="el-icon-star-on lkjhg"></i>
@@ -132,6 +141,8 @@
     import {queryStarCount, queryUserInfo} from '../../../api/user'
     import {queryBookByUser2, queryBookByUserIdAndBookId, queryBookByUserParams2} from "~/api/book";
     import {formatTime} from '../../../utils/formatUtils'
+    import {deleteCollection, insertCollection} from "../../../api/collection"
+    import {getLoginInfo, loginStatus} from '../../../utils/loginStatus'
 
     export default {
         props: {
@@ -171,6 +182,7 @@
             this.queryBookDetail(this.id);
         },
         methods: {
+            loginStatus,
             close() {
                 try {
                     this.closeAll();
@@ -187,6 +199,42 @@
                 this.showHead = true;
                 this.id = e;
                 this.queryBookDetail(e);
+            },
+            collectionMT(val) {
+                console.log("collection val==> ", val);
+                if (val.collection === 1) {
+                    this.disCollectionGm(val);
+                    val.collection = 0;
+                } else {
+                    //收藏
+                    this.collectionGm(val);
+                    val.collection = 1;
+                }
+            },
+            getParamsCollection(val) {
+                const params = {};
+                params["collectionType"] = 2;
+                params["userId"] = getLoginInfo().id;
+                params["gameId"] = val.id;
+                return params
+            },
+            async collectionGm(val) {
+                await insertCollection(this.getParamsCollection(val)).then(data => {
+                    console.log("insertCollection success====>", data);
+                    this.$notify({title: '成功', message: '已经加入您的收藏列表里了~', type: 'success'});
+                }).catch(error => {
+                    console.log("insertCollection error====>", error);
+                    this.$notify({title: '失败', message: '请稍后重试', type: 'error'});
+                    val.collection = 0
+                })
+            },
+            async disCollectionGm(val) {
+                await deleteCollection(this.getParamsCollection(val)).then(data => {
+                    this.$notify({title: '成功', message: '已经从您的收藏列表里移除了~', type: 'warning'});
+                }).catch(error => {
+                    this.$notify({title: '失败', message: '请稍后重试', type: 'error'});
+                    val.collection = 1
+                })
             },
             orderScroll2(e) {
                 let a = this.$refs.Box2.scrollHeight;
@@ -255,7 +303,12 @@
             },
             async queryBookDetail(id) {
                 this.loading = true;
-                await queryBookByUserIdAndBookId({"bookId": id}).then(detail => {
+                const params = {};
+                params["bookId"] = id;
+                if (getLoginInfo().id) {
+                    params["userId"] = getLoginInfo().id;
+                }
+                await queryBookByUserIdAndBookId(params).then(detail => {
                     console.log("queryBookByUserIdAndBookId data ===> ", detail.data.data);
                     let userId = detail.data.data.userId;
                     this.queryByUserInfo(userId);
