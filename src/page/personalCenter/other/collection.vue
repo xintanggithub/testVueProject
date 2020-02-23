@@ -1,19 +1,19 @@
 <template>
     <div>
         <el-tabs v-model="editableTabsValue" style="width: 99%;height: 100%;margin-left: 1%;margin-top: 10px;"
-                 type="card">
+                 type="card" :before-leave="mBeforeLeave">
             <el-tab-pane>
                 <span slot="label"><i class="el-icon-s-platform"></i> 小游戏</span>
                 <div v-loading="game.loading">
                     <!--game content-->
                     <div class="list_content_root_style">
                         <div v-for="(itemData,index) in game.listData" :key="index">
-                            <el-card class="list_item"
+                            <el-card class="list_item_c"
                                      shadow="hover">
                                 <div style="position: relative;">
                                     <div style="position: absolute;z-index: 10;">
                                         <el-image @click="openItem(itemData)" fit="cover"
-                                                  class="img_item" :src="itemData.img">
+                                                  class="img_item_c" :src="itemData.img">
                                         </el-image>
                                         <div @click="openItem(itemData)" style="display: flex;flex-direction: column;">
                                             <div>
@@ -35,7 +35,8 @@
                                         </div>
                                     </div>
                                     <div :style="game.showSC===index?'background-color: rgba(0,0,0,0.46);':'background-color: transparent;'"
-                                         class="top_img_btn" @mouseover="game.showSC=index" @mouseout="showSC=-1">
+                                         class="top_img_btn_c" @mouseover="game.showSC=index"
+                                         @mouseout="game.showSC=-1">
                                         <div class="sc_sc" v-show="game.showSC===index">
                                             <div style="display: flex;flex-direction: row;">
                                                 <el-tooltip v-show="loginStatus()" class="item" effect="dark"
@@ -57,6 +58,15 @@
                             </el-card>
                         </div>
                     </div>
+                    <div class="block mg_pg_c">
+                        <el-pagination
+                                @current-change="handleCurrentChange"
+                                :current-page.sync="game.page"
+                                :page-size="game.pageSize"
+                                layout="prev, pager, next, jumper"
+                                :total="game.total">
+                        </el-pagination>
+                    </div>
                 </div>
             </el-tab-pane>
             <el-tab-pane>
@@ -67,7 +77,7 @@
 </template>
 <script>
 
-    import {queryCollectionByUserForGame, deleteCollection} from "../../../api/collection"
+    import {deleteCollection, queryCollectionByUserForGame} from "../../../api/collection"
     import {getLoginInfo, loginStatus} from '../../../utils/loginStatus'
 
     export default {
@@ -76,6 +86,15 @@
         data() {
             return {
                 editableTabsValue: "0",
+                editableTabs: [{
+                    title: '小游戏',
+                    name: '0',
+                    content: '0'
+                }, {
+                    title: '笔记',
+                    name: '1',
+                    content: '1'
+                }],
                 game: {
                     loading: false,
                     total: 0,
@@ -88,15 +107,17 @@
         },
         mounted() {
             this.change();
+            console.log("query params ==> " ,this.$route.query.msgKey);
             this.editableTabsValue = this.$route.query.msgKey;
-            if (this.editableTabsValue === "0") {
-                this.getCollectionByUserForGame();
-            }
+            console.log("query params editableTabsValue==> " ,this.editableTabsValue);
         },
         created() {
-
+            this.getCollectionByUserForGame();
         },
         methods: {
+            mBeforeLeave(val) {
+                console.log("sssss===>", val)
+            },
             loginStatus,
             change() {
                 this.changeStOne();
@@ -106,6 +127,10 @@
                     return ["暂无标签"]
                 }
                 return val.split(",");
+            },
+            handleCurrentChange(val) {
+                console.log("当前是第" + val + "页 ");
+                this.getCollectionByUserForGame();
             },
             async getCollectionByUserForGame() {
                 this.game.loading = true;
@@ -151,7 +176,7 @@
 </script>
 <style>
 
-    .top_img_btn {
+    .top_img_btn_c {
         width: 13.5vw;
         height: 21vh;
         position: absolute;
@@ -181,7 +206,7 @@
         overflow: hidden;
     }
 
-    .list_item {
+    .list_item_c {
         width: 15.73vw;
         height: 35vh;
         margin-left: 1vw;
@@ -189,7 +214,7 @@
         margin-bottom: 1vh;
     }
 
-    .img_item {
+    .img_item_c {
         width: 13.5vw;
         height: 21vh;
         border-radius: 5px 5px 0 0
@@ -199,6 +224,10 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap
+    }
+
+    .mg_pg_c {
+        margin-top: 1.2vh;
     }
 
 </style>
