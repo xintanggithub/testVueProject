@@ -107,7 +107,7 @@
             },
             showCollection() {
                 if (loginStatus()) {
-                    //todo 展开收藏
+                    this.$router.push({name: 'collection'});
                 } else {
                     this.$router.push('/login');
                 }
