@@ -10,6 +10,9 @@
             <el-checkbox class="editLog" v-model="checked1" label="公开发布" border></el-checkbox>
             <el-button type="danger" class="editLog editCommit" @click="commit">确认发布</el-button>
             <my-user hideLoginOut></my-user>
+            <div style="position: absolute;right: 3vh;top: 2vh;">
+                <el-button type="danger" @click="goBack" icon="el-icon-close" circle></el-button>
+            </div>
         </div>
         <div class="editContent">
             <mavon-editor :class="editStatus===false?'edit1':'edit2'" v-model="value" :toolbars="toolbars"/>
@@ -225,7 +228,10 @@
                 })
             },
             cancel() {
-                this.handleClose()
+                this.handleClose();
+            },
+            goBack(){
+                history.back();
             },
             submit() {
                 if (this.dynamicTags.length <= 0) {
