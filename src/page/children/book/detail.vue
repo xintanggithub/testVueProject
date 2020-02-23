@@ -45,8 +45,8 @@
                                         <img :src="imgSrc"/>
                                     </el-avatar>
                                     <div style="display: flex;flex-direction: column;margin-left: 0.5vw;align-items: start;">
-                                        <el-link target="_blank" style="width: 7vw;font-size: 13px;">
-                                            {{bkUserInfo.userName}}{{bkUserInfo.userName}}{{bkUserInfo.userName}}
+                                        <el-link target="_blank" style="width: auto;font-size: 13px;">
+                                            {{bkUserInfo.userName}}
                                         </el-link>
                                         <el-link style="font-size: 13px;" type="warning" target="_blank">他的主页
                                         </el-link>
