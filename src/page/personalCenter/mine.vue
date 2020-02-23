@@ -64,7 +64,13 @@
                         this.$router.push('/mine/minContent');
                         break;
                     case "33":
-                        this.$router.push('/mine/setting');
+                        this.$router.push({
+                            path: '/mine/setting',
+                            query: {
+                                key: "collectionIndex",
+                                msgKey: '0'
+                            }
+                        });
                         break;
                 }
                 this.defaultIndex = key + "";
