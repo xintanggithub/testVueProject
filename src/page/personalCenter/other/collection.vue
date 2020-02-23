@@ -71,6 +71,9 @@
             </el-tab-pane>
             <el-tab-pane>
                 <span slot="label"><i class="el-icon-s-order"></i> 笔记</span>
+                <div v-loading="book.loading">
+                    <!-- book content -->
+                </div>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -102,14 +105,21 @@
                     pageSize: 10,
                     listData: [],
                     showSC: -1,
+                },
+                book: {
+                    loading: false,
+                    total: 0,
+                    page: 1,
+                    pageSize: 10,
+                    listData: [],
                 }
             }
         },
         mounted() {
             this.change();
-            console.log("query params ==> " ,this.$route.query.msgKey);
+            console.log("query params ==> ", this.$route.query.msgKey);
             this.editableTabsValue = this.$route.query.msgKey;
-            console.log("query params editableTabsValue==> " ,this.editableTabsValue);
+            console.log("query params editableTabsValue==> ", this.editableTabsValue);
         },
         created() {
             this.getCollectionByUserForGame();
