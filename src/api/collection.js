@@ -22,3 +22,15 @@ export function deleteCollection(params) {
         params
     })
 }
+
+
+/**
+ * 获取收藏的game
+ */
+export function queryCollectionByUserForGame(params) {
+    return request({
+        url: `api/v1/collection/queryCollectionByUserForGame`,
+        method: 'get',
+        params
+    })
+}

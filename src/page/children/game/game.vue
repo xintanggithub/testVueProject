@@ -107,7 +107,13 @@
             },
             showCollection() {
                 if (loginStatus()) {
-                    this.$router.push({name: 'collection'});
+                    this.$router.push({
+                        name: 'collection',
+                        query: {
+                            key: "collectionIndex",
+                            msgKey: '0'
+                        }
+                    });
                 } else {
                     this.$router.push('/login');
                 }

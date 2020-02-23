@@ -48,7 +48,13 @@
                 this.defaultIndexValue = keyPath[0];
                 switch (keyPath[0]) {
                     case "1":
-                        this.$router.push({name: 'collection'});
+                        this.$router.push({
+                            name: 'collection',
+                            query: {
+                                key: "collectionIndex",
+                                msgKey: '0'
+                            }
+                        });
                         break;
                     case "2":
                         this.$router.push({name: 'changePassword'});
@@ -63,7 +69,7 @@
 </script>
 <style>
     .st_content {
-        width: 85vw;
+        width: 89vw;
         height: 89vh;
         margin-top: 1vh;
     }
