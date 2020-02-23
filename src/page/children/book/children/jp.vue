@@ -283,7 +283,7 @@
 
     .allListCard {
         width: 41.5vw;
-        height: 16vh;
+        height: 17vh;
         margin: 10px;
     }
 
