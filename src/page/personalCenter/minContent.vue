@@ -52,7 +52,7 @@
                         <div class="tg">
                             <span style="margin-left: 1.5vw;">历史记录：</span>
                             <el-timeline v-show="historyList.length>0"
-                                         style="margin-top: 1vh;margin-left:-1vw;width: 21.9vw;" reverse="false">
+                                         style="margin-top: 1vh;margin-left:-1vw;width: 21.9vw;">
                                 <el-timeline-item
                                         v-for="(history, index) in historyList"
                                         :key="index">
@@ -64,7 +64,7 @@
                                             {{history.businessName}}
                                         </el-link>
                                         <br/>
-                                        <span class="textColor margin1">{{formatTime(history.updateTime)}}</span>
+                                        <span class="textColor margin1">{{formatTimeA(history.updateTime)}}</span>
                                     </el-card>
                                 </el-timeline-item>
                             </el-timeline>
@@ -250,7 +250,7 @@
                             {{history.businessName}}
                         </el-link>
                         <br/>
-                        <span class="textColor margin1">{{formatTime(history.updateTime)}}</span>
+                        <span class="textColor margin1">{{formatTimeA(history.updateTime)}}</span>
                     </el-card>
                 </div>
             </div>
@@ -631,6 +631,9 @@
             mouseover(index) {
                 console.log('index ===>', index);
                 this.HIndex = index;
+            },
+            formatTimeA(ns) {
+                return new Date(parseInt(ns) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' ');
             },
             async showPop() {
                 this.loadingPop = true;
