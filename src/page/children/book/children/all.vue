@@ -5,7 +5,8 @@
             <el-button @click="jp" icon="el-icon-star-on">精品推荐</el-button>
             <el-button @click="my" icon="el-icon-document">我的笔记</el-button>
             <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
-            <el-autocomplete class="searchInput" v-model="state" :fetch-suggestions="querySearchAsync"
+            <el-button type="warning" icon="el-icon-star-on" @click="showCollectionAll">我的收藏</el-button>
+            <el-autocomplete class="searchInput_all" v-model="state" :fetch-suggestions="querySearchAsync"
                              placeholder="请输入搜索内容" @keyup.enter.native="enter"
                              :trigger-on-focus="false" @select="handleSelect">
                 <el-button slot="append" icon="el-icon-search" @click="enter"></el-button>
@@ -97,6 +98,19 @@
             this.loadListData(true);
         },
         methods: {
+            showCollectionAll(){
+                if (loginStatus()) {
+                    this.$router.push({
+                        name: 'collection',
+                        query: {
+                            key: "collectionIndex",
+                            msgKey: '1'
+                        }
+                    });
+                } else {
+                    this.$router.push('/login');
+                }
+            },
             closeAll() {
                 this.drawerDetail = false;
             },
@@ -292,9 +306,9 @@
         margin-top: -1vh;
     }
 
-    .searchInput {
+    .searchInput_all {
         margin-left: 2vw;
-        width: 52.5vw;
+        width: 45vw;
     }
 
     .tabsDiv {
