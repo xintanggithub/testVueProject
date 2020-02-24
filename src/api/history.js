@@ -19,3 +19,32 @@ export function queryHistoryList(params) {
     })
 }
 
+/**
+ * 新增的入参
+ * @param userId
+ * @param type
+ * @param businessName
+ * @param businessId
+ */
+export function getInsertHistoryParams(userId, type, businessName, businessId) {
+    const params = {};
+    params["userId"] = userId;
+    params["type"] = type;
+    params["businessName"] = businessName;
+    params["businessId"] = businessId;
+    return params;
+}
+
+/**
+ * 新增历史记录
+ * @param params
+ */
+export function insertHistory(params) {
+    return request2({
+        url: `api/v1/history/insertHistory`,
+        method: 'post',
+        data: params
+    })
+}
+
+

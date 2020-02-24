@@ -143,6 +143,7 @@
     import {formatTime} from '../../../utils/formatUtils'
     import {deleteCollection, insertCollection} from "../../../api/collection"
     import {getLoginInfo, loginStatus} from '../../../utils/loginStatus'
+    import {getInsertHistoryParams, insertHistory} from "../../../api/history"
 
     export default {
         props: {
@@ -182,6 +183,11 @@
             this.queryBookDetail(this.id);
         },
         methods: {
+            async detailInsertHistory(name, id) {
+                await insertHistory(getInsertHistoryParams(getLoginInfo().id, "book", name, id)).then(() => {
+                }).catch(() => {
+                })
+            },
             loginStatus,
             close() {
                 try {
@@ -315,6 +321,7 @@
                     this.queryStarCountMt(userId);
                     this.queryBookCount(userId);
                     this.detailInfo = detail.data.data;
+                    this.detailInsertHistory(this.detailInfo.title, this.detailInfo.bookId)
                 }).catch(error => {
                     this.loading = false;
                 })
