@@ -73,6 +73,17 @@
                 <span slot="label"><i class="el-icon-s-order"></i> 笔记</span>
                 <div v-loading="book.loading">
                     <!-- book content -->
+                    <div class="list_content_root_style">
+
+                    </div>
+                    <div class="block mg_pg_c">
+                        <el-pagination
+                                @current-change="handleCurrentBookChange"
+                                :current-page.sync="book.page"
+                                :page-size="book.pageSize"
+                                layout="prev, pager, next, jumper"
+                                :total="book.total">                        </el-pagination>
+                    </div>
                 </div>
             </el-tab-pane>
         </el-tabs>
@@ -80,7 +91,7 @@
 </template>
 <script>
 
-    import {deleteCollection, queryCollectionByUserForGame} from "../../../api/collection"
+    import {deleteCollection, queryCollectionByUserForGame, queryCollectionByUserForBook} from "../../../api/collection"
     import {getLoginInfo, loginStatus} from '../../../utils/loginStatus'
 
     export default {
@@ -110,7 +121,7 @@
                     loading: false,
                     total: 0,
                     page: 1,
-                    pageSize: 10,
+                    pageSize: 8,
                     listData: [],
                 }
             }
@@ -123,6 +134,7 @@
         },
         created() {
             this.getCollectionByUserForGame();
+            this.getCollectionByUserForBook();
         },
         methods: {
             mBeforeLeave(val) {
@@ -142,21 +154,41 @@
                 console.log("当前是第" + val + "页 ");
                 this.getCollectionByUserForGame();
             },
+            handleCurrentBookChange(val) {
+                console.log("当前是第" + val + "页 ");
+            },
+            async getCollectionByUserForBook() {
+                this.book.loading = true;
+                const params = {};
+                params["userId"] = getLoginInfo().id;
+                params["page"] = this.book.page;
+                params["pageSize"] = this.book.pageSize;
+                console.log("getCollectionByUserForBook params=>", params);
+                await queryCollectionByUserForBook(params).then(data => {
+                    console.log("queryCollectionByUserForBook=>", data);
+                    this.book.listData = data.data.data.lists;
+                    this.book.total = data.data.data.totalCount;
+                    this.book.loading = false;
+                }).catch(error => {
+                    console.log("getCollectionByUserForBook error=>", error);
+                    this.book.loading = false;
+                })
+            },
             async getCollectionByUserForGame() {
                 this.game.loading = true;
                 const params = {};
                 params["userId"] = getLoginInfo().id;
                 params["page"] = this.game.page;
                 params["pageSize"] = this.game.pageSize;
-                console.log("params=>", params);
+                console.log("getCollectionByUserForGame params=>", params);
                 await queryCollectionByUserForGame(params).then(data => {
-                    console.log("sdadadsa=>", data);
+                    console.log("getCollectionByUserForGame=>", data);
                     this.game.listData = data.data.data.lists;
                     this.game.total = data.data.data.totalCount;
                     this.game.loading = false;
                 }).catch(error => {
                     this.game.loading = false;
-                    console.log("sdadadsa error=>", error)
+                    console.log("getCollectionByUserForGame error=>", error)
                 })
             },
             collectionMT(val, index) {
@@ -231,6 +263,7 @@
     }
 
     .list_content_root_style {
+        min-height: 75vh;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap

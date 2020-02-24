@@ -34,3 +34,14 @@ export function queryCollectionByUserForGame(params) {
         params
     })
 }
+
+/**
+ * 获取收藏的book
+ */
+export function queryCollectionByUserForBook(params) {
+    return request({
+        url: `api/v1/collection/queryCollectionByUserForBook`,
+        method: 'get',
+        params
+    })
+}
