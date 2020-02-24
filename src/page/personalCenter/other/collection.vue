@@ -75,16 +75,18 @@
                     <!-- book content -->
                     <div class="list_content_root_style">
                         <div v-for="(itemData,index) in book.listData" :key="index">
-                            <el-card shadow="hover" class="allListCard_c">
+                            <el-card shadow="hover" class="allListCard_c" @click.native="itemClick(itemData.bookId)">
                                 <div class="allListTitle_c">
-                                    <i v-show="itemData.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
+                                    <i v-show="itemData.splash==='1'" class="el-icon-star-on"
+                                       style="color: #409EFF;"></i>
                                     <el-link>{{itemData.title}}</el-link>
                                 </div>
                                 <div class="allListDescription_c">
                                     <span class="popLabel">{{itemData.description}}</span>
                                 </div>
                                 <div class="allListTag_c">
-                                    <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''" :key="index"
+                                    <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''"
+                                            :key="index"
                                             v-for="(tag,index) in loadTag(itemData.img)" :disable-transitions="false">
                                         <i v-show="index===0" class="el-icon-collection-tag"></i>
                                         {{tag}}
@@ -116,6 +118,10 @@
                 </div>
             </el-tab-pane>
         </el-tabs>
+        <el-drawer :visible.sync="drawerDetail" :direction="direction"
+                   :modal-append-to-body="false" :show-close="false" size="100%" :close-on-press-escape="false">
+            <detail ref="childAll" :book-id="bookId"></detail>
+        </el-drawer>
     </div>
 </template>
 <script>
@@ -123,12 +129,22 @@
     import {deleteCollection, queryCollectionByUserForBook, queryCollectionByUserForGame} from "../../../api/collection"
     import {getLoginInfo, loginStatus} from '../../../utils/loginStatus'
     import {formatTime} from '../../../utils/formatUtils'
+    import detail from '../../children/book/detail'
 
     export default {
+        components: {detail},
         name: "collection",
         inject: ['changeStOne'],
+        provide() {
+            return {
+                closeAll: this.closeAll
+            }
+        },
         data() {
             return {
+                bookId: '',
+                drawerDetail: false,
+                direction: 'btt',
                 editableTabsValue: "0",
                 editableTabs: [{
                     title: '小游戏',
@@ -167,6 +183,15 @@
             this.getCollectionByUserForBook();
         },
         methods: {
+            closeAll() {
+                this.drawerDetail = false;
+                this.getCollectionByUserForBook();
+            },
+            itemClick(id) {
+                this.bookId = id;
+                this.drawerDetail = true;
+                this.$refs.childAll.test(id);
+            },
             formatTime,
             mBeforeLeave(val) {
                 console.log("sssss===>", val)
@@ -187,6 +212,7 @@
             },
             handleCurrentBookChange(val) {
                 console.log("当前是第" + val + "页 ");
+                this.getCollectionByUserForBook();
             },
             async getCollectionByUserForBook() {
                 this.book.loading = true;

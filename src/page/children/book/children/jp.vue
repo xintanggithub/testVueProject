@@ -5,7 +5,7 @@
             <el-button type="danger" icon="el-icon-star-on">精品推荐</el-button>
             <el-button @click="my" icon="el-icon-document">我的笔记</el-button>
             <el-button icon="el-icon-edit" type="warning" @click="addBook">新增笔记</el-button>
-            <el-button type="warning" icon="el-icon-star-on" @click="showCollectionJp">我的收藏</el-button>
+            <el-button type="success" icon="el-icon-star-on" @click="showCollectionJp">我的收藏</el-button>
             <el-autocomplete class="searchInput_jp" v-model="state" :fetch-suggestions="queryMySearchAsync"
                              placeholder="请输入搜索内容" @keyup.enter.native="enter"
                              :trigger-on-focus="false" @select="handleSelect">
