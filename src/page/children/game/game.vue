@@ -81,6 +81,7 @@
     import {queryListToCollection} from "../../../api/game"
     import {deleteCollection, insertCollection} from "../../../api/collection"
     import {getLoginInfo, loginStatus} from '../../../utils/loginStatus'
+    import {getInsertHistoryParams, insertHistory} from "../../../api/history"
 
     export default {
         name: 'game',
@@ -188,6 +189,14 @@
             },
             openItem(val) {
                 window.open(val.html);
+                if (loginStatus()) {
+                    this.detailInsertHistory(val.title, val.html)
+                }
+            },
+            async detailInsertHistory(name, id) {
+                await insertHistory(getInsertHistoryParams(getLoginInfo().id, "game", name, id)).then(() => {
+                }).catch(() => {
+                })
             },
             mouseover() {
                 console.log("====> mouseover ====>");

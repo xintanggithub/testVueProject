@@ -385,9 +385,13 @@
                 done();
             },
             historyClick(history) {
-                this.bookId = history.businessId;
-                this.drawerDetail = true;
-                this.$refs.childAll.test(history.businessId);
+                if (history.type === "book") {
+                    this.bookId = history.businessId;
+                    this.drawerDetail = true;
+                    this.$refs.childAll.test(history.businessId);
+                } else if (history.type === "game") {
+                    window.open(history.businessId);
+                }
             },
             async queryHistoryListMore(refresh) {
                 this.loadingDrawer = true;
