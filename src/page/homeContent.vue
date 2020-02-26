@@ -81,20 +81,29 @@
         },
         methods: {
             click(val) {
-                switch (val) {
-                    case "book":
-                        this.changeIndex3();
-                        break;
-                    case "game":
-                        this.changeIndex2();
-                        break;
-                    case "url":
-                        window.open(val.substr("url".length, val.length));
-                        break;
-                    case "page":
-                        this.$router.push({name: val.substr("page".length, val.length)});
-                        break;
+                if (val.indexOf("book") !== -1) {
+                    this.changeIndex3();
+                } else if (val.indexOf("game") !== -1) {
+                    this.changeIndex2();
+                } else if (val.indexOf("url") !== -1) {
+                    window.open(val.substr("url".length, val.length));
+                } else if (val.indexOf("page") !== -1) {
+                    this.$router.push({name: val.substr("page".length, val.length)});
                 }
+                // switch (val) {
+                //     case "book":
+                //         this.changeIndex3();
+                //         break;
+                //     case "game":
+                //         this.changeIndex2();
+                //         break;
+                //     case "url":
+                //         window.open(val.substr("url".length, val.length));
+                //         break;
+                //     case "page":
+                //         this.$router.push({name: val.substr("page".length, val.length)});
+                //         break;
+                // }
             },
             changeOne() {
                 this.changeIndex1();
