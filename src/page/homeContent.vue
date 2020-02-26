@@ -49,10 +49,11 @@
                             </div>
                             <div class="kl4">
                                 <div class="text_color" style="width: auto;">
-                                    主站推荐，好玩儿、好看、有趣的
+                                    敬请期待~
+                                    <!--lay api 接入 《漫画、音影、小说》-->
                                 </div>
                                 <div class="text_color" style="width: auto;">
-                                    没有喜欢的？也可上传推荐哦
+
                                 </div>
                             </div>
                         </div>
@@ -95,7 +96,7 @@
                         break;
                 }
             },
-            changeOne(){
+            changeOne() {
                 this.changeIndex1();
             },
             cardOne() {
