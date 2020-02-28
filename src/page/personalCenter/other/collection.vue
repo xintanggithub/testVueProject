@@ -6,7 +6,15 @@
                 <span slot="label"><i class="el-icon-s-platform"></i> 小游戏</span>
                 <div v-loading="game.loading">
                     <!--game content-->
-                    <div class="list_content_root_style">
+                    <div v-show="game.listData.length===0"
+                         style="width: 100%;height: 75vh;display:flex;justify-content: center;flex-direction: row;">
+                        <div style="height: 75vh;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+                            <img style="width: 5vw;" src="../../../res/img/empty_data.png">
+                            <br>
+                            暂无收藏
+                        </div>
+                    </div>
+                    <div v-show="game.listData.length>0" class="list_content_root_style">
                         <div v-for="(itemData,index) in game.listData" :key="index">
                             <el-card class="list_item_c"
                                      shadow="hover">
@@ -73,7 +81,15 @@
                 <span slot="label"><i class="el-icon-s-order"></i> 笔记</span>
                 <div v-loading="book.loading">
                     <!-- book content -->
-                    <div class="list_content_root_style">
+                    <div v-show="book.listData.length===0"
+                         style="width: 100%;height: 75vh;display:flex;justify-content: center;flex-direction: row;">
+                        <div style="height: 75vh;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+                            <img style="width: 5vw;" src="../../../res/img/empty_data.png">
+                            <br>
+                            暂无收藏
+                        </div>
+                    </div>
+                    <div v-show="book.listData.length>0" class="list_content_root_style">
                         <div v-for="(itemData,index) in book.listData" :key="index">
                             <el-card shadow="hover" class="allListCard_c" @click.native="itemClick(itemData.bookId)">
                                 <div class="allListTitle_c">
