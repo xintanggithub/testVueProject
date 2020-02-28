@@ -16,10 +16,25 @@
             <div v-show="firstMessage===''" v-for="(itemData,index) in listData" :key="index">
                 <el-card shadow="hover" class="allListCard">
                     <div class="allListTitle">
-                        <i class="el-icon-edit" style="color: #409EFF;cursor: pointer;"
-                           @click="editBook(itemData)">编辑</i>
-                        <i v-show="itemData.splash==='1'" class="el-icon-star-on" @click="itemClick(itemData.bookId)"
-                           style="color: #409EFF;"></i>
+                        <el-tooltip class="item" effect="dark"
+                                    content="对内容和设置进行修改"
+                                    placement="top">
+                            <i class="el-icon-edit" style="color: #409EFF;cursor: pointer;font-size: 14px;"
+                               @click="editBook(itemData)">编辑</i>
+                        </el-tooltip>
+                        <el-tooltip class="item" effect="dark"
+                                    :content="itemData.openType===1?'已公开':'私密'"
+                                    placement="top">
+                            <i :class="itemData.openType===1?'el-icon-folder-opened':'el-icon-folder'"
+                               :style="itemData.openType===1?'color: #67C23A;':'color: #E6A23C;'"></i>
+                        </el-tooltip>
+                        <el-tooltip class="item" effect="dark"
+                                    content="已被设为精品推荐"
+                                    placement="top">
+                            <i v-show="itemData.splash==='1'" class="el-icon-star-on"
+                               @click="itemClick(itemData.bookId)"
+                               style="color: #409EFF;"></i>
+                        </el-tooltip>
                         <el-link @click="itemClick(itemData.bookId)">{{itemData.title}}</el-link>
                     </div>
                     <div class="allListDescription" @click="itemClick(itemData.bookId)">
@@ -69,7 +84,8 @@
                 <el-input type="text" placeholder="请输入内容" v-model="editItem.title" maxlength="65" show-word-limit
                           class="editTitleInput editLog">
                 </el-input>
-                <el-checkbox style="margin-left: 1vw;" class="editLog" v-model="checkEdit" label="公开发布" border></el-checkbox>
+                <el-checkbox style="margin-left: 1vw;" class="editLog" v-model="checkEdit" label="公开发布"
+                             border></el-checkbox>
                 <el-button :icon="showMore?'el-icon-caret-top':'el-icon-caret-bottom'" style="margin-left: 1vw;"
                            @click="showMore=!showMore" circle></el-button>
                 <div style="width: 38%;display: flex;flex-direction: row-reverse;">
@@ -207,7 +223,7 @@
             this.loadListData(true);
         },
         methods: {
-            showCollectionMy(){
+            showCollectionMy() {
                 if (loginStatus()) {
                     this.$router.push({
                         name: 'collection',

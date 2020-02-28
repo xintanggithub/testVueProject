@@ -16,7 +16,11 @@
             <div v-show="firstMessage===''" v-for="(itemData,index) in listData" :key="index">
                 <el-card shadow="hover" class="allListCard">
                     <div class="allListTitle" @click="itemClick(itemData.bookId)">
-                        <i v-show="itemData.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
+                        <el-tooltip class="item" effect="dark"
+                                    content="精品推荐作品"
+                                    placement="top">
+                            <i v-show="itemData.splash==='1'" class="el-icon-star-on" style="color: #409EFF;"></i>
+                        </el-tooltip>
                         <el-link>{{itemData.title}}</el-link>
                     </div>
                     <div class="allListDescription" @click="itemClick(itemData.bookId)">
@@ -98,7 +102,7 @@
             this.loadListData(true);
         },
         methods: {
-            showCollectionAll(){
+            showCollectionAll() {
                 if (loginStatus()) {
                     this.$router.push({
                         name: 'collection',
