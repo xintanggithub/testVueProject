@@ -45,7 +45,9 @@ module.exports = (options = {}) => ({
             names: ['vendor', 'manifest']
         }),
         new HtmlWebpackPlugin({
-            template: 'src/index.html'
+            template: 'src/index.html',
+            favicon: resolve('./icon_ico.ico'),
+            inject: true,
         })
     ],
     resolve: {
