@@ -85,7 +85,7 @@
 
     export default {
         name: 'game',
-        inject: ['changeIndex2'],
+        inject: ['changeIndex1'],
         data() {
             return {
                 loading: false,
@@ -104,7 +104,7 @@
         },
         methods: {
             changeTwo() {
-                this.changeIndex2();
+                this.changeIndex1(2);
             },
             showCollection() {
                 if (loginStatus()) {

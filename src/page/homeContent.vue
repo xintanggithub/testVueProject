@@ -69,7 +69,7 @@
 
     export default {
         name: 'homeContent',
-        inject: ['changeIndex3', 'changeIndex2', 'changeIndex1'],
+        inject: ['changeIndex1', 'config'],
         data() {
             return {
                 topList: [],
@@ -106,13 +106,13 @@
                 // }
             },
             changeOne() {
-                this.changeIndex1();
+                this.changeIndex1(1);
             },
             cardOne() {
-                this.changeIndex3();
+                this.changeIndex1(3);
             },
             cardTwo() {
-                this.changeIndex2();
+                this.changeIndex1(2);
             },
             cardThree() {
             },
@@ -122,6 +122,7 @@
                     this.setBannerData(data.data.data.content1, data.data.data.img1);
                     this.setBannerData(data.data.data.content2, data.data.data.img2);
                     this.setBannerData(data.data.data.content3, data.data.data.img3);
+                    this.config(data.data.data.content8)
                 }).catch(error => {
                     console.log("error ===>", error)
                 })

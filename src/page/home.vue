@@ -12,6 +12,9 @@
                         <el-menu-item index="1">首页</el-menu-item>
                         <el-menu-item index="2">小游戏</el-menu-item>
                         <el-menu-item index="3">笔记</el-menu-item>
+                        <el-menu-item v-show="tabConfig.video===1" index="4">视频</el-menu-item>
+                        <el-menu-item v-show="tabConfig.cartoon===1" index="5">漫画</el-menu-item>
+                        <el-menu-item v-show="tabConfig.novel===1" index="6">小说</el-menu-item>
                     </el-menu>
                 </div>
                 <div class="logoHome">
@@ -37,26 +40,23 @@
         name: 'home',
         provide() {
             return {
-                changeIndex3: this.changeIndex3,
-                changeIndex2: this.changeIndex2,
                 changeIndex1: this.changeIndex1,
+                config: this.config,
             }
         },
         data() {
             return {
                 defaultIndexValue: "1",
                 activeIndex: '1',
+                tabConfig: {}
             }
         },
         methods: {
-            changeIndex3() {
-                this.handleSelect("3", ["3"]);
+            config(val) {
+                this.tabConfig = JSON.parse(val);
             },
-            changeIndex2() {
-                this.handleSelect("2", ["2"]);
-            },
-            changeIndex1() {
-                this.handleSelect("1", ["1"]);
+            changeIndex1(val) {
+                this.handleSelect("" + val, ["" + val]);
             },
             handleSelect(key, keyPath) {
                 if (keyPath[0] === this.defaultIndexValue) {

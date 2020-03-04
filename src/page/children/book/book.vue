@@ -6,7 +6,7 @@
 <script>
     export default {
         name: 'book',
-        inject: ['changeIndex3'],
+        inject: ['changeIndex1'],
         data() {
             return {
             }
@@ -16,7 +16,7 @@
         },
         methods: {
             changeThree() {
-                this.changeIndex3();
+                this.changeIndex1(3);
             },
         }
     }
