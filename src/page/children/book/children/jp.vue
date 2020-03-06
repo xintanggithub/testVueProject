@@ -1,5 +1,5 @@
 <template>
-    <div v-loading="firstLoading">
+    <div style="height: 100%;" v-loading="firstLoading">
         <div class="tabsDiv">
             <el-button @click="allBook" icon="el-icon-document-copy" class="marginLeftSt">笔记广场</el-button>
             <el-button type="danger" icon="el-icon-star-on">精品推荐</el-button>
