@@ -12,9 +12,7 @@
                         <el-menu-item index="1">首页</el-menu-item>
                         <el-menu-item index="2">小游戏</el-menu-item>
                         <el-menu-item index="3">笔记</el-menu-item>
-                        <el-menu-item v-show="tabConfig.video===1" index="4">视频</el-menu-item>
-                        <el-menu-item v-show="tabConfig.cartoon===1" index="5">漫画</el-menu-item>
-                        <el-menu-item v-show="tabConfig.novel===1" index="6">小说</el-menu-item>
+                        <el-menu-item v-show="tabConfig.video===1" index="4">娱乐</el-menu-item>
                     </el-menu>
                 </div>
                 <div class="logoHome">
@@ -72,6 +70,9 @@
                         break;
                     case "3":
                         this.$router.push({name: 'book'});
+                        break;
+                    case "4":
+
                         break;
                 }
                 this.activeIndex = key + "";
