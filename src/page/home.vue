@@ -72,7 +72,7 @@
                         this.$router.push({name: 'book'});
                         break;
                     case "4":
-
+                        this.$router.push({name: 'et'});
                         break;
                 }
                 this.activeIndex = key + "";

@@ -18,6 +18,8 @@ import jp from '~/page/children/book/children/jp'
 import HomeSample from "~/page/common_component/HomeSample";
 import collection from "~/page/personalCenter/other/collection";
 import changePassword from "~/page/personalCenter/other/changePassword";
+import et from "~/page/children/video/entertainment"
+
 
 Vue.use(Router);
 
@@ -53,6 +55,10 @@ export const commonRouterMap = [
                 name: 'jp',
                 component: jp
             }]
+        }, {
+            path: "et",
+            name: 'et',
+            component: et,
         }]
     }, {
         path: '/login',
