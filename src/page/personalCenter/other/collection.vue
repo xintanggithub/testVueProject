@@ -89,38 +89,40 @@
                             暂无收藏
                         </div>
                     </div>
-                    <div v-show="book.listData.length>0" class="list_content_root_style">
-                        <div v-for="(itemData,index) in book.listData" :key="index">
-                            <el-card shadow="hover" class="allListCard_c" @click.native="itemClick(itemData.bookId)">
-                                <div class="allListTitle_c">
-                                    <i v-show="itemData.splash==='1'" class="el-icon-star-on"
-                                       style="color: #409EFF;"></i>
-                                    <el-link>{{itemData.title}}</el-link>
-                                </div>
-                                <div class="allListDescription_c">
-                                    <span class="popLabel">{{itemData.description}}</span>
-                                </div>
-                                <div class="allListTag_c">
-                                    <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''"
-                                            :key="index"
-                                            v-for="(tag,index) in loadTag(itemData.img)" :disable-transitions="false">
-                                        <i v-show="index===0" class="el-icon-collection-tag"></i>
-                                        {{tag}}
-                                    </el-tag>
-                                </div>
-                                <div class="allListUser_c">
-                                    <el-avatar size="small" :src="itemData.userHead">
-                                        <img :src="require('../../../res/img/user_center.png')"/>
-                                    </el-avatar>
-                                    <div style="display: flex;flex-direction: column;">
-                                        <el-link type="info"
-                                                 style="width:auto;margin-left: 1vw;font-size: 13px;justify-content: start;">
-                                            {{itemData.userName}}
-                                        </el-link>
-                                        <span style="font-size: 11px;;color: #909399;margin-left: 1vw;">{{formatTime(itemData.updateTime)}}</span>
+                    <div style="height: 75vh;">
+                        <div v-show="book.listData.length>0" class="list_content_root_style">
+                            <div v-for="(itemData,index) in book.listData" :key="index">
+                                <el-card shadow="hover" class="allListCard_c" @click.native="itemClick(itemData.bookId)">
+                                    <div class="allListTitle_c">
+                                        <i v-show="itemData.splash==='1'" class="el-icon-star-on"
+                                           style="color: #409EFF;"></i>
+                                        <el-link>{{itemData.title}}</el-link>
                                     </div>
-                                </div>
-                            </el-card>
+                                    <div class="allListDescription_c">
+                                        <span class="popLabel">{{itemData.description}}</span>
+                                    </div>
+                                    <div class="allListTag_c">
+                                        <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''"
+                                                :key="index"
+                                                v-for="(tag,index) in loadTag(itemData.img)" :disable-transitions="false">
+                                            <i v-show="index===0" class="el-icon-collection-tag"></i>
+                                            {{tag}}
+                                        </el-tag>
+                                    </div>
+                                    <div class="allListUser_c">
+                                        <el-avatar size="small" :src="itemData.userHead">
+                                            <img :src="require('../../../res/img/user_center.png')"/>
+                                        </el-avatar>
+                                        <div style="display: flex;flex-direction: column;">
+                                            <el-link type="info"
+                                                     style="width:auto;margin-left: 1vw;font-size: 13px;justify-content: start;">
+                                                {{itemData.userName}}
+                                            </el-link>
+                                            <span style="font-size: 11px;;color: #909399;margin-left: 1vw;">{{formatTime(itemData.updateTime)}}</span>
+                                        </div>
+                                    </div>
+                                </el-card>
+                            </div>
                         </div>
                     </div>
                     <div class="block mg_pg_c">
@@ -337,7 +339,6 @@
     }
 
     .list_content_root_style {
-        min-height: 75vh;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap
