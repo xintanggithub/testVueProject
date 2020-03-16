@@ -14,56 +14,59 @@
                             暂无收藏
                         </div>
                     </div>
-                    <div v-show="game.listData.length>0" class="list_content_root_style">
-                        <div v-for="(itemData,index) in game.listData" :key="index">
-                            <el-card class="list_item_c"
-                                     shadow="hover">
-                                <div style="position: relative;">
-                                    <div style="position: absolute;z-index: 10;">
-                                        <el-image @click="openItem(itemData)" fit="cover"
-                                                  class="img_item_c" :src="itemData.img">
-                                        </el-image>
-                                        <div @click="openItem(itemData)" style="display: flex;flex-direction: column;">
-                                            <div>
-                                                <el-link type="warning">{{itemData.title}}</el-link>
+                    <div style="height: 75vh;">
+                        <div v-show="game.listData.length>0" class="list_content_root_style">
+                            <div v-for="(itemData,index) in game.listData" :key="index">
+                                <el-card class="list_item_c"
+                                         shadow="hover">
+                                    <div style="position: relative;">
+                                        <div style="position: absolute;z-index: 10;">
+                                            <el-image @click="openItem(itemData)" fit="cover"
+                                                      class="img_item_c" :src="itemData.img">
+                                            </el-image>
+                                            <div @click="openItem(itemData)"
+                                                 style="display: flex;flex-direction: column;">
+                                                <div>
+                                                    <el-link type="warning">{{itemData.title}}</el-link>
+                                                </div>
+                                                <div style="margin-top: 4px;">
+                                                    <el-tag type="warning" size="mini"
+                                                            :style="index!==0?'margin-left: 0.5vw;':''"
+                                                            :key="index"
+                                                            v-for="(tag,index) in loadTag(itemData.tag)"
+                                                            :disable-transitions="false">
+                                                        <i v-show="index===0" class="el-icon-collection-tag"></i>
+                                                        {{tag}}
+                                                    </el-tag>
+                                                </div>
+                                                <div style="max-height: 5vh;min-height: 5vh;">
+                                                    <span style="color: rgba(0,0,0,0.65);font-size: 12px;"> {{itemData.content}}</span>
+                                                </div>
                                             </div>
-                                            <div style="margin-top: 4px;">
-                                                <el-tag type="warning" size="mini"
-                                                        :style="index!==0?'margin-left: 0.5vw;':''"
-                                                        :key="index"
-                                                        v-for="(tag,index) in loadTag(itemData.tag)"
-                                                        :disable-transitions="false">
-                                                    <i v-show="index===0" class="el-icon-collection-tag"></i>
-                                                    {{tag}}
-                                                </el-tag>
-                                            </div>
-                                            <div style="max-height: 5vh;min-height: 5vh;">
-                                                <span style="color: rgba(0,0,0,0.65);font-size: 12px;"> {{itemData.content}}</span>
+                                        </div>
+                                        <div :style="game.showSC===index?'background-color: rgba(0,0,0,0.46);':'background-color: transparent;'"
+                                             class="top_img_btn_c" @mouseover="game.showSC=index"
+                                             @mouseout="game.showSC=-1">
+                                            <div class="sc_sc" v-show="game.showSC===index">
+                                                <div style="display: flex;flex-direction: row;">
+                                                    <el-tooltip v-show="loginStatus()" class="item" effect="dark"
+                                                                content="取消收藏多可惜"
+                                                                placement="top">
+                                                        <el-button type="warning" icon="el-icon-star-on" circle
+                                                                   @click="collectionMT(itemData,index)"></el-button>
+                                                    </el-tooltip>
+                                                    <el-tooltip class="item" effect="dark" content="点击开始玩游戏"
+                                                                placement="top">
+                                                        <el-button type="success" icon="el-icon-s-promotion" circle
+                                                                   @click="openItem(itemData)"></el-button>
+                                                    </el-tooltip>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div :style="game.showSC===index?'background-color: rgba(0,0,0,0.46);':'background-color: transparent;'"
-                                         class="top_img_btn_c" @mouseover="game.showSC=index"
-                                         @mouseout="game.showSC=-1">
-                                        <div class="sc_sc" v-show="game.showSC===index">
-                                            <div style="display: flex;flex-direction: row;">
-                                                <el-tooltip v-show="loginStatus()" class="item" effect="dark"
-                                                            content="取消收藏多可惜"
-                                                            placement="top">
-                                                    <el-button type="warning" icon="el-icon-star-on" circle
-                                                               @click="collectionMT(itemData,index)"></el-button>
-                                                </el-tooltip>
-                                                <el-tooltip class="item" effect="dark" content="点击开始玩游戏"
-                                                            placement="top">
-                                                    <el-button type="success" icon="el-icon-s-promotion" circle
-                                                               @click="openItem(itemData)"></el-button>
-                                                </el-tooltip>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                            </el-card>
+                                </el-card>
+                            </div>
                         </div>
                     </div>
                     <div class="block mg_pg_c">
@@ -92,7 +95,8 @@
                     <div style="height: 75vh;">
                         <div v-show="book.listData.length>0" class="list_content_root_style">
                             <div v-for="(itemData,index) in book.listData" :key="index">
-                                <el-card shadow="hover" class="allListCard_c" @click.native="itemClick(itemData.bookId)">
+                                <el-card shadow="hover" class="allListCard_c"
+                                         @click.native="itemClick(itemData.bookId)">
                                     <div class="allListTitle_c">
                                         <i v-show="itemData.splash==='1'" class="el-icon-star-on"
                                            style="color: #409EFF;"></i>
@@ -104,7 +108,8 @@
                                     <div class="allListTag_c">
                                         <el-tag type="warning" size="mini" :style="index!==0?'margin-left: 0.5vw;':''"
                                                 :key="index"
-                                                v-for="(tag,index) in loadTag(itemData.img)" :disable-transitions="false">
+                                                v-for="(tag,index) in loadTag(itemData.img)"
+                                                :disable-transitions="false">
                                             <i v-show="index===0" class="el-icon-collection-tag"></i>
                                             {{tag}}
                                         </el-tag>
