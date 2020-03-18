@@ -21,7 +21,8 @@ import changePassword from "~/page/personalCenter/other/changePassword";
 import et from "~/page/children/video/entertainment"
 import mh from "~/page/children/video/children/mh"
 import xs from "~/page/children/video/children/xs"
-
+import mhsc from "~/page/children/video/children/mhSearch"
+import xssc from "~/page/children/video/children/xsSearch"
 
 Vue.use(Router);
 
@@ -70,6 +71,14 @@ export const commonRouterMap = [
                 path: 'xs',
                 name: 'xs',
                 component: xs
+            }, {
+                path: 'mhsc',
+                name: 'mhsc',
+                component: mhsc
+            }, {
+                path: 'xssc',
+                name: 'xssc',
+                component: xssc
             }]
         }]
     }, {

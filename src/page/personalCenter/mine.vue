@@ -19,7 +19,9 @@
             </div>
         </div>
         <div class="contentDivPC">
-            <router-view></router-view>
+            <transition :name="direction">
+                <router-view class="appView"></router-view>
+            </transition>
         </div>
         <my-footer></my-footer>
     </div>
@@ -38,6 +40,7 @@
         },
         data() {
             return {
+                direction: "slide-right",
                 currentIndex: '22',
                 defaultIndex: '22',
             }
@@ -123,4 +126,19 @@
         z-index: 99;
         margin-left: 8vw;
     }
+
+    .appView {
+        position: absolute;
+        width: 100%;
+        transition: transform 0.3s ease-out;
+    }
+
+    .slide-right-enter {
+        transform: translate(-90%, 0);
+    }
+
+    .slide-right-leave-active {
+        transform: translate(100%, 0);
+    }
+
 </style>

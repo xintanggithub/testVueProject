@@ -2,7 +2,7 @@
     <div class="etRoot">
         <div style="width: 8vw;">
             <div class="et_search_rt">
-                <el-button icon="el-icon-search" class="et_search_bt" circle></el-button>
+                <el-button icon="el-icon-search" class="et_search_bt" circle @click="search"></el-button>
             </div>
             <el-menu :default-active="activeIndex" mode="vertical" @select="handleSelect" background-color="#fff"
                      text-color="#000" active-text-color="#E6A23C" class="et_rt_tab">
@@ -11,7 +11,9 @@
             </el-menu>
         </div>
         <div class="et_ct_rt">
-            <router-view></router-view>
+            <transition :name="direction">
+                <router-view class="appView"></router-view>
+            </transition>
         </div>
     </div>
 </template>
@@ -26,8 +28,10 @@
         },
         data() {
             return {
+                direction: "slide-right",
                 defaultIndexValue: "1",
                 activeIndex: '1',
+                scIndex: -1,
             }
         },
         mounted() {
@@ -37,6 +41,7 @@
                 this.handleSelect("" + val, ["" + val]);
             },
             handleSelect(key, keyPath) {
+                this.scIndex = -1;
                 if (keyPath[0] === this.defaultIndexValue) {
                     return
                 }
@@ -51,7 +56,26 @@
                 }
                 this.activeIndex = key + "";
                 console.log(key, keyPath);
-            }
+            },
+            search() {
+                this.defaultIndexValue = '0';
+                switch (this.activeIndex) {
+                    case "1":
+                        if (this.scIndex === 1) {
+                            return
+                        }
+                        this.$router.push({name: 'mhsc'});
+                        this.scIndex = 1;
+                        break;
+                    case "2":
+                        if (this.scIndex === 2) {
+                            return
+                        }
+                        this.$router.push({name: 'xssc'});
+                        this.scIndex = 2;
+                        break;
+                }
+            },
         }
     }
 
@@ -70,7 +94,8 @@
         height: auto;
         margin-top: 2vh;
         box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-        margin-left: 4.7vw;
+        margin-left: 4vw;
+        position: absolute;
     }
 
     .et_ct_rt {
@@ -88,6 +113,20 @@
 
     .et_search_bt {
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .appView {
+        position: absolute;
+        width: 100%;
+        transition: transform 0.3s ease-out;
+    }
+
+    .slide-right-enter {
+        transform: translate(-90%, 0);
+    }
+
+    .slide-right-leave-active {
+        transform: translate(100%, 0);
     }
 
 </style>

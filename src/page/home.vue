@@ -12,7 +12,8 @@
                         <el-menu-item index="1">首页</el-menu-item>
                         <el-menu-item index="2">小游戏</el-menu-item>
                         <el-menu-item index="3">笔记</el-menu-item>
-                        <el-menu-item v-show="tabConfig.video===1" index="4">娱乐</el-menu-item>
+                        <el-menu-item index="4">娱乐</el-menu-item>
+                        <!--v-show="tabConfig.video===1"-->
                     </el-menu>
                 </div>
                 <div class="logoHome">
@@ -23,7 +24,9 @@
         </div>
         <!--content-->
         <div class="contentDiv">
-            <router-view></router-view>
+            <transition :name="direction">
+                <router-view class="appView"></router-view>
+            </transition>
         </div>
         <my-footer></my-footer>
     </div>
@@ -44,6 +47,7 @@
         },
         data() {
             return {
+                direction: "slide-left",
                 defaultIndexValue: "1",
                 activeIndex: '1',
                 tabConfig: {}
@@ -122,4 +126,27 @@
         width: 100vw;
         padding-left: 18vw;
     }
+
+    .appView {
+        position: absolute;
+        width: 100%;
+        transition: transform 0.3s ease-out;
+    }
+
+    .slide-left-enter {
+        transform: translate(100%, 0);
+    }
+
+    .slide-left-leave-active {
+        transform: translate(-90%, 0);
+    }
+
+    .slide-right-enter {
+        transform: translate(-90%, 0);
+    }
+
+    .slide-right-leave-active {
+        transform: translate(100%, 0);
+    }
+
 </style>
