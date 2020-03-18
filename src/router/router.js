@@ -19,6 +19,8 @@ import HomeSample from "~/page/common_component/HomeSample";
 import collection from "~/page/personalCenter/other/collection";
 import changePassword from "~/page/personalCenter/other/changePassword";
 import et from "~/page/children/video/entertainment"
+import mh from "~/page/children/video/children/mh"
+import xs from "~/page/children/video/children/xs"
 
 
 Vue.use(Router);
@@ -59,6 +61,16 @@ export const commonRouterMap = [
             path: "et",
             name: 'et',
             component: et,
+            redirect: '/et/mh',
+            children: [{
+                path: 'mh',
+                name: 'mh',
+                component: mh
+            }, {
+                path: 'xs',
+                name: 'xs',
+                component: xs
+            }]
         }]
     }, {
         path: '/login',
