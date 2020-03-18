@@ -1,7 +1,12 @@
 <template>
     <div class="mh_root">
-        <el-card shadow="always" class="mh_content">
-
+        <el-card v-loading="loading" shadow="always" class="mh_content">
+            <div style="width: 100%;height: auto;max-height: 80vh;overflow-y: scroll;display: flex;flex-direction: row;flex-wrap: wrap;">
+                <div v-for="(itemData,index) in listData">
+                    {{itemData.name}}
+                    {{itemData.cover}}
+                </div>
+            </div>
         </el-card>
         <div class="mg_tag_root">
             <el-tag class="tag_top"
@@ -11,17 +16,19 @@
                     :type="tag.type">
                 {{tag.title}}{{indexD===index?'◆':''}}
             </el-tag>
-
         </div>
     </div>
 </template>
 <script>
+
+    import {queryMhList} from "../../../../api/enterainment"
 
     export default {
         name: 'mh',
         inject: ['changeIndex'],
         data() {
             return {
+                loading: false,
                 indexD: 0,
                 tags: [
                     {title: "　全部　", value: "qb", type: "info"},
@@ -44,11 +51,13 @@
                     {title: "日韩漫画", value: "rihan", type: "danger"},
                     {title: "港台漫画", value: "gangtai", type: "success"},
                     {title: "欧美漫画", value: "omei", type: "success"}
-                ]
+                ],
+                listData: [],
             }
         },
         mounted() {
             this.changeIndexMt();
+            this.queryList(null)
         },
         methods: {
             changeIndexMt() {
@@ -58,6 +67,23 @@
                 this.indexD = index;
                 console.log("click tag ====>", tag)
             },
+            async queryList(type) {
+                this.loading = true;
+                const params = {};
+                params['page'] = 1;
+                if (type) {
+                    params['type'] = type;
+                }
+                console.log("queryList params====>", params);
+                await queryMhList(params).then(data => {
+                    console.log("queryList data====>", data.data.data);
+                    this.loading = false;
+                    this.listData = data.data.data.lists;
+                }).catch(err => {
+                    console.log("queryList err====>", err);
+                    this.loading = false;
+                })
+            }
         }
     }
 
