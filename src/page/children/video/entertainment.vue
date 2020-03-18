@@ -2,15 +2,14 @@
     <div class="etRoot">
         <div style="width: 8vw;">
             <el-menu :default-active="activeIndex" mode="vertical" @select="handleSelect" background-color="#fff"
-                     text-color="#000" active-text-color="#E6A23C"
-                     style="width: 4vw;height: auto;margin-top: 5vh;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);margin-left: 4.8vw;">
+                     text-color="#000" active-text-color="#E6A23C" class="et_rt_tab">
                 <el-menu-item index="1">漫画</el-menu-item>
                 <el-menu-item index="2">小说</el-menu-item>
             </el-menu>
         </div>
-        <el-card shadow="hover" style="width: 84vw;margin-top: 1.4vh;height: 86vh;">
+        <div class="et_ct_rt">
             <router-view></router-view>
-        </el-card>
+        </div>
     </div>
 </template>
 <script>
@@ -61,6 +60,20 @@
         padding-top: 0.8vh;
         display: flex;
         flex-direction: row;
+    }
+
+    .et_rt_tab {
+        width: 4vw;
+        height: auto;
+        margin-top: 5vh;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+        margin-left: 4.8vw;
+    }
+
+    .et_ct_rt {
+        width: 90vw;
+        margin-top: 1.4vh;
+        height: 86vh;
     }
 
 </style>
