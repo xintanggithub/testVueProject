@@ -1,6 +1,8 @@
 <template>
     <div>
-        seach
+        <el-card class="mh_sc">
+            search
+        </el-card>
     </div>
 </template>
 <script>
@@ -15,5 +17,8 @@
 
 </script>
 <style>
-
+    .mh_sc {
+        width: 84vw;
+        height: 86vh;
+    }
 </style>

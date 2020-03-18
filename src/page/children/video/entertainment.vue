@@ -2,7 +2,8 @@
     <div class="etRoot">
         <div style="width: 8vw;">
             <div class="et_search_rt">
-                <el-button icon="el-icon-search" class="et_search_bt" circle @click="search"></el-button>
+                <el-button v-show="showSearch" icon="el-icon-search" class="et_search_bt" circle
+                           @click="search"></el-button>
             </div>
             <el-menu :default-active="activeIndex" mode="vertical" @select="handleSelect" background-color="#fff"
                      text-color="#000" active-text-color="#E6A23C" class="et_rt_tab">
@@ -32,6 +33,7 @@
                 defaultIndexValue: "1",
                 activeIndex: '1',
                 scIndex: -1,
+                showSearch: true,
             }
         },
         mounted() {
@@ -49,32 +51,24 @@
                 switch (keyPath[0]) {
                     case "1":
                         this.$router.push({name: 'mh'});
+                        this.showSearch = true;
                         break;
                     case "2":
                         this.$router.push({name: 'xs'});
+                        this.showSearch = false;
                         break;
                 }
                 this.activeIndex = key + "";
                 console.log(key, keyPath);
             },
             search() {
-                this.defaultIndexValue = '0';
-                switch (this.activeIndex) {
-                    case "1":
-                        if (this.scIndex === 1) {
-                            return
-                        }
-                        this.$router.push({name: 'mhsc'});
-                        this.scIndex = 1;
-                        break;
-                    case "2":
-                        if (this.scIndex === 2) {
-                            return
-                        }
-                        this.$router.push({name: 'xssc'});
-                        this.scIndex = 2;
-                        break;
+                if (this.scIndex === 1) {
+                    return
                 }
+                this.defaultIndexValue = '0';
+                this.$router.push({name: 'mhsc'});
+                this.scIndex = 1;
+
             },
         }
     }

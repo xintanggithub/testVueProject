@@ -1,6 +1,8 @@
 <template>
     <div>
-        xs
+        <el-card class="xs_sc">
+            xs
+        </el-card>
     </div>
 </template>
 <script>
@@ -18,5 +20,8 @@
     }
 </script>
 <style>
-
+    .xs_sc {
+        width: 84vw;
+        height: 86vh;
+    }
 </style>
