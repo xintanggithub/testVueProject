@@ -1,15 +1,15 @@
 <template>
     <div class="mh_root">
         <el-card v-loading="loading" shadow="always" class="mh_content">
-            <div style="width: 100%;height: auto;max-height: 80vh;overflow-y: scroll;display: flex;flex-direction: row;flex-wrap: wrap;">
+            <div class="mh_list_root">
                 <div v-for="(itemData,index) in listData">
-                    <div style="width: 10vw;display: flex;flex-direction: column;">
+                    <div class="mh_item_root" @click="mhItemClick(itemData)">
                         <el-image :fit="cover" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
-                        <div style="width:8vw;overflow: hidden;-webkit-line-clamp: 1;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;height: 2.2vh;">
+                        <div class="mh_title">
                             <span style="font-size: 13px;">{{itemData.name}}</span>
                         </div>
-                        <span style="font-size: 12px;color: #909399;">时间：{{itemData.time}}</span>
-                        <span style="font-size: 12px;color: #F56C6C;margin-bottom: 10px;width: 8vw;">最新章节：{{itemData.latest}}</span>
+                        <span class="mh_time">更新时间：{{itemData.time}}</span>
+                        <span class="mh_last">最新章节：{{itemData.latest}}</span>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,6 @@
 <script>
 
     import {queryMhList} from "../../../../api/enterainment"
-    import {formatHead} from "~/utils/formatUtils";
 
     export default {
         name: 'mh',
@@ -67,15 +66,23 @@
             this.queryList(null)
         },
         methods: {
-            formatHeadA(val) {
-                return formatHead(val);
+            mhItemClick(itemData) {
+                console.log("mhItem click ====>", itemData);
             },
             changeIndexMt() {
                 this.changeIndex(1)
             },
             tagClick(tag, index) {
+                console.log("click index=> " + index + " tag ====>", tag);
+                if (this.indexD === index) {
+                    return
+                }
                 this.indexD = index;
-                console.log("click tag ====>", tag);
+                if (this.indexD === 0) {
+                    this.queryList(null);
+                } else {
+                    this.queryList(tag.value);
+                }
             },
             async queryList(type) {
                 this.loading = true;
@@ -121,6 +128,44 @@
         margin-top: 0.5vh;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         cursor: pointer;
+    }
+
+    .mh_last {
+        font-size: 12px;
+        color: #F56C6C;
+        margin-bottom: 10px;
+        width: 8vw;
+    }
+
+    .mh_time {
+        font-size: 11px;
+        color: #909399;
+    }
+
+    .mh_title {
+        width: 8vw;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        height: 2.2vh;
+    }
+
+    .mh_item_root {
+        width: 10vw;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mh_list_root {
+        width: 100%;
+        height: auto;
+        max-height: 80vh;
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 
 </style>
