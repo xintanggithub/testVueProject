@@ -3,8 +3,14 @@
         <el-card v-loading="loading" shadow="always" class="mh_content">
             <div style="width: 100%;height: auto;max-height: 80vh;overflow-y: scroll;display: flex;flex-direction: row;flex-wrap: wrap;">
                 <div v-for="(itemData,index) in listData">
-                    {{itemData.name}}
-                    {{itemData.cover}}
+                    <div style="width: 10vw;display: flex;flex-direction: column;">
+                        <el-image :fit="cover" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
+                        <div style="width:8vw;overflow: hidden;-webkit-line-clamp: 1;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;height: 2.2vh;">
+                            <span style="font-size: 13px;">{{itemData.name}}</span>
+                        </div>
+                        <span style="font-size: 12px;color: #909399;">时间：{{itemData.time}}</span>
+                        <span style="font-size: 12px;color: #F56C6C;margin-bottom: 10px;width: 8vw;">最新章节：{{itemData.latest}}</span>
+                    </div>
                 </div>
             </div>
         </el-card>
@@ -22,6 +28,7 @@
 <script>
 
     import {queryMhList} from "../../../../api/enterainment"
+    import {formatHead} from "~/utils/formatUtils";
 
     export default {
         name: 'mh',
@@ -60,12 +67,15 @@
             this.queryList(null)
         },
         methods: {
+            formatHeadA(val) {
+                return formatHead(val);
+            },
             changeIndexMt() {
                 this.changeIndex(1)
             },
             tagClick(tag, index) {
                 this.indexD = index;
-                console.log("click tag ====>", tag)
+                console.log("click tag ====>", tag);
             },
             async queryList(type) {
                 this.loading = true;
