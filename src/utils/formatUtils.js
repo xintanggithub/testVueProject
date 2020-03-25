@@ -1,4 +1,3 @@
-
 export function formatTime(num) {
     let len = (num + ' ').length;
     let data = "";
@@ -18,4 +17,22 @@ export function formatTime(num) {
     let s = date.getSeconds();
     return Y + M + D + h + m + s;
 
+}
+
+export function formatHead(val) {
+    if (!val) {
+        return ""
+    }
+    let url = '';
+    let head = val.substr(0, 5);
+    console.log("head ==>", head);
+    if (head === 'https') {
+        let end = val.substr(5, val.length - 5);
+        console.log("end ==>", end);
+        url = 'http' + end;
+    } else {
+        url = val;
+    }
+    console.log("url ==>", url);
+    return url
 }

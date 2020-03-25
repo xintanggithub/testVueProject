@@ -126,6 +126,17 @@ export function updateBook(params) {
     })
 }
 
+/**
+ * 删除笔记
+ */
+export function deleteBook(params) {
+    return request({
+        url: `api/v1/book/deleteBook`,
+        method: 'get',
+        params
+    })
+}
+
 //
 // export function login(params) {
 //     return request({

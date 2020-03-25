@@ -23,6 +23,12 @@
                                @click="editBook(itemData)">编辑</i>
                         </el-tooltip>
                         <el-tooltip class="item" effect="dark"
+                                    content="删除"
+                                    placement="top">
+                            <i @click="deleteShow(itemData,index)" class="el-icon-delete"
+                               style="color: #F56C6C;cursor: pointer;font-size: 14px;"></i>
+                        </el-tooltip>
+                        <el-tooltip class="item" effect="dark"
                                     :content="itemData.openType===1?'已公开':'私密'"
                                     placement="top">
                             <i :class="itemData.openType===1?'el-icon-folder-opened':'el-icon-folder'"
@@ -143,7 +149,7 @@
     import {loginStatus} from '../../../../utils/loginStatus'
     import {formatTime} from '../../../../utils/formatUtils'
     import detail from '../detail'
-    import {updateBook, updateBookParams} from "~/api/book";
+    import {updateBook, updateBookParams, deleteBook} from "~/api/book";
     import {getLoginInfo} from "~/utils/loginStatus";
 
     export default {
@@ -223,6 +229,39 @@
             this.loadListData(true);
         },
         methods: {
+            async deleteBookMt(bookId, success, fail) {
+                const params = {};
+                params['userId'] = getLoginInfo().id;
+                params['bookId'] = bookId;
+                await deleteBook(params).then(data => {
+                    success(data)
+                }).catch(err => {
+                    fail(err)
+                })
+            },
+            deleteShow(itemData, index) {
+                this.$confirm('此操作将永久删除该内容, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let v = this;
+                    this.deleteBookMt(itemData.bookId, function (data) {
+                        v.listData.splice(index, 1);
+                        v.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }, function (err) {
+                        v.$message({
+                            type: 'error',
+                            message: '删除失败' | err
+                        });
+                    })
+
+                }).catch(() => {
+                });
+            },
             showCollectionMy() {
                 if (loginStatus()) {
                     this.$router.push({
