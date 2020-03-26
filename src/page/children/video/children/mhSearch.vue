@@ -18,9 +18,28 @@
                             </div>
                         </div>
                     </div>
+                    <div v-show="listData.length>0 && !error" v-for="(itemData,index) in listData">
+                        <div class="mh_item_root2" @click="mhItemClick(itemData)">
+                            <el-image :fit="cover" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
+                            <div class="mh_title2">
+                                <span style="font-size: 13px;">{{itemData.name}}</span>
+                            </div>
+                            <span class="mh_time2">更新时间：{{itemData.time?itemData.time:'无'}}</span>
+                            <span class="mh_last2">最新章节：{{itemData.latest?itemData.latest:'无'}}</span>
+                            <span class="mh_last_h">作者：{{itemData.author?itemData.author:'无'}}</span>
+                            <span class="mh_last_h" style="margin-bottom: 5px;">标签：
+                                <el-tag v-show="itemData.author" type="info" size="mini" :key="index"
+                                        :style="index!==0?'margin-left: 0.5vw;':''"
+                                        v-for="(tag,index) in loadTag(itemData.tag)" :disable-transitions="false">
+                                    <i v-show="index===0" class="el-icon-collection-tag"></i>
+                                    {{tag}}
+                                </el-tag>{{itemData.author?'':'无'}}
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div v-show="total>0" class="mh_search_bt">
-                    <span>总共有{{total}}条结果</span>
+                    <span class="mh_last2">搜索到{{total}}条结果</span>
                 </div>
             </div>
         </el-card>
@@ -42,6 +61,15 @@
             }
         },
         methods: {
+            loadTag(val) {
+                if (null === val || "" === val || undefined === val) {
+                    return ["暂无标签"]
+                }
+                return val.split("|");
+            },
+            mhItemClick(itemData) {
+
+            },
             enter() {
                 console.log("enter ===> ", this.searchKey);
                 if (this.searchKey) {
@@ -93,6 +121,33 @@
         flex-wrap: wrap;
     }
 
+    .mh_time2 {
+        font-size: 11px;
+        color: #909399;
+    }
+
+    .mh_last2 {
+        font-size: 12px;
+        color: #F56C6C;
+        width: 8vw;
+    }
+
+    .mh_last_h {
+        font-size: 12px;
+        color: #909399;
+        width: 8vw;
+    }
+
+    .mh_title2 {
+        width: 8vw;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        height: 2.2vh;
+    }
+
     .mh_search_list_root {
         width: 100%;
         height: 73vh;
@@ -123,6 +178,12 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
+    }
+
+    .mh_item_root2 {
+        width: 10vw;
+        display: flex;
+        flex-direction: column;
     }
 
 </style>
