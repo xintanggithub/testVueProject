@@ -65,6 +65,7 @@
                 if (this.scIndex === 1) {
                     return
                 }
+                this.showSearch = false;
                 this.defaultIndexValue = '0';
                 this.$router.push({name: 'mhsc'});
                 this.scIndex = 1;
