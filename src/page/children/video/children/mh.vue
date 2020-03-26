@@ -1,17 +1,25 @@
 <template>
     <div class="mh_root">
         <el-card v-loading="loading" shadow="always" class="mh_content">
-            <div class="mh_list_root">
-                <div v-for="(itemData,index) in listData">
-                    <div class="mh_item_root" @click="mhItemClick(itemData)">
-                        <el-image :fit="cover" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
-                        <div class="mh_title">
-                            <span style="font-size: 13px;">{{itemData.name}}</span>
+            <div>
+                <div class="mh_list_root">
+                    <div v-for="(itemData,index) in listData">
+                        <div class="mh_item_root" @click="mhItemClick(itemData)">
+                            <el-image :fit="cover" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
+                            <div class="mh_title">
+                                <span style="font-size: 13px;">{{itemData.name}}</span>
+                            </div>
+                            <span class="mh_time">更新时间：{{itemData.time}}</span>
+                            <span class="mh_last">最新章节：{{itemData.latest}}</span>
                         </div>
-                        <span class="mh_time">更新时间：{{itemData.time}}</span>
-                        <span class="mh_last">最新章节：{{itemData.latest}}</span>
                     </div>
                 </div>
+                <el-pagination
+                        layout="prev, pager, next, total"
+                        @current-change="handleCurrentChange"
+                        :page-size="100"
+                        :total="total">
+                </el-pagination>
             </div>
         </el-card>
         <div class="mg_tag_root">
@@ -34,6 +42,8 @@
         inject: ['changeIndex'],
         data() {
             return {
+                total: 0,
+                page: 1,
                 loading: false,
                 indexD: 0,
                 tags: [
@@ -86,8 +96,9 @@
             },
             async queryList(type) {
                 this.loading = true;
+                this.listData = [];
                 const params = {};
-                params['page'] = 1;
+                params['page'] = this.page;
                 if (type) {
                     params['type'] = type;
                 }
@@ -95,12 +106,22 @@
                 await queryMhList(params).then(data => {
                     console.log("queryList data====>", data.data.data);
                     this.loading = false;
+                    this.total = data.data.data.totalCount;
                     this.listData = data.data.data.lists;
                 }).catch(err => {
                     console.log("queryList err====>", err);
                     this.loading = false;
                 })
-            }
+            },
+            handleCurrentChange(val) {
+                this.page = val;
+                console.log("当前是第" + val + "页 ");
+                if (this.indexD === 0) {
+                    this.queryList(null);
+                } else {
+                    this.queryList(this.tags[this.indexD].value);
+                }
+            },
         }
     }
 
@@ -160,8 +181,7 @@
 
     .mh_list_root {
         width: 100%;
-        height: auto;
-        max-height: 80vh;
+        height: 80vh;
         overflow-y: scroll;
         display: flex;
         flex-direction: row;
