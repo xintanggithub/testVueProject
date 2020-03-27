@@ -5,7 +5,7 @@
                 <div class="mh_list_root">
                     <div v-for="(itemData,index) in listData">
                         <div class="mh_item_root" @click="mhItemClick(itemData)">
-                            <el-image :fit="cover" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
+                            <el-image :fit="fitStr" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
                             <div class="mh_title">
                                 <span style="font-size: 13px;">{{itemData.name}}</span>
                             </div>
@@ -31,17 +31,31 @@
                 {{tag.title}}{{indexD===index?'◆':''}}
             </el-tag>
         </div>
+        <el-drawer :visible.sync="drawerDetail" :direction="direction"
+                   :modal-append-to-body="false" :show-close="false" size="100%">
+            <mhDetail ref="mhDetail"></mhDetail>
+        </el-drawer>
     </div>
 </template>
 <script>
 
     import {queryMhList} from "../../../../api/enterainment"
+    import mhDetail from './mhDetail'
 
     export default {
+        components: {mhDetail},
         name: 'mh',
         inject: ['changeIndex'],
+        provide() {
+            return {
+                closeMh: this.closeMh
+            }
+        },
         data() {
             return {
+                fitStr: "cover",
+                direction: 'btt',
+                drawerDetail: false,
                 total: 0,
                 page: 1,
                 loading: false,
@@ -76,8 +90,14 @@
             this.queryList(null)
         },
         methods: {
+            closeMh() {
+                this.drawerDetail = false;
+            },
             mhItemClick(itemData) {
                 console.log("mhItem click ====>", itemData);
+                console.log("mhItem click2 ====>", this.drawerDetail);
+                this.drawerDetail = true;
+                this.$refs.mhDetail.loadDetail(itemData);
             },
             changeIndexMt() {
                 this.changeIndex(1)

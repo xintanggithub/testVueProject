@@ -19,8 +19,8 @@
                         </div>
                     </div>
                     <div v-show="listData.length>0 && !error" v-for="(itemData,index) in listData">
-                        <div class="mh_item_root2" @click="mhItemClick(itemData)">
-                            <el-image :fit="cover" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
+                        <div class="mh_item_root2" @click="mhItemClickSearch(itemData)">
+                            <el-image :fit="fitStr" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
                             <div class="mh_title2">
                                 <span style="font-size: 13px;">{{itemData.name}}</span>
                             </div>
@@ -43,16 +43,30 @@
                 </div>
             </div>
         </el-card>
+        <el-drawer :visible.sync="drawerDetail" :direction="direction"
+                   :modal-append-to-body="false" :show-close="false" size="100%">
+            <mhDetail ref="mhDetail"></mhDetail>
+        </el-drawer>
     </div>
 </template>
 <script>
 
     import {searchMhList} from "../../../../api/enterainment"
+    import mhDetail from './mhDetail'
 
     export default {
+        components: {mhDetail},
+        provide() {
+            return {
+                closeMh: this.closeMh
+            }
+        },
         name: 'mhsc',
         data() {
             return {
+                fitStr: "cover",
+                direction: 'btt',
+                drawerDetail: false,
                 loading: false,
                 searchKey: "",
                 listData: [],
@@ -61,14 +75,20 @@
             }
         },
         methods: {
+            closeMh() {
+                this.drawerDetail = false;
+            },
             loadTag(val) {
                 if (null === val || "" === val || undefined === val) {
                     return ["暂无标签"]
                 }
                 return val.split("|");
             },
-            mhItemClick(itemData) {
-
+            mhItemClickSearch(itemData) {
+                console.log("mhItem click ====>", itemData);
+                console.log("mhItem click2 ====>", this.drawerDetail);
+                this.drawerDetail = true;
+                this.$refs.mhDetail.loadDetail(itemData);
             },
             enter() {
                 console.log("enter ===> ", this.searchKey);
