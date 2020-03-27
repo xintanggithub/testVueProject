@@ -32,7 +32,7 @@ service.interceptors.request.use(config => {
 
 service.interceptors.response.use(response => {
         const res = response.data;
-        if (res.resultCode !== 200) {
+        if (res.resultCode !== 200 && res.code !== 200) {
             console.log("response --->", res);
             let message = getErrorMessage(res.resultCode, res.resultMessage);
             Message({

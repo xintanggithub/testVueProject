@@ -31,6 +31,10 @@
         data() {
             return {
                 loading: false,
+                detailData: {
+                    content: {},
+                    list: {}
+                },
             }
         },
         mounted() {
@@ -47,7 +51,10 @@
                 params['url'] = url;
                 console.log("queryDetail params ===>", params);
                 await detailMh(params).then(data => {
-                    console.log("queryDetail data ===>", data);
+                    console.log("queryDetail data ===>", data.data.data);
+                    console.log("queryDetail list ===>", data.data.list);
+                    this.detailData.content = data.data.data;
+                    this.detailData.list = data.data.list;
                     this.loading = false;
                 }).catch(err => {
                     console.log("queryDetail err ===>", err);
