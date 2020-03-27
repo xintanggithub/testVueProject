@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="display: flex;flex-direction: column;">
         <el-card class="mh_sc">
             <div>
                 <div style="width: 50vw;margin-top: 0.5vh;">
@@ -45,7 +45,7 @@
         </el-card>
         <el-drawer :visible.sync="drawerDetail" :direction="direction"
                    :modal-append-to-body="false" :show-close="false" size="100%">
-            <mhDetail ref="mhDetail"></mhDetail>
+            <mhDetail ref="mhDetailSc" :url="url"></mhDetail>
         </el-drawer>
     </div>
 </template>
@@ -64,6 +64,7 @@
         name: 'mhsc',
         data() {
             return {
+                url: '',
                 fitStr: "cover",
                 direction: 'btt',
                 drawerDetail: false,
@@ -88,7 +89,12 @@
                 console.log("mhItem click ====>", itemData);
                 console.log("mhItem click2 ====>", this.drawerDetail);
                 this.drawerDetail = true;
-                this.$refs.mhDetail.loadDetail(itemData);
+                console.log("mhItem click3 ====>", this.$refs.mhDetailSc);
+                this.url = itemData.url;
+                try {
+                    this.$refs.mhDetailSc.loadDetail(this.url);
+                } catch (e) {
+                }
             },
             enter() {
                 console.log("enter ===> ", this.searchKey);

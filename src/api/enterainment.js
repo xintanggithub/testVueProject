@@ -21,3 +21,14 @@ export function searchMhList(params) {
         params
     })
 }
+
+/**
+ * 详情
+ */
+export function detailMh(params) {
+    return request({
+        url: `api/v1/forward/detail`,
+        method: 'get',
+        params
+    })
+}

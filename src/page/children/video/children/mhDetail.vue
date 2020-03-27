@@ -13,22 +13,50 @@
     </div>
 </template>
 <script>
+
     import myUser from '../../../common_component/user/myUser'
     import myFooter from '../../../common_component/foot/footer'
+    import {detailMh} from "../../../../api/enterainment"
 
     export default {
         components: {myFooter, myUser},
         name: 'mhDetail',
+        props: {
+            url: {
+                url: String,
+                default: ""
+            }
+        },
         inject: ['closeMh'],
         data() {
             return {
-                itemData: {},
+                loading: false,
             }
         },
+        mounted() {
+            console.log("mounted itemData ===>", this.url);
+            this.queryDetail(this.url);
+        },
         methods: {
-            loadDetail(itemData) {
-                console.log("itemData ===>", itemData);
-                this.itemData = itemData;
+            async queryDetail(url) {
+                if (!url) {
+                    return
+                }
+                this.loading = true;
+                const params = {};
+                params['url'] = url;
+                console.log("queryDetail params ===>", params);
+                await detailMh(params).then(data => {
+                    console.log("queryDetail data ===>", data);
+                    this.loading = false;
+                }).catch(err => {
+                    console.log("queryDetail err ===>", err);
+                    this.loading = false
+                })
+            },
+            loadDetail(url) {
+                console.log("itemData ===>", url);
+                this.queryDetail(url)
             },
             goBack() {
                 console.log("22323");

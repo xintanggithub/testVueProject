@@ -1,39 +1,41 @@
 <template>
-    <div class="mh_root">
-        <el-card v-loading="loading" shadow="always" class="mh_content">
-            <div>
-                <div class="mh_list_root">
-                    <div v-for="(itemData,index) in listData">
-                        <div class="mh_item_root" @click="mhItemClick(itemData)">
-                            <el-image :fit="fitStr" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
-                            <div class="mh_title">
-                                <span style="font-size: 13px;">{{itemData.name}}</span>
+    <div>
+        <div class="mh_root">
+            <el-card v-loading="loading" shadow="always" class="mh_content">
+                <div>
+                    <div class="mh_list_root">
+                        <div v-for="(itemData,index) in listData">
+                            <div class="mh_item_root" @click="mhItemClick(itemData)">
+                                <el-image :fit="fitStr" style="width: 8vw;height: 11vw;" :src="itemData.cover"/>
+                                <div class="mh_title">
+                                    <span style="font-size: 13px;">{{itemData.name}}</span>
+                                </div>
+                                <span class="mh_time">更新时间：{{itemData.time}}</span>
+                                <span class="mh_last">最新章节：{{itemData.latest}}</span>
                             </div>
-                            <span class="mh_time">更新时间：{{itemData.time}}</span>
-                            <span class="mh_last">最新章节：{{itemData.latest}}</span>
                         </div>
                     </div>
+                    <el-pagination
+                            layout="prev, pager, next, total"
+                            @current-change="handleCurrentChange"
+                            :page-size="100"
+                            :total="total">
+                    </el-pagination>
                 </div>
-                <el-pagination
-                        layout="prev, pager, next, total"
-                        @current-change="handleCurrentChange"
-                        :page-size="100"
-                        :total="total">
-                </el-pagination>
+            </el-card>
+            <div class="mg_tag_root">
+                <el-tag class="tag_top"
+                        v-for="(tag,index)  in tags"
+                        :key="tag.title"
+                        @click="tagClick(tag,index)"
+                        :type="tag.type">
+                    {{tag.title}}{{indexD===index?'◆':''}}
+                </el-tag>
             </div>
-        </el-card>
-        <div class="mg_tag_root">
-            <el-tag class="tag_top"
-                    v-for="(tag,index)  in tags"
-                    :key="tag.title"
-                    @click="tagClick(tag,index)"
-                    :type="tag.type">
-                {{tag.title}}{{indexD===index?'◆':''}}
-            </el-tag>
         </div>
         <el-drawer :visible.sync="drawerDetail" :direction="direction"
                    :modal-append-to-body="false" :show-close="false" size="100%">
-            <mhDetail ref="mhDetail"></mhDetail>
+            <mhDetail ref="mhDetailMh" :url="url"></mhDetail>
         </el-drawer>
     </div>
 </template>
@@ -53,6 +55,7 @@
         },
         data() {
             return {
+                url: '',
                 fitStr: "cover",
                 direction: 'btt',
                 drawerDetail: false,
@@ -97,7 +100,11 @@
                 console.log("mhItem click ====>", itemData);
                 console.log("mhItem click2 ====>", this.drawerDetail);
                 this.drawerDetail = true;
-                this.$refs.mhDetail.loadDetail(itemData);
+                this.url = itemData.url;
+                try {
+                    this.$refs.mhDetailMh.loadDetail(this.url);
+                } catch (e) {
+                }
             },
             changeIndexMt() {
                 this.changeIndex(1)
