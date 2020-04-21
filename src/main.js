@@ -7,6 +7,12 @@ import VueParticles from 'vue-particles'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 
+
+import global from '../src/utils/imgHost.js'
+
+Vue.prototype.$global = global;
+
+
 Vue.use(VueParticles);
 Vue.use(ElementUI);
 Vue.use(mavonEditor);

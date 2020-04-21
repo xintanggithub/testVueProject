@@ -22,7 +22,7 @@
                                     <div style="position: relative;">
                                         <div style="position: absolute;z-index: 10;">
                                             <el-image @click="openItem(itemData)" fit="cover"
-                                                      class="img_item_c" :src="itemData.img">
+                                                      class="img_item_c" :src="formatUrl(itemData.img)">
                                             </el-image>
                                             <div @click="openItem(itemData)"
                                                  style="display: flex;flex-direction: column;">
@@ -115,7 +115,7 @@
                                         </el-tag>
                                     </div>
                                     <div class="allListUser_c">
-                                        <el-avatar size="small" :src="itemData.userHead">
+                                        <el-avatar size="small" :src="formatUrl(itemData.userHead)">
                                             <img :src="require('../../../res/img/user_center.png')"/>
                                         </el-avatar>
                                         <div style="display: flex;flex-direction: column;">
@@ -206,6 +206,9 @@
             this.getCollectionByUserForBook();
         },
         methods: {
+            formatUrl(url) {
+                return this.$global.formatUrl(url);
+            },
             closeAll() {
                 this.drawerDetail = false;
                 this.getCollectionByUserForBook();

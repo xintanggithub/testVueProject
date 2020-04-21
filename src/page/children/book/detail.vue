@@ -330,6 +330,7 @@
                 await queryUserInfo({'userId': id}).then(info => {
                     console.log("data ===> ", info.data.data);
                     this.bkUserInfo = info.data.data;
+                    this.bkUserInfo.img = this.$global.formatUrl(this.bkUserInfo.img);
                     this.loading = false;
                     this.showHead = true;
                 }).catch(() => {

@@ -59,7 +59,7 @@
                 let response = getLoginInfo();
                 this.loginInfo.userName = response['name'];
                 this.loginInfo.id = response['id'];
-                this.loginInfo.img = response['img'];
+                this.loginInfo.img = this.$global.formatUrl(response['img']);
             }
             console.log("response --->", this.loginInfo);
             this.loginStatusValue = loginStatusValue

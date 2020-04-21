@@ -7,7 +7,7 @@
                     <div style="height: auto;margin-top: -1vh;">
                         <el-card shadow="hover" class="mkj">
                             <div class="ppi">
-                                <img :src="userInfo.img" class="headD"/>
+                                <img :src="formatUrl(userInfo.img)" class="headD"/>
                                 <div class="liy">
                                     <div class="qer">
                                         <el-tooltip effect="dark" content="退出登录" placement="top">
@@ -21,7 +21,7 @@
                                                     <el-card shadow="hover" class="headPop" style="margin: 2px;">
                                                         <div class="xk" style="position: relative;">
                                                             <img @mouseover="mouseover(index)" class="lu"
-                                                                 :src="header.head" style="z-index: 2;">
+                                                                 :src="formatUrl(header.head)" style="z-index: 2;">
                                                             <div @mouseout="mouseout" v-show="HIndex===index"
                                                                  class="cb">
                                                                 <el-button @click="changeHead(header.head)"
@@ -362,6 +362,9 @@
             this.changeTwos();
         },
         methods: {
+            formatUrl(url) {
+                return this.$global.formatUrl(url);
+            },
             closeAll() {
                 this.drawerDetail = false;
             },
@@ -390,7 +393,7 @@
                     this.drawerDetail = true;
                     this.$refs.childAll.test(history.businessId);
                 } else if (history.type === "game") {
-                    window.open(history.businessId);
+                    window.open(this.$global.formatUrl(history.businessId));
                 }
             },
             async queryHistoryListMore(refresh) {

@@ -1,6 +1,6 @@
 <template>
     <div class="rootDiv">
-        <span class="spanView">©2019  蜀ICP备19039487号</span>
+        <span class="spanView">暂未备案</span>
     </div>
 </template>
 <script>

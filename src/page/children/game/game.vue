@@ -20,7 +20,7 @@
                         <div style="position: relative;">
                             <div style="position: absolute;z-index: 10;">
                                 <el-image @click="openItem(itemData)" fit="cover"
-                                          class="img_item" :src="itemData.img">
+                                          class="img_item" :src="formatUrl(itemData.img)">
                                 </el-image>
                                 <div @click="openItem(itemData)" style="display: flex;flex-direction: column;">
                                     <div>
@@ -103,6 +103,9 @@
             this.changeTwo();
         },
         methods: {
+            formatUrl(url) {
+                return this.$global.formatUrl(url)
+            },
             changeTwo() {
                 this.changeIndex1(2);
             },
